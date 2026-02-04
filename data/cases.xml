@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <title>Luxury Watch Transit Case</title>
+        <content><![CDATA[A multi-layered foam solution for high-end watch collectors, ensuring zero movement during international transit.]]></content>
+        <category>Luxury Goods</category>
+        <fields>
+            <client_name>TimeKeeper Intl</client_name>
+        </fields>
+    </item>
+    <item>
+        <title>Surgical Tool Organizer</title>
+        <content><![CDATA[Medical-grade, sterilization-ready foam tray inserts for complex surgical instrument sets.]]></content>
+        <category>Medical</category>
+        <fields>
+            <client_name>MedTech Solutions</client_name>
+        </fields>
+    </item>
+</items>

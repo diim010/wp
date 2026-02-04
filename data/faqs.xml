@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <title>What type of foam is best for packaging?</title>
+        <content><![CDATA[For delicate electronics, Anti-static EPE foam is recommended. For heavy machinery, high-density XLPE is more appropriate. Our specialists can help you calculate the exact G-factor requirements.]]></content>
+        <category>General</category>
+        <tags>
+            <tag>Materials</tag>
+            <tag>Packaging</tag>
+        </tags>
+        <attached_docs>
+            <title>LD29 Density Datasheet</title>
+        </attached_docs>
+    </item>
+    <item>
+        <title>How long does custom production take?</title>
+        <content><![CDATA[Standard custom foam inserts typically take 5-7 business days for prototyping and 10-14 business days for full production runs after sample approval.]]></content>
+        <category>Technical</category>
+        <tags>
+            <tag>Timeline</tag>
+            <tag>Customization</tag>
+        </tags>
+        <attached_docs>
+            <title>CNC Foam Cutting</title>
+        </attached_docs>
+    </item>
+    <item>
+        <title>Do you offer international shipping?</title>
+        <content><![CDATA[Yes, we ship worldwide. Within the EU, shipping takes 2-4 days. For US or Asia, it typically takes 7-10 days via air freight.]]></content>
+        <category>Shipping</category>
+        <tags>
+            <tag>Logistics</tag>
+            <tag>Global</tag>
+        </tags>
+    </item>
+    <item>
+        <title>Is your foam recyclable?</title>
+        <content><![CDATA[Yes, all our PE and PU foams are 100% recyclable through specialized industrial recycling programs. We also offer Bio-based foams for sustainable projects.]]></content>
+        <category>General</category>
+        <tags>
+            <tag>Eco-friendly</tag>
+            <tag>Recycling</tag>
+        </tags>
+    </item>
+    <item>
+        <title>How to clean medical-grade foam?</title>
+        <content><![CDATA[Medical-grade foam can be sanitized with 70% isopropyl alcohol or standard hospital disinfectants. Avoid soaking the foam completely; surface wiping is recommended.]]></content>
+        <category>Maintenance</category>
+        <tags>
+            <tag>Cleaning</tag>
+            <tag>Medical</tag>
+            <tag>Hygiene</tag>
+        </tags>
+    </item>
+    <item>
+        <title>What are the differences between EPE and EVA?</title>
+        <content><![CDATA[EPE (Expanded Polyethylene) is softer and more flexible, ideal for shock absorption. EVA (Ethylene-Vinyl Acetate) is denser and more rigid, perfect for luxury presentation cases and tool organizers.]]></content>
+        <category>Technical</category>
+        <tags>
+            <tag>Materials</tag>
+            <tag>Comparison</tag>
+        </tags>
+    </item>
+    <item>
+        <title>Can I get a physical sample before ordering?</title>
+        <content><![CDATA[Absolutely. We provide material swatches free of charge. Custom-cut prototypes can be produced for a small setup fee, which is credited toward your first full production order.]]></content>
+        <category>Warranty</category>
+        <tags>
+            <tag>Samples</tag>
+            <tag>Prototyping</tag>
+        </tags>
+    </item>
+</items>

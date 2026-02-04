@@ -1,0 +1,35 @@
+{
+  "name": "rfplugin",
+  "version": "1.0.0",
+  "description": "RoyalFoam WordPress Plugin - Enterprise product constructor and invoice system",
+  "main": "rfplugin.php",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "cd assets/react && npm run build",
+    "dev": "cd assets/react && npm run dev",
+    "install-react": "cd assets/react && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/royalfoam/rfplugin.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "product-constructor",
+    "invoice-system",
+    "rest-api",
+    "react",
+    "acf",
+    "enterprise"
+  ],
+  "author": "RoyalFoam",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://royalfoam.com",
+  "engines": {
+    "php": ">=8.4",
+    "wordpress": ">=6.0"
+  }
+}

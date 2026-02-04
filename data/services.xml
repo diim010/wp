@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <title>CNC Foam Cutting</title>
+        <content><![CDATA[High-precision computer-controlled cutting for complex shapes and internal cavities. Ideal for high-volume production with consistent quality.]]></content>
+        <category>Industrial</category>
+        <fields>
+            <service_price>150</service_price>
+        </fields>
+    </item>
+    <item>
+        <title>Water-jet Fabrication</title>
+        <content><![CDATA[Cold cutting technology that ensures no heat-affected zones. Perfect for sensitive materials and thick foam blocks up to 200mm.]]></content>
+        <category>Industrial</category>
+        <fields>
+            <service_price>200</service_price>
+        </fields>
+    </item>
+    <item>
+        <title>Foam Prototyping</title>
+        <content><![CDATA[Rapid prototyping service for design validation. Get a physical sample of your foam insert within 48 hours for testing.]]></content>
+        <category>Design</category>
+        <fields>
+            <service_price>75</service_price>
+        </fields>
+    </item>
+</items>
