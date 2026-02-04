@@ -1,163 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /**
- * RFPlugin Premium Design System
+ * RFPlugin Unified Design System
  * 
- * Defines a modern, vibrant aesthetic with glassmorphism,
- * refined typography, and sleek gradients.
+ * Powered by Tailwind CSS with HSL design tokens.
+ * Focuses on glassmorphism, premium typography, and performance.
  */
 
 :root {
-    /* Colors - Modern Royal Palette */
-    --rf-primary: #1e3a8a;
-    --rf-primary-light: #5181cf;
-    --rf-primary-dark: #12265dd1;
-    --rf-secondary: #0ea5e9;
-    --rf-accent: #d97a15e9;
-    --rf-success: #10b981;
-    --rf-warning: #f59e0b;
-    --rf-error: #ef4444;
+    /* Primary Color: Royal Blue (Adjustable via H and S) */
+    --rf-primary-h: 220;
+    --rf-primary-s: 90%;
 
-    /* Neutrals */
-    --rf-neutral-50: #f8fafc;
-    --rf-neutral-100: #f1f5f9;
-    --rf-neutral-200: #e2e8f0;
-    --rf-neutral-300: #cbd5e1;
-    --rf-neutral-400: #94a3b8;
-    --rf-neutral-500: #64748b;
-    --rf-neutral-600: #475569;
-    --rf-neutral-700: #334155;
-    --rf-neutral-800: #1e293b;
-    --rf-neutral-900: #0f172a;
+    /* Accent Color: Modern Purple/Indigo */
+    --rf-accent-h: 260;
+    --rf-accent-s: 80%;
 
-    /* Gradients */
-    --rf-gradient-primary: linear-gradient(135deg, #112457 0%, #255199 100%);
-    --rf-gradient-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-
-    /* Glassmorphism */
+    /* Design Constants */
     --rf-glass-bg: rgba(255, 255, 255, 0.7);
     --rf-glass-border: rgba(255, 255, 255, 0.3);
-    --rf-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-
-    /* Typography */
-    --rf-font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-    --rf-text-xs: 0.75rem;
-    --rf-text-sm: 0.875rem;
-    --rf-text-base: 1rem;
-    --rf-text-lg: 1.125rem;
-    --rf-text-xl: 1.25rem;
-    --rf-text-2xl: 1.5rem;
-    --rf-text-3xl: 1.875rem;
-
-    /* Spacing */
-    --rf-spacing-1: 0.25rem;
-    --rf-spacing-2: 0.5rem;
-    --rf-spacing-3: 0.75rem;
-    --rf-spacing-4: 1rem;
-    --rf-spacing-6: 1.5rem;
-    --rf-spacing-8: 2rem;
-    --rf-spacing-12: 3rem;
-
-    /* Shadows */
-    --rf-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --rf-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --rf-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+/* Layering custom components over Tailwind */
+@layer components {
+    .rf-glass-card {
+        @apply rf-bg-white/70 rf-backdrop-blur-md rf-border rf-border-white/30 rf-rounded-2xl rf-shadow-glass;
+        @apply rf-transition-all rf-duration-300 rf-ease-in-out;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .rf-glass-card:hover {
+        @apply -rf-translate-y-1 rf-shadow-premium;
+    }
+
+    .rf-btn-premium {
+        @apply rf-inline-flex rf-items-center rf-justify-center rf-px-6 rf-py-3 rf-rounded-xl rf-font-semibold rf-transition-all rf-duration-200 rf-cursor-pointer rf-no-underline;
+        @apply rf-bg-primary-600 rf-text-white rf-shadow-md;
+    }
+
+    .rf-btn-premium:hover {
+        @apply rf-bg-primary-500 rf-shadow-lg -rf-translate-y-0.5;
+    }
+
+    .rf-input-premium {
+        @apply rf-w-full rf-px-4 rf-py-3 rf-rounded-xl rf-border rf-border-gray-200 rf-bg-gray-50/50 rf-transition-all rf-duration-200 rf-outline-none;
+    }
+
+    .rf-input-premium:focus {
+        @apply rf-border-primary-500 rf-bg-white rf-ring-4 rf-ring-primary-500/10;
     }
 }
 
-.rf-fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
+/* GSAP Animation Initial States (Prevents FOUC & CLS) */
+.rf-animate-up {
+    opacity: 0;
+    will-change: transform, opacity;
 }
 
-/* Glass Surface Component */
-.rf-glass-card {
-    background: var(--rf-glass-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--rf-glass-border);
-    border-radius: 1rem;
-    box-shadow: var(--rf-glass-shadow);
-    padding: var(--rf-spacing-6);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Typography Base */
+.rf-typography {
+    font-family: var(--rf-font-sans);
 }
 
-.rf-glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+.rf-typography h1 {
+    @apply rf-text-4xl rf-font-extrabold rf-tracking-tight rf-mb-6;
 }
 
-/* Modern Layout Containers */
-.rf-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--rf-spacing-6);
+.rf-typography h2 {
+    @apply rf-text-2xl rf-font-bold rf-mb-4;
 }
 
-/* Typography Helpers */
-.rf-h1 {
-    font-size: var(--rf-text-3xl);
-    font-weight: 800;
-    color: var(--rf-neutral-900);
-    letter-spacing: -0.025em;
+.rf-typography p {
+    @apply rf-text-gray-600 rf-leading-relaxed rf-mb-4;
 }
 
-.rf-h2 {
-    font-size: var(--rf-text-xl);
-    font-weight: 700;
-    color: var(--rf-neutral-800);
-}
-
-.rf-p {
-    color: var(--rf-neutral-600);
-    line-height: 1.6;
-}
-
-/* Buttons */
-.rf-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.5rem;
-    font-size: var(--rf-text-sm);
-    font-weight: 600;
-    border-radius: 0.75rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    text-decoration: none;
-    border: none;
-}
-
-.rf-btn-primary {
-    border-radius: 2px;
-    box-shadow: 0 4px 12px rgba(24, 26, 31, 0.2);
-    height: 40px;
-    text-transform: uppercase;
-    background: var(--rf-gradient-primary);
-    color: white;
-}
-
-.rf-btn-primary:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3);
-}
-
-/* Responsive Utilities */
-@media (max-width: 640px) {
-    .rf-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .rf-h1 {
-        font-size: var(--rf-text-2xl);
-    }
+/* Performance Optimization: Font Loading */
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/outfit/v11/QGYyz_R6sqWPvHwKmAdS.woff2') format('woff2');
 }

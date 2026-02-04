@@ -7,9 +7,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "cd assets/react && npm run build",
-    "dev": "cd assets/react && npm run dev",
-    "install-react": "cd assets/react && npm install"
+    "build": "npm run build:css && cd assets/react && npm run build",
+    "build:css": "tailwindcss -i ./assets/css/design-system.css -o ./assets/css/main.css --minify",
+    "dev": "npm run dev:css & cd assets/react && npm run dev",
+    "dev:css": "tailwindcss -i ./assets/css/design-system.css -o ./assets/css/main.css --watch",
+    "install-deps": "npm install && cd assets/react && npm install"
   },
   "repository": {
     "type": "git",
@@ -31,5 +33,13 @@
   "engines": {
     "php": ">=8.4",
     "wordpress": ">=6.0"
+  },
+  "dependencies": {
+    "gsap": "^3.14.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.1"
   }
 }

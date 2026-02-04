@@ -28,6 +28,7 @@ use RFPlugin\Core\WoocommerceHooks;
 use RFPlugin\REST\Router;
 use RFPlugin\ACF\FieldGroups;
 use RFPlugin\Security\Permissions;
+use RFPlugin\Services\SchemaGenerator;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -125,6 +126,7 @@ class Plugin
         new QuoteForm();
         (new BlockLoader())->init();
         Database::init();
+        (new SchemaGenerator())->register();
         add_action('acf/save_post', [$this, 'handlePostSave'], 20);
     }
 
@@ -221,7 +223,7 @@ class Plugin
     {
         wp_enqueue_style(
             'rfplugin-design',
-            RFPLUGIN_URL . 'assets/css/design-system.css',
+            RFPLUGIN_URL . 'assets/css/main.css',
             [],
             RFPLUGIN_VERSION
         );
@@ -257,9 +259,34 @@ class Plugin
     {
         wp_enqueue_style(
             'rfplugin-design',
-            RFPLUGIN_URL . 'assets/css/design-system.css',
+            RFPLUGIN_URL . 'assets/css/main.css',
             [],
             RFPLUGIN_VERSION
+        );
+
+        // Enqueue GSAP
+        wp_enqueue_script(
+            'gsap',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+            [],
+            '3.12.5',
+            true
+        );
+
+        wp_enqueue_script(
+            'gsap-scroll-trigger',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js',
+            ['gsap'],
+            '3.12.5',
+            true
+        );
+
+        wp_enqueue_script(
+            'rfplugin-animations',
+            RFPLUGIN_URL . 'assets/js/animations.js',
+            ['gsap', 'gsap-scroll-trigger'],
+            RFPLUGIN_VERSION,
+            true
         );
 
         wp_enqueue_style(
