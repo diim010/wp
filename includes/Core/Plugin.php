@@ -14,18 +14,16 @@ namespace RFPlugin\Core;
 
 use RFPlugin\Security\Database;
 use RFPlugin\PostTypes\ServicePostType;
-use RFPlugin\ACF\Blocks\BlockLoader;
 use RFPlugin\PostTypes\CasePostType;
 use RFPlugin\PostTypes\InvoicePostType;
-use RFPlugin\PostTypes\TechDocPostType;
-use RFPlugin\PostTypes\FAQPostType;
+use RFPlugin\PostTypes\ResourcePostType;
+use RFPlugin\ACF\Blocks\BlockLoader;
 use RFPlugin\Taxonomies\ProductTypeTaxonomy;
 use RFPlugin\Taxonomies\MaterialTaxonomy;
 use RFPlugin\Taxonomies\CaseIndustryTaxonomy;
 use RFPlugin\Taxonomies\ServiceCategoryTaxonomy;
-use RFPlugin\Taxonomies\FAQCategoryTaxonomy;
-use RFPlugin\Taxonomies\FAQTagTaxonomy;
-use RFPlugin\Taxonomies\TechDocTagTaxonomy;
+use RFPlugin\Taxonomies\ResourceTypeTaxonomy;
+use RFPlugin\Taxonomies\ResourceCategoryTaxonomy;
 use RFPlugin\Admin\Menu;
 use RFPlugin\Admin\Branding;
 use RFPlugin\Admin\CommentsRemover;
@@ -156,8 +154,7 @@ class Plugin
         $this->postTypes['service'] = new ServicePostType();
         $this->postTypes['case'] = new CasePostType();
         $this->postTypes['invoice'] = new InvoicePostType();
-        $this->postTypes['techdoc'] = new TechDocPostType();
-        $this->postTypes['faq'] = new FAQPostType();
+        $this->postTypes['resource'] = new ResourcePostType();
 
         foreach ($this->postTypes as $postType) {
             $postType->register();
@@ -175,9 +172,8 @@ class Plugin
         $this->taxonomies['material'] = new MaterialTaxonomy();
         $this->taxonomies['case_industry'] = new CaseIndustryTaxonomy();
         $this->taxonomies['service_category'] = new ServiceCategoryTaxonomy();
-        $this->taxonomies['faq_category'] = new FAQCategoryTaxonomy();
-        $this->taxonomies['faq_tag'] = new FAQTagTaxonomy();
-        $this->taxonomies['techdoc_tag'] = new TechDocTagTaxonomy();
+        $this->taxonomies['resource_type'] = new ResourceTypeTaxonomy();
+        $this->taxonomies['resource_category'] = new ResourceCategoryTaxonomy();
 
         foreach ($this->taxonomies as $taxonomy) {
             $taxonomy->register();
@@ -318,31 +314,46 @@ class Plugin
      */
     public function loadPluginTemplates(string $template): string
     {
-        // Tech Doc Templates
-        if (is_post_type_archive('rf_techdoc')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_techdoc.php';
+        // Resource Library Templates
+        if (is_post_type_archive('rf_resource')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_resource.php';
             if (file_exists($plugin_template)) {
                 return $plugin_template;
             }
         }
 
-        if (is_singular('rf_techdoc')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_techdoc.php';
+        if (is_singular('rf_resource')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_resource.php';
             if (file_exists($plugin_template)) {
                 return $plugin_template;
             }
         }
 
-        // FAQ Templates
-        if (is_post_type_archive('rf_faq')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_faq.php';
+        // Service Templates
+        if (is_post_type_archive('rf_service')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_service.php';
             if (file_exists($plugin_template)) {
                 return $plugin_template;
             }
         }
 
-        if (is_singular('rf_faq')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_faq.php';
+        if (is_singular('rf_service')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_service.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        // Case Templates
+        if (is_post_type_archive('rf_case')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_case.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        if (is_singular('rf_case')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_case.php';
             if (file_exists($plugin_template)) {
                 return $plugin_template;
             }
@@ -370,19 +381,19 @@ class Plugin
     {
         $post_type = get_post_type($post_id);
         
-        if (!in_array($post_type, ['rf_techdoc', 'product', 'rf_service']) || wp_is_post_revision($post_id)) {
+        if (!in_array($post_type, ['rf_resource', 'product', 'rf_service']) || wp_is_post_revision($post_id)) {
             return;
         }
 
-        // 1. Logic for Tech Docs
-        if ($post_type === 'rf_techdoc') {
-            $file_field = get_field('field_tech_doc_file', $post_id) ?: get_field('tech_file', $post_id);
+        // 1. Logic for Resources
+        if ($post_type === 'rf_resource') {
+            $file_field = get_field('field_resource_file', $post_id);
             if ($file_field) {
                 $file_id = is_array($file_field) ? ($file_field['ID'] ?? 0) : attachment_url_to_postid($file_field);
                 if ($file_id) {
                     \RFPlugin\Security\Permissions::protectFile($file_id, 'rfplugin-docs');
                 }
-                update_field('field_last_file_update', time(), $post_id);
+                update_field('field_last_resource_update', time(), $post_id);
             }
         }
 

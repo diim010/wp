@@ -14,8 +14,7 @@ use RFPlugin\REST\Controllers\ProductsController;
 use RFPlugin\REST\Controllers\ServicesController;
 use RFPlugin\REST\Controllers\CasesController;
 use RFPlugin\REST\Controllers\InvoicesController;
-use RFPlugin\REST\Controllers\TechDocsController;
-use RFPlugin\REST\Controllers\FAQController;
+use RFPlugin\REST\Controllers\ResourcesController;
 use RFPlugin\REST\Controllers\FormsController;
 
 if (!defined('ABSPATH')) {
@@ -54,8 +53,7 @@ class Router
         $this->controllers['services'] = new ServicesController($this->namespace);
         $this->controllers['cases'] = new CasesController($this->namespace);
         $this->controllers['invoices'] = new InvoicesController($this->namespace);
-        $this->controllers['techdocs'] = new TechDocsController($this->namespace);
-        $this->controllers['faq'] = new FAQController($this->namespace);
+        $this->controllers['resources'] = new ResourcesController($this->namespace);
         $this->controllers['forms'] = new FormsController($this->namespace);
 
         foreach ($this->controllers as $controller) {

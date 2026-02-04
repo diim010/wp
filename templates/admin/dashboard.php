@@ -32,8 +32,8 @@
                 <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_invoice')); ?>" class="rf-btn rf-btn-outline">
                     <span class="dashicons dashicons-plus"></span> <?php esc_html_e('Create Invoice', 'rfplugin'); ?>
                 </a>
-                <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_techdoc')); ?>" class="rf-btn rf-btn-outline">
-                    <span class="dashicons dashicons-upload"></span> <?php esc_html_e('Upload Tech Doc', 'rfplugin'); ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=rf-tech-center')); ?>" class="rf-btn rf-btn-outline">
+                    <span class="dashicons dashicons-category"></span> <?php esc_html_e('Tech Center', 'rfplugin'); ?>
                 </a>
             </div>
         </div>
@@ -76,6 +76,19 @@
             </a>
         </div>
 
+        <!-- Tech Center - Consolidated -->
+        <div class="rf-glass-card stat-card tech-center-card">
+            <div class="card-icon" style="background: var(--rf-gradient-primary);"><span class="dashicons dashicons-category"></span></div>
+            <div class="card-info">
+                <h3><?php esc_html_e('Tech Center', 'rfplugin'); ?></h3>
+                <p class="stat-number"><?php echo esc_html($stats['techdocs'] + $stats['faqs']); ?></p>
+                <p style="font-size: 11px; opacity: 0.7; margin: -5px 0 0;"><?php echo $stats['techdocs']; ?> Docs / <?php echo $stats['faqs']; ?> FAQs</p>
+            </div>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=rf-tech-center')); ?>" class="rf-btn rf-btn-primary">
+                <?php esc_html_e('Enter Hub', 'rfplugin'); ?>
+            </a>
+        </div>
+
         <!-- Invoices -->
         <div class="rf-glass-card stat-card invoice-card">
             <div class="card-icon"><span class="dashicons dashicons-media-spreadsheet"></span></div>
@@ -85,30 +98,6 @@
             </div>
             <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_invoice')); ?>" class="rf-btn rf-btn-outline">
                 <?php esc_html_e('View Billing', 'rfplugin'); ?>
-            </a>
-        </div>
-
-        <!-- Tech Docs -->
-        <div class="rf-glass-card stat-card doc-card">
-            <div class="card-icon"><span class="dashicons dashicons-media-document"></span></div>
-            <div class="card-info">
-                <h3><?php esc_html_e('Tech Documentation', 'rfplugin'); ?></h3>
-                <p class="stat-number"><?php echo esc_html($stats['techdocs']); ?></p>
-            </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_techdoc')); ?>" class="rf-btn rf-btn-outline">
-                <?php esc_html_e('Library', 'rfplugin'); ?>
-            </a>
-        </div>
-
-        <!-- FAQs -->
-        <div class="rf-glass-card stat-card faq-card">
-            <div class="card-icon"><span class="dashicons dashicons-editor-help"></span></div>
-            <div class="card-info">
-                <h3><?php esc_html_e('FAQs', 'rfplugin'); ?></h3>
-                <p class="stat-number"><?php echo esc_html($stats['faqs']); ?></p>
-            </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_faq')); ?>" class="rf-btn rf-btn-outline">
-                <?php esc_html_e('Manage Support', 'rfplugin'); ?>
             </a>
         </div>
     </div>

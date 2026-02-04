@@ -26,9 +26,16 @@ $style = get_field('style') ?: 'modern';
 
 // Build query
 $args = [
-    'post_type' => 'rf_faq',
+    'post_type' => 'rf_resource',
     'post_status' => 'publish',
     'posts_per_page' => -1,
+    'meta_query' => [
+        [
+            'key' => 'resource_mode',
+            'value' => 'faq',
+            'compare' => '=',
+        ]
+    ],
 ];
 
 if ($mode === 'manual' && $manual_faqs) {
@@ -37,7 +44,7 @@ if ($mode === 'manual' && $manual_faqs) {
 } elseif ($mode === 'category' && $category) {
     $args['tax_query'] = [
         [
-            'taxonomy' => 'rf_faq_category',
+            'taxonomy' => 'rf_resource_category',
             'field' => 'term_id',
             'terms' => $category,
         ],
@@ -61,8 +68,8 @@ $query = new \WP_Query($args);
         $i = 0;
         if ($query->have_posts()): while ($query->have_posts()): $query->the_post(); 
             $faq_id = get_the_ID();
-            $attached_docs = get_field('field_faq-attach-doc', $faq_id);
-            $answer = get_field('field_faq_answer', $faq_id);
+            $related_items = get_field('field_resource_related_items', $faq_id);
+            $answer = get_field('field_resource_answer', $faq_id);
             $delay = ($i % 8) * 0.1;
         ?>
             <div class="rf-faq-item" style="animation: rfFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: <?php echo $delay; ?>s;">
@@ -76,17 +83,14 @@ $query = new \WP_Query($args);
                     <div class="rf-faq-answer-inner" style="padding: 24px 0; font-size: 1.15rem; line-height: 1.8; color: #334155;">
                         <?php echo wp_kses_post($answer); ?>
                         
-                        <?php if ($attached_docs): ?>
+                        <?php if ($related_items): ?>
                             <div class="rf-faq-attachments-premium" style="margin-top: 32px; padding-top: 32px; border-top: 2px solid #f8fafc;">
-                                <h4 style="font-size: 0.8rem; text-transform: uppercase; color: var(--rf-text-muted); font-weight: 800; letter-spacing: 0.1em; margin-bottom: 20px;"><?php _e('Linked Specifications', 'rfplugin'); ?></h4>
+                                <h4 style="font-size: 0.8rem; text-transform: uppercase; color: var(--rf-text-muted); font-weight: 800; letter-spacing: 0.1em; margin-bottom: 20px;"><?php _e('Related Solutions', 'rfplugin'); ?></h4>
                                 <div class="rf-attachment-grid" style="display: flex; flex-wrap: wrap; gap: 12px;">
-                                    <?php foreach ($attached_docs as $doc): 
-                                        $ext = strtoupper(pathinfo(get_field('field_tech_doc_file', $doc->ID)['url'] ?? 'PDF', PATHINFO_EXTENSION) ?: 'PDF');
-                                    ?>
-                                        <a href="<?php echo esc_url(rest_url('rfplugin/v1/techdocs/' . $doc->ID . '/download')); ?>" class="rf-attachment-tag" style="background: #f8fafc; color: #0f172a; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; transition: all 0.2s;">
-                                            <span class="dashicons dashicons-media-document" style="color: var(--rf-primary);"></span>
-                                            <?php echo esc_html($doc->post_title); ?>
-                                            <span style="font-size: 0.75rem; color: var(--rf-text-muted);">(<?php echo $ext; ?>)</span>
+                                    <?php foreach ($related_items as $item_id): ?>
+                                        <a href="<?php echo get_permalink($item_id); ?>" class="rf-attachment-tag" style="background: #f8fafc; color: #0f172a; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; transition: all 0.2s;">
+                                            <span class="dashicons dashicons-share-alt2" style="color: var(--rf-primary);"></span>
+                                            <?php echo get_the_title($item_id); ?>
                                         </a>
                                     <?php endforeach; ?>
                                 </div>

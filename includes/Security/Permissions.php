@@ -139,7 +139,7 @@ class Permissions
         $post_type = get_post_type($id);
         
         // Default to public if not restricted by logic
-        if (!in_array($post_type, ['rf_techdoc', 'rf_faq', 'rf_service', 'rf_case'])) {
+        if (!in_array($post_type, ['rf_resource', 'rf_service', 'rf_case'])) {
             return true;
         }
 

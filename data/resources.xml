@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:wp="http://wordpress.org/export/1.2/">
+    <channel>
+        <title>RoyalFoam Resources Test Data</title>
+        <description>Comprehensive test data for unified resource library</description>
+        <pubDate>Mon, 03 Feb 2025 12:00:00 +0000</pubDate>
+        <language>en-US</language>
+        <wp:wxr_version>1.2</wp:wxr_version>
+        <wp:base_site_url>http://localhost</wp:base_site_url>
+        <wp:base_blog_url>http://localhost</wp:base_blog_url>
+
+        <!-- Resource 1: FAQ -->
+        <item>
+            <title>What is the density of EPP foam?</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:01 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_001</guid>
+            <description></description>
+            <content:encoded><![CDATA[]]></content:encoded>
+            <excerpt:encoded><![CDATA[]]></excerpt:encoded>
+            <wp:post_id>1001</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:01</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:01</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>what-is-the-density-of-epp-foam</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="faq"><![CDATA[FAQ]]></category>
+            <category domain="rf_resource_category" nicename="technical"><![CDATA[Technical Specs]]></category>
+            <fields>
+                <field_resource_mode>faq</field_resource_mode>
+                <field_resource_visibility>guest</field_resource_visibility>
+                <field_resource_answer><![CDATA[Expanded Polypropylene (EPP) foam density typically ranges from 18g/l to over 100g/l, depending on the specific grade and application requirements. Low-density EPP (18-30g/l) is used for basic cushioning, while high-density EPP (60g/l+) is used for structural automotive components.]]></field_resource_answer>
+            </fields>
+        </item>
+
+        <!-- Resource 2: Technical Document -->
+        <item>
+            <title>Automotive Safety Standards Compliance Guide</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:02 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_002</guid>
+            <description></description>
+            <content:encoded><![CDATA[This document outlines adherence to ISO 9001 and automotive safety regulations for EPP bumper cores.]]></content:encoded>
+            <excerpt:encoded><![CDATA[Detailed compliance checklist for automotive manufacturers.]]></excerpt:encoded>
+            <wp:post_id>1002</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:02</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:02</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>automotive-safety-compliance</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="document"><![CDATA[Document]]></category>
+            <category domain="rf_resource_category" nicename="automotive"><![CDATA[Automotive]]></category>
+            <fields>
+                <field_resource_mode>document</field_resource_mode>
+                <field_resource_visibility>subscriber</field_resource_visibility>
+                <field_resource_file>https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf</field_resource_file>
+            </fields>
+        </item>
+
+        <!-- Resource 3: Data Sheet (Sheet) -->
+        <item>
+            <title>EPPV-3050 Material Safety Data Sheet (MSDS)</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:03 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_003</guid>
+            <description></description>
+            <content:encoded><![CDATA[Official MSDS for our flagship vibration-dampening foam.]]></content:encoded>
+            <excerpt:encoded><![CDATA[Safety data and chemical composition for EPPV-3050.]]></excerpt:encoded>
+            <wp:post_id>1003</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:03</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:03</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>eppv-3050-msds</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="sheet"><![CDATA[Sheet]]></category>
+            <category domain="rf_resource_category" nicename="compliance"><![CDATA[Compliance]]></category>
+            <fields>
+                <field_resource_mode>sheet</field_resource_mode>
+                <field_resource_visibility>guest</field_resource_visibility>
+                <field_resource_file>https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf</field_resource_file>
+            </fields>
+        </item>
+
+        <!-- Resource 4: Video -->
+        <item>
+            <title>Installation Guide: HVAC Insulation Panels</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:04 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_004</guid>
+            <description></description>
+            <content:encoded><![CDATA[Step-by-step video guide for installing our modular HVAC insulation panels.]]></content:encoded>
+            <excerpt:encoded><![CDATA[Learn how to install panels in 5 minutes.]]></excerpt:encoded>
+            <wp:post_id>1004</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:04</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:04</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>hvac-installation-video</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="video"><![CDATA[Video]]></category>
+            <category domain="rf_resource_category" nicename="installation"><![CDATA[Installation]]></category>
+            <fields>
+                <field_resource_mode>video</field_resource_mode>
+                <field_resource_visibility>guest</field_resource_visibility>
+                <field_resource_video_url>https://www.youtube.com/watch?v=dQw4w9WgXcQ</field_resource_video_url>
+            </fields>
+        </item>
+
+        <!-- Resource 5: 3D Model -->
+        <item>
+            <title>Bumper Core Prototype v4</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:05 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_005</guid>
+            <description></description>
+            <content:encoded><![CDATA[Interactive 3D model of our latest energy-absorbing bumper core design.]]></content:encoded>
+            <excerpt:encoded><![CDATA[Rotate and inspect the V4 bumper core.]]></excerpt:encoded>
+            <wp:post_id>1005</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:05</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:05</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>bumper-core-v4-3d</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="3d"><![CDATA[3D Model]]></category>
+            <category domain="rf_resource_category" nicename="prototypes"><![CDATA[Prototypes]]></category>
+            <fields>
+                <field_resource_mode>3d</field_resource_mode>
+                <field_resource_visibility>administrator</field_resource_visibility>
+                <field_resource_3d_embed><![CDATA[<div class="sketchfab-embed-wrapper"> <iframe title="Car Bumper" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/2d96695388054c60bc622329b3a3c267/embed"> </iframe> </div>]]></field_resource_3d_embed>
+            </fields>
+        </item>
+
+        <!-- Resource 6: FAQ -->
+        <item>
+            <title>Can EPP be recycled?</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:06 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_res_006</guid>
+            <description></description>
+            <content:encoded><![CDATA[]]></content:encoded>
+            <excerpt:encoded><![CDATA[]]></excerpt:encoded>
+            <wp:post_id>1006</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:06</wp:post_date>
+            <wp:post_date_gmt>2025-02-03 12:00:06</wp:post_date_gmt>
+            <wp:comment_status>closed</wp:comment_status>
+            <wp:ping_status>closed</wp:ping_status>
+            <wp:post_name>is-epp-recyclable</wp:post_name>
+            <wp:status>publish</wp:status>
+            <wp:post_type>rf_resource</wp:post_type>
+            <category domain="rf_resource_type" nicename="faq"><![CDATA[FAQ]]></category>
+            <category domain="rf_resource_category" nicename="sustainability"><![CDATA[Sustainability]]></category>
+            <fields>
+                <field_resource_mode>faq</field_resource_mode>
+                <field_resource_visibility>guest</field_resource_visibility>
+                <field_resource_answer><![CDATA[Yes, EPP (Expanded Polypropylene) is 100% recyclable. It can be reheated and remolded into new products or broken down into its base materials for repurposing.]]></field_resource_answer>
+            </fields>
+        </item>
+
+    </channel>
+</rss>

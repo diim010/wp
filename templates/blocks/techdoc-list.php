@@ -26,9 +26,16 @@ $manual_docs = get_field('manual_docs');
 
 // Build query
 $args = [
-    'post_type' => 'rf_techdoc',
+    'post_type' => 'rf_resource',
     'post_status' => 'publish',
     'posts_per_page' => $count,
+    'meta_query' => [
+        [
+            'key' => 'resource_mode',
+            'value' => ['document', 'sheet', '3d', 'video'],
+            'compare' => 'IN',
+        ]
+    ],
 ];
 
 if ($mode === 'manual' && $manual_docs) {
@@ -37,7 +44,7 @@ if ($mode === 'manual' && $manual_docs) {
 } elseif ($mode === 'category' && $category) {
     $args['tax_query'] = [
         [
-            'taxonomy' => 'product_type',
+            'taxonomy' => 'rf_resource_category',
             'field' => 'term_id',
             'terms' => $category,
         ],
@@ -58,7 +65,7 @@ $query = new \WP_Query($args);
                 <h2 class="rf-title" style="margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); text-align: left; background: none; -webkit-text-fill-color: initial; color: #0f172a;"><?php echo esc_html($section_title ?: __('Technical Documentation', 'rfplugin')); ?></h2>
             </div>
             <?php if (!$is_preview): ?>
-                <a href="<?php echo get_post_type_archive_link('rf_techdoc'); ?>" class="rf-btn" style="padding: 12px 24px; border-radius: 12px; font-size: 0.9rem; gap: 10px;">
+                <a href="<?php echo get_post_type_archive_link('rf_resource'); ?>" class="rf-btn" style="padding: 12px 24px; border-radius: 12px; font-size: 0.9rem; gap: 10px;">
                     <?php _e('Explore Library', 'rfplugin'); ?> <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 18px; width: 18px; height: 18px;"></span>
                 </a>
             <?php endif; ?>
@@ -71,18 +78,18 @@ $query = new \WP_Query($args);
             $doc_id = get_the_ID();
             
             // Security Check
-            if (!\RFPlugin\Security\Permissions::canViewTechDoc($doc_id)) continue;
+            if (!\RFPlugin\Security\Permissions::canViewPost($doc_id)) continue;
 
-            $file_data = get_field('field_tech_doc_file', $doc_id); 
-            $file_url = is_array($file_data) ? ($file_data['url'] ?? '') : (string)$file_data;
-            $file_type = get_field('file_type', $doc_id) ?: 'document';
-            $download_url = rest_url('rfplugin/v1/techdocs/' . $doc_id . '/download');
-            $tags = wp_get_post_terms($doc_id, 'rf_techdoc_tag', ['fields' => 'names']);
+            $file_mode = get_field('field_resource_mode', $doc_id) ?: 'document'; 
+            $file_data = get_field('field_resource_file', $doc_id);
+            $download_url = rest_url('rfplugin/v1/resources/' . $doc_id . '/download');
             $delay = ($i % 8) * 0.1;
         ?>
             <article class="rf-card" style="animation: rfFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: <?php echo $delay; ?>s;">
                 <div class="rf-card-icon">
-                    <span class="dashicons dashicons-pdf" aria-hidden="true"></span>
+                    <span class="dashicons dashicons-<?php 
+                        echo $file_mode === 'video' ? 'video-alt3' : ($file_mode === '3d' ? 'visibility' : 'media-document'); 
+                    ?>" aria-hidden="true"></span>
                 </div>
                 
                 <h3 class="rf-card-title"><?php the_title(); ?></h3>
@@ -93,16 +100,15 @@ $query = new \WP_Query($args);
                 <div class="rf-card-footer">
                     <div class="rf-card-meta">
                         <span style="background: var(--rf-primary-light); color: var(--rf-primary); padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
-                            <?php echo strtoupper(esc_html($file_type)); ?>
+                            <?php echo strtoupper(esc_html($file_mode)); ?>
                         </span>
                     </div>
-                    <?php 
-                    $secure_download_url = add_query_arg('_wpnonce', wp_create_nonce('wp_rest'), $download_url);
-                    ?>
                     <div style="display: flex; gap: 8px;">
-                        <a href="<?php echo esc_url($secure_download_url); ?>" class="rf-btn" style="padding: 10px 16px;">
-                            <span class="dashicons dashicons-download"></span>
-                        </a>
+                        <?php if (in_array($file_mode, ['document', 'sheet'])): ?>
+                            <a href="<?php echo esc_url($download_url); ?>" class="rf-btn" style="padding: 10px 16px;" download>
+                                <span class="dashicons dashicons-download"></span>
+                            </a>
+                        <?php endif; ?>
                         <a href="<?php the_permalink(); ?>" class="rf-btn" style="padding: 10px 16px;">
                             <span class="dashicons dashicons-arrow-right-alt2"></span>
                         </a>

@@ -32,8 +32,7 @@ class FieldGroups
         self::registerProductFields();
         self::registerServiceFields();
         self::registerCaseFields();
-        self::registerTechDocFields();
-        self::registerFAQFields();
+        self::registerResourceFields();
         self::registerInvoiceFields();
     }
 
@@ -394,187 +393,149 @@ class FieldGroups
     }
 
     /**
-     * Register tech doc fields
-     * 
-     * @return void
+     * Register unified resource library fields
      */
-    private static function registerTechDocFields(): void
+    private static function registerResourceFields(): void
     {
         acf_add_local_field_group([
-            'key' => 'group_techdoc_details',
-            'title' => __('Tech Doc Details', 'rfplugin'),
+            'key' => 'group_resource_library',
+            'title' => __('Resource Management', 'rfplugin'),
             'fields' => [
                 [
-                    'key' => 'tab_techdoc_file',
-                    'label' => __('File & Classification', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_tech_doc_file',
-                    'label' => __('Technical File', 'rfplugin'),
-                    'name' => 'tech_file',
-                    'type' => 'file',
+                    'key' => 'field_resource_mode',
+                    'label' => __('Resource Mode', 'rfplugin'),
+                    'name' => 'resource_mode',
+                    'type' => 'select',
                     'required' => 1,
-                    'return_format' => 'array',
+                    'choices' => [
+                        'faq' => __('FAQ', 'rfplugin'),
+                        'document' => __('Technical Document', 'rfplugin'),
+                        'video' => __('Video Presentation', 'rfplugin'),
+                        'sheet' => __('Data Sheet', 'rfplugin'),
+                        '3d' => __('3D Model / Viewer', 'rfplugin'),
+                    ],
+                    'default_value' => 'faq',
                 ],
                 [
-                    'key' => 'tab_techdoc_access',
-                    'label' => __('Access Control', 'rfplugin'),
+                    'key' => 'tab_res_general',
+                    'label' => __('General', 'rfplugin'),
                     'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
                 ],
                 [
-                    'key' => 'field_tech_visibility',
-                    'label' => __('User Role Visibility', 'rfplugin'),
-                    'name' => 'user_role_visibility',
+                    'key' => 'field_resource_visibility',
+                    'label' => __('Visibility', 'rfplugin'),
+                    'name' => 'resource_visibility',
                     'type' => 'select',
                     'choices' => [
-                        'administrator' => __('Administrator', 'rfplugin'),
-                        'editor' => __('Editor', 'rfplugin'),
-                        'author' => __('Author', 'rfplugin'),
-                        'contributor' => __('Contributor', 'rfplugin'),
-                        'subscriber' => __('Subscriber', 'rfplugin'),
-                        'guest' => __('Guest', 'rfplugin'),
+                        'guest' => __('Public', 'rfplugin'),
+                        'subscriber' => __('Customers only', 'rfplugin'),
+                        'partner' => __('Partners only', 'rfplugin'),
+                        'administrator' => __('Staff only', 'rfplugin'),
                     ],
+                    'default_value' => 'guest',
                 ],
                 [
-                    'key' => 'field_file_type',
-                    'label' => __('File Type', 'rfplugin'),
-                    'name' => 'file_type',
-                    'type' => 'select',
-                    'choices' => [
-                        'datasheet' => __('Datasheet', 'rfplugin'),
-                        'manual' => __('Manual', 'rfplugin'),
-                        'certificate' => __('Certificate', 'rfplugin'),
-                        'specification' => __('Specification', 'rfplugin'),
-                        'guide' => __('Installation Guide', 'rfplugin'),
-                        'drawing' => __('Technical Drawing', 'rfplugin'),
-                        'security' => __('Security Data Sheet', 'rfplugin'),
-                    ],
-                ],
-                [
-                    'key' => 'field_download_count',
-                    'label' => __('Download Count', 'rfplugin'),
-                    'name' => 'download_count',
-                    'type' => 'number',
-                    'default_value' => 0,
-                    'readonly' => 1,
-                ],
-                [
-                    'key' => 'field_periodically_updated',
-                    'label' => __('Periodically Updated', 'rfplugin'),
-                    'instructions' => __('If enabled, users who downloaded this doc will be notified when a new version is published.', 'rfplugin'),
-                    'name' => 'periodically_updated',
-                    'type' => 'true_false',
-                    'default_value' => 0,
-                    'ui' => 1,
-                ],
-                [
-                    'key' => 'field_last_file_update',
-                    'label' => __('Last File Update', 'rfplugin'),
-                    'name' => 'last_file_update',
-                    'type' => 'text',
-                    'readonly' => 1,
-                    'wrapper' => [
-                        'width' => '',
-                        'class' => 'acf-hidden',
-                        'id' => '',
-                    ],
-                ],
-            ],
-            'location' => [
-                [
-                    [
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'rf_techdoc',
-                    ],
-                ],
-            ],
-        ]);
-    }
-
-    /**
-     * Register FAQ fields
-     * 
-     * @return void
-     */
-    public static function registerFAQFields(): void
-    {
-        acf_add_local_field_group([
-            'key' => 'group_faq_details',
-            'title' => __('FAQ Details', 'rfplugin'),
-            'fields' => [
-                [
-                    'key' => 'tab_faq_content',
-                    'label' => __('Content', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_faq_answer',
-                    'label' => __('Answer', 'rfplugin'),
-                    'name' => 'faq_answer',
-                    'type' => 'wysiwyg',
-                    'required' => 1,
-                ],
-                [
-                    'key' => 'field_faq_priority',
-                    'label' => __('Priority/Order', 'rfplugin'),
-                    'name' => 'faq_priority',
-                    'type' => 'number',
-                    'default_value' => 0,
-                ],
-                [
-                    'key' => 'field_faq_type',
-                    'label' => __('FAQ Type', 'rfplugin'),
-                    'name' => 'faq_type',
-                    'type' => 'select',
-                    'choices' => [
-                        'general' => __('General', 'rfplugin'),
-                        'technical' => __('Technical', 'rfplugin'),
-                        'shipping' => __('Shipping', 'rfplugin'),
-                        'warranty' => __('Warranty', 'rfplugin'),
-                    ],
-                    'default_value' => 'general',
-                ],
-                [
-                    'key' => 'tab_faq_relationships',
-                    'label' => __('Relationships & Tech', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_faq_related_items',
+                    'key' => 'field_resource_related_items',
                     'label' => __('Related Products/Services', 'rfplugin'),
                     'name' => 'related_items',
                     'type' => 'relationship',
                     'post_type' => ['product', 'rf_service'],
                     'return_format' => 'id',
                 ],
+
+                // FAQ Specific
                 [
-                    'key' => 'field_faq-attach-doc',
-                    'label' => __('Tech Docs', 'rfplugin'),
-                    'name' => 'attached_docs',
-                    'type' => 'relationship',
-                    'post_type' => ['rf_techdoc', 'rf_service'],
-                    'return_format' => 'id',
+                    'key' => 'tab_res_faq',
+                    'label' => __('FAQ Content', 'rfplugin'),
+                    'type' => 'tab',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'faq']]
+                    ],
                 ],
-               
-                
-               
+                [
+                    'key' => 'field_resource_answer',
+                    'label' => __('Answer Content', 'rfplugin'),
+                    'name' => 'resource_answer',
+                    'type' => 'wysiwyg',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'faq']]
+                    ],
+                ],
+
+                // File Specific (Document/Sheet)
+                [
+                    'key' => 'tab_res_file',
+                    'label' => __('File Asset', 'rfplugin'),
+                    'type' => 'tab',
+                    'conditional_logic' => [
+                        [
+                            ['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'document'],
+                        ],
+                        [
+                            ['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'sheet'],
+                        ]
+                    ],
+                ],
+                [
+                    'key' => 'field_resource_file',
+                    'label' => __('Attachment File', 'rfplugin'),
+                    'name' => 'resource_file',
+                    'type' => 'file',
+                    'return_format' => 'array',
+                    'conditional_logic' => [
+                        [
+                            ['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'document'],
+                        ],
+                        [
+                            ['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'sheet'],
+                        ]
+                    ],
+                ],
+
+                // Video Specific
+                [
+                    'key' => 'tab_res_video',
+                    'label' => __('Video Details', 'rfplugin'),
+                    'type' => 'tab',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'video']]
+                    ],
+                ],
+                [
+                    'key' => 'field_resource_video_url',
+                    'label' => __('Video URL (YouTube/Vimeo)', 'rfplugin'),
+                    'name' => 'resource_video_url',
+                    'type' => 'url',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => 'video']]
+                    ],
+                ],
+
+                // 3D Specific
+                [
+                    'key' => 'tab_res_3d',
+                    'label' => __('3D Model', 'rfplugin'),
+                    'type' => 'tab',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => '3d']]
+                    ],
+                ],
+                [
+                    'key' => 'field_resource_3d_embed',
+                    'label' => __('3D Viewer Embed Code', 'rfplugin'),
+                    'name' => 'resource_3d_embed',
+                    'type' => 'textarea',
+                    'conditional_logic' => [
+                        [['field' => 'field_resource_mode', 'operator' => '==', 'value' => '3d']]
+                    ],
+                ],
             ],
             'location' => [
                 [
                     [
                         'param' => 'post_type',
                         'operator' => '==',
-                        'value' => 'rf_faq',
+                        'value' => 'rf_resource',
                     ],
                 ],
             ],

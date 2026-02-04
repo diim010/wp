@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:wp="http://wordpress.org/export/1.2/">
+    <channel>
+        <title>RoyalFoam Products Test Data</title>
+        <description>Test data for WooCommerce products with ACF fields</description>
+        <pubDate>Mon, 03 Feb 2025 12:00:00 +0000</pubDate>
+
+        <!-- Product 1: EPP Sheet -->
+        <item>
+            <title>EPP Standard Sheet (Black)</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:01 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_prod_001</guid>
+            <description></description>
+            <content:encoded><![CDATA[High-quality expanded polypropylene sheet for industrial applications.]]></content:encoded>
+            <excerpt:encoded><![CDATA[Standard EPP sheet, 1000x500mm.]]></excerpt:encoded>
+            <wp:post_id>2001</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:01</wp:post_date>
+            <wp:status>publish</wp:status>
+            <wp:post_type>product</wp:post_type>
+            <category domain="product_cat" nicename="raw-materials"><![CDATA[Raw Materials]]></category>
+            <fields>
+                <_price>24.50</_price>
+                <_regular_price>24.50</_regular_price>
+                <_sku>EPP-BLK-001</_sku>
+                <_stock_status>instock</_stock_status>
+                <_manage_stock>yes</_manage_stock>
+                <_stock>150</_stock>
+                <!-- ACF: Product Specifications -->
+                <field_technical_specifications>
+                    <row>
+                        <field_spec_label>Density</field_spec_label>
+                        <field_spec_value>40 g/l</field_spec_value>
+                    </row>
+                    <row>
+                        <field_spec_label>Dimensions</field_spec_label>
+                        <field_spec_value>1000 x 500 x 50 mm</field_spec_value>
+                    </row>
+                    <row>
+                        <field_spec_label>Color</field_spec_label>
+                        <field_spec_value>Black</field_spec_value>
+                    </row>
+                </field_technical_specifications>
+            </fields>
+        </item>
+
+        <!-- Product 2: Molded Bumper Core -->
+        <item>
+            <title>Automotive Bumper Core</title>
+            <link>#</link>
+            <pubDate>Mon, 03 Feb 2025 12:00:02 +0000</pubDate>
+            <dc:creator>admin</dc:creator>
+            <guid isPermaLink="false">rf_prod_002</guid>
+            <description></description>
+            <content:encoded><![CDATA[Lightweight, energy-absorbing bumper core component.]]></content:encoded>
+            <excerpt:encoded><![CDATA[OEM-grade automotive component.]]></excerpt:encoded>
+            <wp:post_id>2002</wp:post_id>
+            <wp:post_date>2025-02-03 12:00:02</wp:post_date>
+            <wp:status>publish</wp:status>
+            <wp:post_type>product</wp:post_type>
+            <category domain="product_cat" nicename="automotive"><![CDATA[Automotive Parts]]></category>
+            <fields>
+                <_price>185.00</_price>
+                <_regular_price>185.00</_regular_price>
+                <_sku>AUTO-BC-V4</_sku>
+                <_stock_status>instock</_stock_status>
+                <!-- ACF: Product Specifications -->
+                <field_technical_specifications>
+                    <row>
+                        <field_spec_label>Impact Absorption</field_spec_label>
+                        <field_spec_value>Child Pedestrian Safety Compliant</field_spec_value>
+                    </row>
+                    <row>
+                        <field_spec_label>Weight</field_spec_label>
+                        <field_spec_value>1.2 kg</field_spec_value>
+                    </row>
+                </field_technical_specifications>
+            </fields>
+        </item>
+    </channel>
+</rss>

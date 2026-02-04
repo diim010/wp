@@ -126,20 +126,47 @@ class Menu
             "edit.php?post_type=rf_invoice",
         );
 
-        add_submenu_page(
-            $this->menuSlug,
-            __("Tech Docs", "rfplugin"),
-            __("Tech Docs", "rfplugin"),
+        add_menu_page(
+            __("Tech Center", "rfplugin"),
+            __("Tech Center", "rfplugin"),
             "edit_posts",
-            "edit.php?post_type=rf_techdoc",
+            "rf-tech-center",
+            [$this, "renderTechCenterDashboard"],
+            "dashicons-category",
+            4,
         );
 
         add_submenu_page(
-            $this->menuSlug,
-            __("FAQ", "rfplugin"),
-            __("FAQ", "rfplugin"),
+            "rf-tech-center",
+            __("Tech Center Dashboard", "rfplugin"),
+            __("Dashboard", "rfplugin"),
             "edit_posts",
-            "edit.php?post_type=rf_faq",
+            "rf-tech-center",
+            [$this, "renderTechCenterDashboard"],
+        );
+
+        add_submenu_page(
+            "rf-tech-center",
+            __("All Resources", "rfplugin"),
+            __("Library", "rfplugin"),
+            "edit_posts",
+            "edit.php?post_type=rf_resource",
+        );
+
+        add_submenu_page(
+            "rf-tech-center",
+            __("Resource Types", "rfplugin"),
+            __("Types", "rfplugin"),
+            "manage_categories",
+            "edit-tags.php?taxonomy=rf_resource_type&post_type=rf_resource",
+        );
+
+        add_submenu_page(
+            "rf-tech-center",
+            __("Resource Categories", "rfplugin"),
+            __("Categories", "rfplugin"),
+            "manage_categories",
+            "edit-tags.php?taxonomy=rf_resource_category&post_type=rf_resource",
         );
 
         add_submenu_page(
@@ -215,6 +242,17 @@ class Menu
     {
         $stats = $this->getStatistics();
         include RFPLUGIN_PATH . "templates/admin/dashboard.php";
+    }
+
+    /**
+     * Render Tech Center dashboard
+     * 
+     * @return void
+     */
+    public function renderTechCenterDashboard(): void
+    {
+        $stats = $this->getStatistics();
+        include RFPLUGIN_PATH . "templates/admin/tech-center-dashboard.php";
     }
 
     /**
@@ -341,21 +379,35 @@ class Menu
      *
      * @return array<string, int>
      */
+    /**
+     * Get plugin statistics for dashboard
+     *
+     * @return array<string, int>
+     */
     private function getStatistics(): array
     {
-        return [
+        $cached_stats = get_transient('rfplugin_dashboard_stats');
+        
+        if ($cached_stats !== false) {
+            return $cached_stats;
+        }
+
+        $stats = [
             "products" => wp_count_posts("product")->publish ?? 0,
             "services" => wp_count_posts("rf_service")->publish ?? 0,
             "cases" => wp_count_posts("rf_case")->publish ?? 0,
             "invoices" => wp_count_posts("rf_invoice")->publish ?? 0,
-            "techdocs" => wp_count_posts("rf_techdoc")->publish ?? 0,
-            "faqs" => wp_count_posts("rf_faq")->publish ?? 0,
+            "resources" => wp_count_posts("rf_resource")->publish ?? 0,
             "recent_activity" => get_posts([
-                'post_type' => ['product', 'rf_service', 'rf_case', 'rf_invoice'],
+                'post_type' => ['product', 'rf_service', 'rf_case', 'rf_invoice', 'rf_resource'],
                 'posts_per_page' => 5,
                 'status' => 'publish',
             ]),
         ];
+
+        set_transient('rfplugin_dashboard_stats', $stats, HOUR_IN_SECONDS);
+        
+        return $stats;
     }
 
     /**
@@ -375,8 +427,7 @@ class Menu
             "total_services" => 0,
             "total_cases" => 0,
             "total_invoices" => 0,
-            "total_techdocs" => 0,
-            "total_faqs" => 0,
+            "total_resources" => 0,
         ];
 
         $sites = get_sites(["number" => 100]);
@@ -387,8 +438,7 @@ class Menu
             $totalStats["total_services"] += $stats["services"];
             $totalStats["total_cases"] += $stats["cases"];
             $totalStats["total_invoices"] += $stats["invoices"];
-            $totalStats["total_techdocs"] += $stats["techdocs"];
-            $totalStats["total_faqs"] += $stats["faqs"];
+            $totalStats["total_resources"] += $stats["resources"];
             restore_current_blog();
         }
 
@@ -444,22 +494,22 @@ class Menu
         $results = [];
 
         if (isset($_POST["rfplugin_import_all"])) {
-            $results[] = $importer->importFromXML('rf_faq', 'rf_faq_category');
+            $results[] = $importer->importFromXML('product');
             $results[] = $importer->importFromXML('rf_service', 'rf_service_category');
             $results[] = $importer->importFromXML('rf_case', 'rf_case_industry');
-            $results[] = $importer->importFromXML('rf_techdoc');
+            $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
         } else {
-            if (isset($_POST["rfplugin_import_test_data"]) || isset($_POST["rfplugin_import_faqs"])) {
-                $results[] = $importer->importFromXML('rf_faq', 'rf_faq_category');
+            if (isset($_POST["rfplugin_import_products"])) {
+                $results[] = $importer->importFromXML('product');
+            }
+            if (isset($_POST["rfplugin_import_test_data"]) || isset($_POST["rfplugin_import_resources"])) {
+                $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
             }
             if (isset($_POST["rfplugin_import_services"])) {
                 $results[] = $importer->importFromXML('rf_service', 'rf_service_category');
             }
             if (isset($_POST["rfplugin_import_cases"])) {
                 $results[] = $importer->importFromXML('rf_case', 'rf_case_industry');
-            }
-            if (isset($_POST["rfplugin_import_techdocs"])) {
-                $results[] = $importer->importFromXML('rf_techdoc');
             }
         }
 

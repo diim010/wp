@@ -68,39 +68,70 @@ class TestDataImporter
             ]);
 
             if ($post_id && !is_wp_error($post_id)) {
-                // Handle Category/Taxonomy
-                if ($taxonomy && isset($item->category)) {
-                    $cat_name = (string)$item->category;
-                    $this->assignTerm($post_id, $cat_name, $taxonomy);
+                // Handle Resource Mode (rf_resource only)
+                if ($post_type === 'rf_resource' && isset($item->mode)) {
+                    update_field('field_resource_mode', (string)$item->mode, $post_id);
+                }
+
+                // Handle Generic Category Taxonomy
+                $cat_tax = $taxonomy;
+                if ($post_type === 'rf_resource') {
+                    $cat_tax = 'rf_resource_category';
+                }
+
+                if ($cat_tax && isset($item->category)) {
+                    $this->assignTerm($post_id, (string)$item->category, $cat_tax);
+                }
+
+                // Handle Resource Type Taxonomy (rf_resource only)
+                if ($post_type === 'rf_resource' && isset($item->type)) {
+                    $this->assignTerm($post_id, (string)$item->type, 'rf_resource_type');
                 }
 
                 // Handle Tags (Generalized)
                 $tag_taxonomy = $post_type . '_tag';
+                if ($post_type === 'rf_resource') {
+                    // Resources don't have separate tags yet, but we could add them if needed
+                }
+
                 if (isset($item->tags)) {
                     foreach ($item->tags->tag as $tag) {
                         $this->assignTerm($post_id, (string)$tag, $tag_taxonomy);
                     }
                 }
 
-                // Handle ACF Fields
+                // Handle ACF & Meta Fields
                 if (isset($item->fields)) {
                     foreach ($item->fields->children() as $key => $value) {
-                        // Support both field names and field keys
-                        update_field((string)$key, (string)$value, $post_id);
+                        $meta_key = (string)$key;
+                        $meta_value = (string)$value;
+                        
+                        // Support standard WP meta for underscored keys (like _price)
+                        if (str_starts_with($meta_key, '_')) {
+                            update_post_meta($post_id, $meta_key, $meta_value);
+                            // Ensure regular price is set for WooCommerce
+                            if ($meta_key === '_price' && $post_type === 'product') {
+                                update_post_meta($post_id, '_regular_price', $meta_value);
+                            }
+                        } else {
+                            update_field($meta_key, $meta_value, $post_id);
+                        }
                     }
                 }
 
-                // Handle Attached Docs (Relationships by Title)
-                if (isset($item->attached_docs)) {
-                    $doc_ids = [];
-                    foreach ($item->attached_docs->title as $doc_title) {
-                        $doc = get_page_by_title((string)$doc_title, OBJECT, ['rf_techdoc', 'rf_service', 'product']);
-                        if ($doc) {
-                            $doc_ids[] = $doc->ID;
+                // Handle Relationships (Unified)
+                if (isset($item->attached_docs) || isset($item->related_items)) {
+                    $rel_ids = [];
+                    $rel_source = $item->attached_docs ?? $item->related_items;
+                    foreach ($rel_source->title as $title) {
+                        $p = get_page_by_title((string)$title, OBJECT, ['rf_resource', 'rf_service', 'product']);
+                        if ($p) {
+                            $rel_ids[] = $p->ID;
                         }
                     }
-                    if (!empty($doc_ids)) {
-                        update_field('attached_docs', $doc_ids, $post_id);
+                    if (!empty($rel_ids)) {
+                        $field_name = ($post_type === 'rf_resource') ? 'related_items' : 'attached_docs';
+                        update_field($field_name, $rel_ids, $post_id);
                     }
                 }
                 
