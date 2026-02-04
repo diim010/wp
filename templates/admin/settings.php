@@ -90,14 +90,6 @@
                                 <span class="dashicons dashicons-category" style="margin-right: 6px;"></span>
                                 <?php esc_html_e('Import Resources', 'rfplugin'); ?>
                             </button>
-                            <button type="submit" name="rfplugin_import_services" class="rf-btn rf-btn-outline" style="font-size: 13px;">
-                                <span class="dashicons dashicons-admin-tools" style="margin-right: 6px;"></span>
-                                <?php esc_html_e('Import Services', 'rfplugin'); ?>
-                            </button>
-                            <button type="submit" name="rfplugin_import_cases" class="rf-btn rf-btn-outline" style="font-size: 13px;">
-                                <span class="dashicons dashicons-portfolio" style="margin-right: 6px;"></span>
-                                <?php esc_html_e('Import Cases', 'rfplugin'); ?>
-                            </button>
                         </div>
                     </div>
                 </div>

@@ -13,15 +13,11 @@ namespace RFPlugin\Core;
 
 
 use RFPlugin\Security\Database;
-use RFPlugin\PostTypes\ServicePostType;
-use RFPlugin\PostTypes\CasePostType;
 use RFPlugin\PostTypes\InvoicePostType;
 use RFPlugin\PostTypes\ResourcePostType;
 use RFPlugin\ACF\Blocks\BlockLoader;
 use RFPlugin\Taxonomies\ProductTypeTaxonomy;
 use RFPlugin\Taxonomies\MaterialTaxonomy;
-use RFPlugin\Taxonomies\CaseIndustryTaxonomy;
-use RFPlugin\Taxonomies\ServiceCategoryTaxonomy;
 use RFPlugin\Taxonomies\ResourceTypeTaxonomy;
 use RFPlugin\Taxonomies\ResourceCategoryTaxonomy;
 use RFPlugin\Admin\Menu;
@@ -151,8 +147,7 @@ class Plugin
     public function registerPostTypes(): void
     {
         // ProductPostType removed in favor of WooCommerce
-        $this->postTypes['service'] = new ServicePostType();
-        $this->postTypes['case'] = new CasePostType();
+        // Service and Case post types removed
         $this->postTypes['invoice'] = new InvoicePostType();
         $this->postTypes['resource'] = new ResourcePostType();
 
@@ -170,8 +165,7 @@ class Plugin
     {
         $this->taxonomies['product_type'] = new ProductTypeTaxonomy();
         $this->taxonomies['material'] = new MaterialTaxonomy();
-        $this->taxonomies['case_industry'] = new CaseIndustryTaxonomy();
-        $this->taxonomies['service_category'] = new ServiceCategoryTaxonomy();
+        // Case Industry and Service Category taxonomies removed
         $this->taxonomies['resource_type'] = new ResourceTypeTaxonomy();
         $this->taxonomies['resource_category'] = new ResourceCategoryTaxonomy();
 
@@ -329,35 +323,7 @@ class Plugin
             }
         }
 
-        // Service Templates
-        if (is_post_type_archive('rf_service')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_service.php';
-            if (file_exists($plugin_template)) {
-                return $plugin_template;
-            }
-        }
-
-        if (is_singular('rf_service')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_service.php';
-            if (file_exists($plugin_template)) {
-                return $plugin_template;
-            }
-        }
-
-        // Case Templates
-        if (is_post_type_archive('rf_case')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_case.php';
-            if (file_exists($plugin_template)) {
-                return $plugin_template;
-            }
-        }
-
-        if (is_singular('rf_case')) {
-            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_case.php';
-            if (file_exists($plugin_template)) {
-                return $plugin_template;
-            }
-        }
+        // Service and Case templates removed
 
         // Technical Center Template
         if (is_page_template('technical-center.php')) {
@@ -381,7 +347,7 @@ class Plugin
     {
         $post_type = get_post_type($post_id);
         
-        if (!in_array($post_type, ['rf_resource', 'product', 'rf_service']) || wp_is_post_revision($post_id)) {
+        if (!in_array($post_type, ['rf_resource', 'product']) || wp_is_post_revision($post_id)) {
             return;
         }
 

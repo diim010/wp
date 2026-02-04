@@ -46,8 +46,7 @@ class ProductConstructor
             'specifications' => $this->processSpecifications($productId, $specifications),
             'materials' => $this->getMaterials($productId),
             'calculated' => $this->calculateDimensions($specifications),
-            'related_cases' => $this->getRelatedCases($productId),
-            'available_services' => $this->getAvailableServices(),
+            // Related cases and available services removed
             'tech_files' => $this->getTechFiles($productId),
             'metadata' => [
                 'constructed_at' => current_time('mysql'),
@@ -165,62 +164,9 @@ class ProductConstructor
         ];
     }
 
-    /**
-     * Get related case studies
-     * 
-     * @param int $productId Product ID
-     * @return array<int, array<string, mixed>>
-     */
-    private function getRelatedCases(int $productId): array
-    {
-        $relatedCaseIds = get_field('related_cases', $productId);
-        
-        if (!$relatedCaseIds || !is_array($relatedCaseIds)) {
-            return [];
-        }
+    // getRelatedCases method removed
 
-        $cases = [];
-        foreach ($relatedCaseIds as $caseId) {
-            $case = get_post($caseId);
-            if ($case) {
-                $cases[] = [
-                    'id' => $case->ID,
-                    'title' => $case->post_title,
-                    'excerpt' => $case->post_excerpt,
-                    'thumbnail' => get_the_post_thumbnail_url($case->ID, 'medium'),
-                    'url' => get_permalink($case->ID),
-                ];
-            }
-        }
-
-        return $cases;
-    }
-
-    /**
-     * Get available services
-     * 
-     * @return array<int, array<string, mixed>>
-     */
-    private function getAvailableServices(): array
-    {
-        $query = new \WP_Query([
-            'post_type' => 'rf_service',
-            'post_status' => 'publish',
-            'posts_per_page' => -1,
-        ]);
-
-        $services = [];
-        foreach ($query->posts as $service) {
-            $services[] = [
-                'id' => $service->ID,
-                'title' => $service->post_title,
-                'description' => $service->post_excerpt,
-                'price' => get_field('service_price', $service->ID),
-            ];
-        }
-
-        return $services;
-    }
+    // getAvailableServices method removed
 
     /**
      * Get technical files

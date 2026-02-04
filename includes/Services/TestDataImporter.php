@@ -124,7 +124,7 @@ class TestDataImporter
                     $rel_ids = [];
                     $rel_source = $item->attached_docs ?? $item->related_items;
                     foreach ($rel_source->title as $title) {
-                        $p = get_page_by_title((string)$title, OBJECT, ['rf_resource', 'rf_service', 'product']);
+                        $p = get_page_by_title((string)$title, OBJECT, ['rf_resource', 'product']);
                         if ($p) {
                             $rel_ids[] = $p->ID;
                         }

@@ -1,13 +1,14 @@
 <?php
 /**
  * Modern RoyalFoam Admin Dashboard
+ * Premium glassmorphism design with optimized presentation
  */
 ?>
 <div class="wrap rf-admin-wrap">
     <header class="rf-dashboard-header rf-fade-in">
         <div class="rf-header-content">
             <h1 class="rf-h1"><?php esc_html_e('RoyalFoam Dashboard', 'rfplugin'); ?></h1>
-            <p class="rf-p"><?php esc_html_e('Managing enterprise foam solutions with precision.', 'rfplugin'); ?></p>
+            <p class="rf-p"><?php esc_html_e('Enterprise foam solutions management center.', 'rfplugin'); ?></p>
         </div>
         <div class="rf-header-actions">
             <a href="<?php echo esc_url(admin_url('admin.php?page=royalfoam-settings')); ?>" class="rf-btn rf-btn-primary">
@@ -19,15 +20,13 @@
 
     <div class="rf-dashboard-top rf-grid rf-fade-in" style="margin-bottom: 32px; animation-delay: 0.05s;">
         <div class="rf-glass-card quick-actions" style="grid-column: 1 / -1;">
+            <h3 style="margin: 0 0 16px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--rf-neutral-500);"><?php esc_html_e('Quick Actions', 'rfplugin'); ?></h3>
             <div class="rf-btn-horizontal-stack" style="display: flex; gap: 16px; flex-wrap: wrap;">
                 <a href="<?php echo esc_url(admin_url('post-new.php?post_type=product')); ?>" class="rf-btn rf-btn-primary">
                     <span class="dashicons dashicons-plus"></span> <?php esc_html_e('Add New Product', 'rfplugin'); ?>
                 </a>
-                <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_service')); ?>" class="rf-btn rf-btn-outline">
-                    <span class="dashicons dashicons-plus"></span> <?php esc_html_e('New Service', 'rfplugin'); ?>
-                </a>
-                <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_case')); ?>" class="rf-btn rf-btn-outline">
-                    <span class="dashicons dashicons-plus"></span> <?php esc_html_e('Register Case Study', 'rfplugin'); ?>
+                <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_resource')); ?>" class="rf-btn rf-btn-outline">
+                    <span class="dashicons dashicons-plus"></span> <?php esc_html_e('New Resource', 'rfplugin'); ?>
                 </a>
                 <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_invoice')); ?>" class="rf-btn rf-btn-outline">
                     <span class="dashicons dashicons-plus"></span> <?php esc_html_e('Create Invoice', 'rfplugin'); ?>
@@ -52,37 +51,13 @@
             </a>
         </div>
 
-        <!-- Services -->
-        <div class="rf-glass-card stat-card service-card">
-            <div class="card-icon"><span class="dashicons dashicons-admin-tools"></span></div>
-            <div class="card-info">
-                <h3><?php esc_html_e('Services', 'rfplugin'); ?></h3>
-                <p class="stat-number"><?php echo esc_html($stats['services']); ?></p>
-            </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_service')); ?>" class="rf-btn rf-btn-outline">
-                <?php esc_html_e('Manage Services', 'rfplugin'); ?>
-            </a>
-        </div>
-
-        <!-- Cases -->
-        <div class="rf-glass-card stat-card case-card">
-            <div class="card-icon"><span class="dashicons dashicons-portfolio"></span></div>
-            <div class="card-info">
-                <h3><?php esc_html_e('Case Studies', 'rfplugin'); ?></h3>
-                <p class="stat-number"><?php echo esc_html($stats['cases']); ?></p>
-            </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_case')); ?>" class="rf-btn rf-btn-outline">
-                <?php esc_html_e('Browse Portfolio', 'rfplugin'); ?>
-            </a>
-        </div>
-
-        <!-- Tech Center - Consolidated -->
+        <!-- Tech Center - Resources -->
         <div class="rf-glass-card stat-card tech-center-card">
             <div class="card-icon" style="background: var(--rf-gradient-primary);"><span class="dashicons dashicons-category"></span></div>
             <div class="card-info">
                 <h3><?php esc_html_e('Tech Center', 'rfplugin'); ?></h3>
-                <p class="stat-number"><?php echo esc_html($stats['techdocs'] + $stats['faqs']); ?></p>
-                <p style="font-size: 11px; opacity: 0.7; margin: -5px 0 0;"><?php echo $stats['techdocs']; ?> Docs / <?php echo $stats['faqs']; ?> FAQs</p>
+                <p class="stat-number"><?php echo esc_html($stats['resources']); ?></p>
+                <p style="font-size: 11px; opacity: 0.7; margin: -5px 0 0;"><?php esc_html_e('FAQs, Docs & Resources', 'rfplugin'); ?></p>
             </div>
             <a href="<?php echo esc_url(admin_url('admin.php?page=rf-tech-center')); ?>" class="rf-btn rf-btn-primary">
                 <?php esc_html_e('Enter Hub', 'rfplugin'); ?>
@@ -99,6 +74,28 @@
             <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_invoice')); ?>" class="rf-btn rf-btn-outline">
                 <?php esc_html_e('View Billing', 'rfplugin'); ?>
             </a>
+        </div>
+
+        <!-- System Health -->
+        <div class="rf-glass-card stat-card health-card">
+            <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><span class="dashicons dashicons-shield"></span></div>
+            <div class="card-info">
+                <h3><?php esc_html_e('System Health', 'rfplugin'); ?></h3>
+                <div class="health-indicators" style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                    <div class="health-item">
+                        <span class="badge <?php echo function_exists('acf_add_local_field_group') ? 'online' : 'offline'; ?>">
+                            <?php echo function_exists('acf_add_local_field_group') ? '✓' : '✗'; ?>
+                        </span>
+                        <span style="font-size: 13px;"><?php esc_html_e('ACF Pro', 'rfplugin'); ?></span>
+                    </div>
+                    <div class="health-item">
+                        <span class="badge <?php echo class_exists('WooCommerce') ? 'online' : 'offline'; ?>">
+                            <?php echo class_exists('WooCommerce') ? '✓' : '✗'; ?>
+                        </span>
+                        <span style="font-size: 13px;"><?php esc_html_e('WooCommerce', 'rfplugin'); ?></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -124,10 +121,10 @@
 
         <div class="rf-glass-card api-monitor">
             <h2 class="rf-h2"><?php esc_html_e('REST API Monitor', 'rfplugin'); ?></h2>
-            <div class="api-endpoints" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px;">
+            <div class="api-endpoints" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
                 <div class="endpoint-item"><code>GET /v1/products</code> <span class="badge online">Active</span></div>
                 <div class="endpoint-item"><code>POST /v1/invoices</code> <span class="badge online">Active</span></div>
-                <div class="endpoint-item"><code>GET /v1/services</code> <span class="badge online">Active</span></div>
+                <div class="endpoint-item"><code>GET /v1/resources</code> <span class="badge online">Active</span></div>
             </div>
         </div>
     </div>
@@ -150,3 +147,29 @@
         </div>
     </div>
 </div>
+
+<style>
+.health-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.health-item .badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+.health-item .badge.online {
+    background: #10b981;
+    color: white;
+}
+.health-item .badge.offline {
+    background: #ef4444;
+    color: white;
+}
+</style>

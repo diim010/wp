@@ -101,22 +101,7 @@ class Menu
         );
 
         // Products subpage removed in favor of WooCommerce main menu
-
-        add_submenu_page(
-            $this->menuSlug,
-            __("Services", "rfplugin"),
-            __("Services", "rfplugin"),
-            "edit_posts",
-            "edit.php?post_type=rf_service",
-        );
-
-        add_submenu_page(
-            $this->menuSlug,
-            __("Cases", "rfplugin"),
-            __("Cases", "rfplugin"),
-            "edit_posts",
-            "edit.php?post_type=rf_case",
-        );
+        // Services and Cases subpages removed
 
         add_submenu_page(
             $this->menuSlug,
@@ -291,9 +276,10 @@ class Menu
             $this->saveSettings();
         }
 
-        if (isset($_POST["rfplugin_import_test_data"]) || isset($_POST["rfplugin_import_faqs"]) || 
-            isset($_POST["rfplugin_import_services"]) || isset($_POST["rfplugin_import_cases"]) || 
-            isset($_POST["rfplugin_import_techdocs"]) || isset($_POST["rfplugin_import_all"])) {
+        if (isset($_POST["rfplugin_import_test_data"]) || 
+            isset($_POST["rfplugin_import_resources"]) || 
+            isset($_POST["rfplugin_import_products"]) || 
+            isset($_POST["rfplugin_import_all"])) {
             $this->handleDataImport();
         }
 
@@ -394,12 +380,11 @@ class Menu
 
         $stats = [
             "products" => wp_count_posts("product")->publish ?? 0,
-            "services" => wp_count_posts("rf_service")->publish ?? 0,
-            "cases" => wp_count_posts("rf_case")->publish ?? 0,
+            // Services and Cases stats removed
             "invoices" => wp_count_posts("rf_invoice")->publish ?? 0,
             "resources" => wp_count_posts("rf_resource")->publish ?? 0,
             "recent_activity" => get_posts([
-                'post_type' => ['product', 'rf_service', 'rf_case', 'rf_invoice', 'rf_resource'],
+                'post_type' => ['product', 'rf_invoice', 'rf_resource'],
                 'posts_per_page' => 5,
                 'status' => 'publish',
             ]),
@@ -424,8 +409,7 @@ class Menu
         $totalStats = [
             "total_sites" => get_blog_count(),
             "total_products" => 0,
-            "total_services" => 0,
-            "total_cases" => 0,
+            // Services and Cases stats removed
             "total_invoices" => 0,
             "total_resources" => 0,
         ];
@@ -435,8 +419,6 @@ class Menu
             switch_to_blog($site->blog_id);
             $stats = $this->getStatistics();
             $totalStats["total_products"] += $stats["products"];
-            $totalStats["total_services"] += $stats["services"];
-            $totalStats["total_cases"] += $stats["cases"];
             $totalStats["total_invoices"] += $stats["invoices"];
             $totalStats["total_resources"] += $stats["resources"];
             restore_current_blog();
@@ -495,8 +477,6 @@ class Menu
 
         if (isset($_POST["rfplugin_import_all"])) {
             $results[] = $importer->importFromXML('product');
-            $results[] = $importer->importFromXML('rf_service', 'rf_service_category');
-            $results[] = $importer->importFromXML('rf_case', 'rf_case_industry');
             $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
         } else {
             if (isset($_POST["rfplugin_import_products"])) {
@@ -505,12 +485,7 @@ class Menu
             if (isset($_POST["rfplugin_import_test_data"]) || isset($_POST["rfplugin_import_resources"])) {
                 $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
             }
-            if (isset($_POST["rfplugin_import_services"])) {
-                $results[] = $importer->importFromXML('rf_service', 'rf_service_category');
-            }
-            if (isset($_POST["rfplugin_import_cases"])) {
-                $results[] = $importer->importFromXML('rf_case', 'rf_case_industry');
-            }
+            // Services and Cases import handlers removed
         }
 
         foreach ($results as $res) {

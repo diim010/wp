@@ -30,8 +30,7 @@ class FieldGroups
     public static function register(): void
     {
         self::registerProductFields();
-        self::registerServiceFields();
-        self::registerCaseFields();
+        // Service and Case field groups removed
         self::registerResourceFields();
         self::registerInvoiceFields();
     }
@@ -90,14 +89,7 @@ class FieldGroups
                     'placement' => 'top',
                     'endpoint' => 0,
                 ],
-                [
-                    'key' => 'field_related_cases',
-                    'label' => __('Related Cases', 'rfplugin'),
-                    'name' => 'related_cases',
-                    'type' => 'relationship',
-                    'post_type' => ['rf_case'],
-                    'return_format' => 'id',
-                ],
+                // Related Cases field removed
                 [
                     'key' => 'field_tech_files',
                     'label' => __('Technical Files', 'rfplugin'),
@@ -183,214 +175,9 @@ class FieldGroups
         ]);
     }
 
-    /**
-     * Register service fields
-     * 
-     * @return void
-     */
-    private static function registerServiceFields(): void
-    {
-        acf_add_local_field_group([
-            'key' => 'group_service_details',
-            'title' => __('Service Details', 'rfplugin'),
-            'fields' => [
-                [
-                    'key' => 'tab_service_details',
-                    'label' => __('Pricing & Details', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_service_price',
-                    'label' => __('Price (EUR)', 'rfplugin'),
-                    'name' => 'service_price',
-                    'type' => 'number',
-                    'required' => 1,
-                    'min' => 0,
-                    'step' => 0.01,
-                ],
-                [
-                    'key' => 'field_service_duration',
-                    'label' => __('Duration (days)', 'rfplugin'),
-                    'name' => 'service_duration',
-                    'type' => 'number',
-                    'min' => 0,
-                ],
-                [
-                    'key' => 'field_service_pricing_model',
-                    'label' => __('Pricing Model', 'rfplugin'),
-                    'name' => 'pricing_model',
-                    'type' => 'select',
-                    'choices' => [
-                        'fixed' => __('Fixed Price', 'rfplugin'),
-                        'hourly' => __('Hourly Rate', 'rfplugin'),
-                        'project' => __('Project Based', 'rfplugin'),
-                        'subscription' => __('Subscription', 'rfplugin'),
-                    ],
-                    'default_value' => 'fixed',
-                ],
-                [
-                    'key' => 'tab_service_relationships',
-                    'label' => __('Relationships', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_service_related_products',
-                    'label' => __('Related Products', 'rfplugin'),
-                    'name' => 'related_products',
-                    'type' => 'relationship',
-                    'post_type' => ['product'],
-                    'filters' => ['search', 'taxonomy'],
-                    'return_format' => 'id',
-                ],
-                
-                [
-                    'key' => 'field_service_booking_link',
-                    'label' => __('Booking/Contact Link', 'rfplugin'),
-                    'name' => 'booking_link',
-                    'type' => 'url',
-                ],
-            ],
-            'location' => [
-                [
-                    [
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'rf_service',
-                    ],
-                ],
-            ],
-        ]);
-    }
+    // Service field group registration removed
 
-    /**
-     * Register case study fields
-     * 
-     * @return void
-     */
-    private static function registerCaseFields(): void
-    {
-        acf_add_local_field_group([
-            'key' => 'group_case_details',
-            'title' => __('Case Details', 'rfplugin'),
-            'fields' => [
-                [
-                    'key' => 'tab_case_general',
-                    'label' => __('General Info', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_case_client',
-                    'label' => __('Client Name', 'rfplugin'),
-                    'name' => 'case_client',
-                    'type' => 'text',
-                ],
-                [
-                    'key' => 'field_case_industry_text',
-                    'label' => __('Client Industry', 'rfplugin'),
-                    'name' => 'case_industry_text',
-                    'type' => 'text',
-                ],
-                [
-                    'key' => 'tab_case_media',
-                    'label' => __('Media Gallery', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_case_gallery',
-                    'label' => __('Gallery', 'rfplugin'),
-                    'name' => 'case_gallery',
-                    'type' => 'gallery',
-                    'return_format' => 'array',
-                ],
-                [
-                    'key' => 'field_case_before_after',
-                    'label' => __('Media Showcase (Before/After)', 'rfplugin'),
-                    'name' => 'before_after',
-                    'type' => 'group',
-                    'sub_fields' => [
-                        [
-                            'key' => 'field_case_before_img',
-                            'label' => __('Before Image', 'rfplugin'),
-                            'name' => 'before_img',
-                            'type' => 'image',
-                        ],
-                        [
-                            'key' => 'field_case_after_img',
-                            'label' => __('After Image', 'rfplugin'),
-                            'name' => 'after_img',
-                            'type' => 'image',
-                        ],
-                    ],
-                ],
-                [
-                    'key' => 'tab_case_content',
-                    'label' => __('Story Content', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_case_challenge',
-                    'label' => __('The Challenge', 'rfplugin'),
-                    'name' => 'case_challenge',
-                    'type' => 'wysiwyg',
-                ],
-                [
-                    'key' => 'field_case_solution',
-                    'label' => __('The Solution', 'rfplugin'),
-                    'name' => 'case_solution',
-                    'type' => 'wysiwyg',
-                ],
-                [
-                    'key' => 'field_case_results',
-                    'label' => __('The Results', 'rfplugin'),
-                    'name' => 'case_results',
-                    'type' => 'wysiwyg',
-                ],
-                [
-                    'key' => 'field_case_client_logo',
-                    'label' => __('Client Logo', 'rfplugin'),
-                    'name' => 'case_client_logo',
-                    'type' => 'image',
-                    'return_format' => 'id',
-                ],
-                [
-                    'key' => 'tab_case_relationships',
-                    'label' => __('Relationships', 'rfplugin'),
-                    'type' => 'tab',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ],
-                [
-                    'key' => 'field_case_related_products',
-                    'label' => __('Related Products/Services', 'rfplugin'),
-                    'name' => 'related_items',
-                    'type' => 'relationship',
-                    'post_type' => ['product', 'rf_service'],
-                    'return_format' => 'id',
-                ],
-                
-              
-            ],
-            'location' => [
-                [
-                    [
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'rf_case',
-                    ],
-                ],
-            ],
-        ]);
-    }
+    // Case field group registration removed
 
     /**
      * Register unified resource library fields
@@ -436,10 +223,10 @@ class FieldGroups
                 ],
                 [
                     'key' => 'field_resource_related_items',
-                    'label' => __('Related Products/Services', 'rfplugin'),
+                    'label' => __('Related Products', 'rfplugin'),
                     'name' => 'related_items',
                     'type' => 'relationship',
-                    'post_type' => ['product', 'rf_service'],
+                    'post_type' => ['product'],
                     'return_format' => 'id',
                 ],
 
