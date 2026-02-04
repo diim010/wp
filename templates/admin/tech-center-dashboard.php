@@ -19,25 +19,25 @@
         </div>
     </header>
 
-    <div class="rf-dashboard-grid rf-grid rf-fade-in" style="margin-top: 32px;">
+    <div class="rf-dashboard-grid rf-grid rf-grid-cols-1 md:rf-grid-cols-2 lg:rf-grid-cols-3 rf-gap-6 rf-fade-in rf-mt-8">
         <!-- Total Assets -->
-        <div class="rf-glass-card stat-card asset-card">
-            <div class="card-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--rf-primary);">
+        <div class="rf-glass-card stat-card asset-card rf-p-6">
+            <div class="card-icon rf-bg-primary-50 rf-text-primary-600 rf-w-12 rf-h-12 rf-flex rf-items-center rf-justify-center rf-rounded-lg rf-mb-4">
                 <span class="dashicons dashicons-category"></span>
             </div>
             <div class="card-info">
-                <h3 style="margin-bottom: 4px;"><?php esc_html_e('Total Library Assets', 'rfplugin'); ?></h3>
-                <p class="stat-number" style="font-size: 32px; font-weight: 800; color: var(--rf-neutral-900);"><?php echo esc_html($stats['resources']); ?></p>
+                <h3 class="rf-text-xs rf-font-bold rf-uppercase rf-tracking-wider rf-text-slate-500 rf-mb-1"><?php esc_html_e('Total Library Assets', 'rfplugin'); ?></h3>
+                <p class="rf-text-4xl rf-font-black rf-text-slate-900"><?php echo esc_html($stats['resources']); ?></p>
             </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource')); ?>" class="rf-btn rf-btn-outline" style="margin-top: 16px;">
+            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource')); ?>" class="rf-btn rf-btn-outline rf-mt-6 rf-w-full">
                 <?php esc_html_e('Manage Library', 'rfplugin'); ?>
             </a>
         </div>
 
         <!-- Mode Breakdown -->
-        <div class="rf-glass-card" style="grid-column: span 1;">
-            <h3 class="rf-h3" style="margin-bottom: 20px;"><?php esc_html_e('Asset Distribution', 'rfplugin'); ?></h3>
-            <ul class="rf-admin-list" style="list-style: none; padding: 0;">
+        <div class="rf-glass-card rf-p-6">
+            <h3 class="rf-text-sm rf-font-bold rf-text-slate-900 rf-mb-5"><?php esc_html_e('Asset Distribution', 'rfplugin'); ?></h3>
+            <ul class="rf-space-y-3">
                 <?php 
                 $modes = [
                     'faq' => ['label' => __('FAQs', 'rfplugin'), 'icon' => 'editor-help'],
@@ -50,9 +50,9 @@
                     $count = wp_count_posts('rf_resource')->publish ?? 0; // Simplified, or use meta query if needed
                     // For a real dashboard we should query these counts properly
                 ?>
-                <li style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-                    <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource&resource_mode=' . $mode_slug)); ?>" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <span class="dashicons dashicons-<?php echo $mode_data['icon']; ?>"></span> <?php echo $mode_data['label']; ?>
+                <li class="rf-flex rf-justify-between rf-items-center">
+                    <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource&resource_mode=' . $mode_slug)); ?>" class="rf-flex rf-items-center rf-gap-3 rf-text-sm rf-text-slate-600 hover:rf-text-primary-600 rf-no-underline rf-transition-colors">
+                        <span class="dashicons dashicons-<?php echo $mode_data['icon']; ?> rf-text-slate-400"></span> <?php echo $mode_data['label']; ?>
                     </a>
                 </li>
                 <?php endforeach; ?>
@@ -82,8 +82,8 @@
         </div>
     </div>
 
-    <div class="rf-dashboard-footer rf-grid rf-fade-in" style="margin-top: 40px;">
-        <div class="rf-glass-card recent-activity" style="grid-column: 1 / -1;">
+    <div class="rf-dashboard-footer rf-grid rf-grid-cols-1 rf-gap-6 rf-fade-in rf-mt-10">
+        <div class="rf-glass-card rf-p-8">
             <h2 class="rf-h2"><?php esc_html_e('Recent Library Activity', 'rfplugin'); ?></h2>
             <div class="activity-list" style="margin-top: 20px;">
                 <?php 

@@ -6,27 +6,63 @@
  * RFPlugin Unified Design System
  * 
  * Powered by Tailwind CSS with HSL design tokens.
- * Focuses on glassmorphism, premium typography, and performance.
  */
 
-:root {
-    /* Primary Color: Royal Blue (Adjustable via H and S) */
-    --rf-primary-h: 220;
-    --rf-primary-s: 90%;
+@layer base {
 
-    /* Accent Color: Modern Purple/Indigo */
-    --rf-accent-h: 260;
+    /* Scoped reset for RF elements to prevent layout issues without preflight */
+    [class*="rf-"],
+    [class*="rf-"] * {
+        box-sizing: border-box;
+    }
+
+    /* Fixed rf-container to be more reliable across themes */
+    .rf-container {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1280px;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    /* Grid layout reliability fix */
+    .rf-grid>* {
+        min-width: 0;
+        /* Prevents long unbreakable strings from breaking grid layout */
+    }
+}
+
+:root {
+    /* Primary Color: Deeper Royal Blue / Navy */
+    --rf-primary-h: 222;
+    --rf-primary-s: 84%;
+
+    /* Accent Color: Darker Indigo / Purple */
+    --rf-accent-h: 245;
     --rf-accent-s: 80%;
 
+    /* Dark Neutral for depth */
+    --rf-dark-h: 222;
+    --rf-dark-s: 47%;
+    --rf-dark-l: 11%;
+
+    /* Success Color: Enterprise Green */
+    --rf-success-h: 156;
+    --rf-success-s: 72%;
+
     /* Design Constants */
-    --rf-glass-bg: rgba(255, 255, 255, 0.7);
-    --rf-glass-border: rgba(255, 255, 255, 0.3);
+    --rf-glass-bg: rgba(255, 255, 255, 0.9);
+    --rf-glass-border: rgba(255, 255, 255, 0.6);
+    --rf-glass-shadow: 0 12px 40px 0 rgba(15, 23, 42, 0.08);
+    /* Darker shadow for depth */
 }
 
 /* Layering custom components over Tailwind */
 @layer components {
     .rf-glass-card {
-        @apply rf-bg-white/70 rf-backdrop-blur-md rf-border rf-border-white/30 rf-rounded-2xl rf-shadow-glass;
+        @apply rf-bg-white/90 rf-backdrop-blur-xl rf-border rf-border-white/60 rf-rounded-2xl;
+        box-shadow: var(--rf-glass-shadow);
         @apply rf-transition-all rf-duration-300 rf-ease-in-out;
     }
 
@@ -34,13 +70,48 @@
         @apply -rf-translate-y-1 rf-shadow-premium;
     }
 
-    .rf-btn-premium {
-        @apply rf-inline-flex rf-items-center rf-justify-center rf-px-6 rf-py-3 rf-rounded-xl rf-font-semibold rf-transition-all rf-duration-200 rf-cursor-pointer rf-no-underline;
+    /* Base Button */
+    .rf-btn {
+        @apply rf-inline-flex rf-items-center rf-justify-center rf-px-5 rf-py-2.5 rf-rounded-xl rf-font-semibold rf-transition-all rf-duration-200 rf-cursor-pointer rf-no-underline rf-border rf-border-transparent;
+        @apply rf-text-sm rf-gap-2;
+    }
+
+    .rf-btn:hover {
+        @apply -rf-translate-y-0.5 rf-shadow-lg;
+    }
+
+    .rf-btn-primary {
         @apply rf-bg-primary-600 rf-text-white rf-shadow-md;
     }
 
+    .rf-btn-primary:hover {
+        @apply rf-bg-primary-500;
+        box-shadow: 0 10px 25px -5px rgba(var(--rf-primary-h), var(--rf-primary-s), 50%, 0.4);
+    }
+
+    .rf-btn-secondary {
+        @apply rf-bg-accent-600 rf-text-white rf-shadow-md;
+    }
+
+    .rf-btn-secondary:hover {
+        @apply rf-bg-accent-500;
+    }
+
+    .rf-btn-outline {
+        @apply rf-border-gray-200 rf-bg-white/50 rf-text-gray-700;
+    }
+
+    .rf-btn-outline:hover {
+        @apply rf-border-primary-500 rf-text-primary-600 rf-bg-primary-50/50;
+    }
+
+    .rf-btn-premium {
+        @apply rf-px-8 rf-py-3.5 rf-rounded-2xl rf-text-base rf-font-bold;
+        @apply rf-bg-primary-600 rf-text-white rf-shadow-premium;
+    }
+
     .rf-btn-premium:hover {
-        @apply rf-bg-primary-500 rf-shadow-lg -rf-translate-y-0.5;
+        @apply rf-bg-primary-500 -rf-translate-y-1;
     }
 
     .rf-input-premium {
@@ -49,6 +120,17 @@
 
     .rf-input-premium:focus {
         @apply rf-border-primary-500 rf-bg-white rf-ring-4 rf-ring-primary-500/10;
+    }
+
+    .rf-badge-online {
+        @apply rf-inline-flex rf-items-center rf-px-2 rf-py-1 rf-rounded-full rf-text-[10px] rf-font-bold rf-uppercase rf-tracking-wider;
+        background-color: hsl(var(--rf-success-h), var(--rf-success-s), 95%);
+        color: hsl(var(--rf-success-h), var(--rf-success-s), 30%);
+    }
+
+    .rf-badge-offline {
+        @apply rf-inline-flex rf-items-center rf-px-2 rf-py-1 rf-rounded-full rf-text-[10px] rf-font-bold rf-uppercase rf-tracking-wider;
+        @apply rf-bg-red-50 rf-text-red-700;
     }
 }
 
