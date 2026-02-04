@@ -92,6 +92,19 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="rf-form-row">
+                        <div class="rf-form-label">
+                            <label><?php esc_html_e('System Maintenance', 'rfplugin'); ?></label>
+                            <p class="description"><?php esc_html_e('Troubleshoot permalink issues (404 errors) by rebuilding the rewrite rules cache.', 'rfplugin'); ?></p>
+                        </div>
+                        <div class="rf-form-control">
+                            <button type="submit" name="rfplugin_flush_rules" class="rf-btn rf-btn-outline" style="font-size: 13px; border-color: #f59e0b; color: #d97706;">
+                                <span class="dashicons dashicons-update" style="margin-right: 6px;"></span>
+                                <?php esc_html_e('Flush Rewrite Rules', 'rfplugin'); ?>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

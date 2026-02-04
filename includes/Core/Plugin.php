@@ -115,6 +115,9 @@ class Plugin
         // Plugin Templates
         add_filter('template_include', [$this, 'loadPluginTemplates']);
 
+        // Activation / Deactivation
+        register_activation_hook(RFPLUGIN_BASENAME, [$this, 'activate']);
+
         new Branding();
         CommentsRemover::init();
         WoocommerceHooks::init();
@@ -323,6 +326,22 @@ class Plugin
             }
         }
 
+        // Product (WooCommerce) single template priority
+        if (is_singular('product')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-product.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        // Invoice single template priority
+        if (is_singular('rf_invoice')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_invoice.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
         // Service and Case templates removed
 
         // Technical Center Template
@@ -336,6 +355,18 @@ class Plugin
         return $template;
     }
 
+
+    /**
+     * Handle plugin activation
+     * 
+     * @return void
+     */
+    public function activate(): void
+    {
+        $this->registerPostTypes();
+        $this->registerTaxonomies();
+        flush_rewrite_rules();
+    }
 
     /**
      * Handle Tech Doc or Product save to move files to secure storage.

@@ -273,17 +273,49 @@ class Menu
     public function renderSettings(): void
     {
         if (isset($_POST["rfplugin_save_settings"])) {
-            $this->saveSettings();
+            $this->handleSettingsSave();
         }
 
-        if (isset($_POST["rfplugin_import_test_data"]) || 
-            isset($_POST["rfplugin_import_resources"]) || 
-            isset($_POST["rfplugin_import_products"]) || 
-            isset($_POST["rfplugin_import_all"])) {
-            $this->handleDataImport();
+        if (isset($_POST["rfplugin_import_all"])) {
+            $this->handleDataImport("all");
+        }
+
+        if (isset($_POST["rfplugin_import_products"])) {
+            $this->handleDataImport("products");
+        }
+
+        if (isset($_POST["rfplugin_import_resources"])) {
+            $this->handleDataImport("resources");
+        }
+
+        if (isset($_POST["rfplugin_flush_rules"])) {
+            $this->handleFlushRules();
         }
 
         include RFPLUGIN_PATH . "templates/admin/settings.php";
+    }
+
+    /**
+     * Handle rewrite rules flush
+     *
+     * @return void
+     */
+    private function handleFlushRules(): void
+    {
+        check_admin_referer("rfplugin_settings");
+
+        if (!current_user_can("manage_options")) {
+            return;
+        }
+
+        flush_rewrite_rules();
+
+        add_settings_error(
+            "rfplugin_messages",
+            "rfplugin_rules_flushed",
+            __("Rewrite rules successfully rebuilt.", "rfplugin"),
+            "updated",
+        );
     }
 
     /**
