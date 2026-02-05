@@ -1,10 +1,11 @@
 <?php
+
 /**
  * ACF Field Groups Configuration
- * 
+ *
  * Registers Advanced Custom Fields groups for products,
  * services, and other custom post types.
- * 
+ *
  * @package RFPlugin\ACF
  * @since 1.0.0
  */
@@ -17,32 +18,33 @@ if (!defined('ABSPATH')) {
 
 /**
  * FieldGroups class
- * 
+ *
  * @since 1.0.0
  */
 class FieldGroups
 {
     /**
      * Register all ACF field groups
-     * 
+     *
      * @return void
      */
     public static function register(): void
     {
         self::registerProductFields();
-        // Service and Case field groups removed
+        self::registerServiceFields();
+        self::registerCaseStudyFields();
         self::registerResourceFields();
         self::registerInvoiceFields();
     }
 
     /**
      * Register product specification fields
-     * 
+     *
      * @return void
      */
     /**
      * Register product specification fields
-     * 
+     *
      * @return void
      */
     private static function registerProductFields(): void
@@ -161,7 +163,7 @@ class FieldGroups
                         ],
                     ],
                 ],
-                
+
             ],
             'location' => [
                 [
@@ -175,9 +177,270 @@ class FieldGroups
         ]);
     }
 
-    // Service field group registration removed
+    /**
+     * Register Service field group
+     *
+     * @return void
+     */
+    private static function registerServiceFields(): void
+    {
+        acf_add_local_field_group([
+            'key' => 'group_service_details',
+            'title' => __('Service Details', 'rfplugin'),
+            'fields' => [
+                [
+                    'key' => 'tab_service_general',
+                    'label' => __('General', 'rfplugin'),
+                    'type' => 'tab',
+                    'placement' => 'top',
+                ],
+                [
+                    'key' => 'field_service_duration',
+                    'label' => __('Duration', 'rfplugin'),
+                    'name' => 'service_duration',
+                    'type' => 'text',
+                    'instructions' => __('e.g., "2-3 weeks", "1 month"', 'rfplugin'),
+                ],
+                [
+                    'key' => 'field_service_pricing_model',
+                    'label' => __('Pricing Model', 'rfplugin'),
+                    'name' => 'pricing_model',
+                    'type' => 'select',
+                    'choices' => [
+                        'fixed' => __('Fixed Price', 'rfplugin'),
+                        'hourly' => __('Hourly Rate', 'rfplugin'),
+                        'project' => __('Per Project', 'rfplugin'),
+                        'contact' => __('Contact for Quote', 'rfplugin'),
+                    ],
+                    'default_value' => 'contact',
+                ],
+                [
+                    'key' => 'field_service_base_price',
+                    'label' => __('Base Price', 'rfplugin'),
+                    'name' => 'base_price',
+                    'type' => 'number',
+                    'instructions' => __('Leave empty if Contact for Quote', 'rfplugin'),
+                    'conditional_logic' => [
+                        [
+                            ['field' => 'field_service_pricing_model', 'operator' => '!=', 'value' => 'contact'],
+                        ],
+                    ],
+                ],
+                [
+                    'key' => 'field_service_price_note',
+                    'label' => __('Pricing Note', 'rfplugin'),
+                    'name' => 'price_note',
+                    'type' => 'textarea',
+                    'rows' => 3,
+                    'instructions' => __('Additional pricing details or disclaimers', 'rfplugin'),
+                ],
+                [
+                    'key' => 'tab_service_relationships',
+                    'label' => __('Relationships', 'rfplugin'),
+                    'type' => 'tab',
+                ],
+                [
+                    'key' => 'field_service_related_products',
+                    'label' => __('Related Products', 'rfplugin'),
+                    'name' => 'related_products',
+                    'type' => 'relationship',
+                    'post_type' => ['product'],
+                    'return_format' => 'id',
+                    'filters' => ['search'],
+                ],
+                [
+                    'key' => 'field_service_related_cases',
+                    'label' => __('Related Case Studies', 'rfplugin'),
+                    'name' => 'related_cases',
+                    'type' => 'relationship',
+                    'post_type' => ['rf_case_study'],
+                    'return_format' => 'id',
+                    'filters' => ['search'],
+                ],
+                [
+                    'key' => 'tab_service_visibility',
+                    'label' => __('Visibility', 'rfplugin'),
+                    'type' => 'tab',
+                ],
+                [
+                    'key' => 'field_service_visibility',
+                    'label' => __('Visibility Settings', 'rfplugin'),
+                    'name' => 'service_visibility',
+                    'type' => 'select',
+                    'choices' => [
+                        'public' => __('Public', 'rfplugin'),
+                        'customer' => __('Customers Only', 'rfplugin'),
+                        'partner' => __('Partners Only', 'rfplugin'),
+                    ],
+                    'default_value' => 'public',
+                ],
+                [
+                    'key' => 'field_service_featured',
+                    'label' => __('Featured Service', 'rfplugin'),
+                    'name' => 'featured_service',
+                    'type' => 'true_false',
+                    'message' => __('Mark as featured service', 'rfplugin'),
+                    'default_value' => 0,
+                ],
+            ],
+            'location' => [
+                [
+                    [
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'rf_service',
+                    ],
+                ],
+            ],
+        ]);
+    }
 
-    // Case field group registration removed
+    /**
+     * Register Case Study field group
+     *
+     * @return void
+     */
+    private static function registerCaseStudyFields(): void
+    {
+        acf_add_local_field_group([
+            'key' => 'group_case_study_details',
+            'title' => __('Case Study Details', 'rfplugin'),
+            'fields' => [
+                [
+                    'key' => 'tab_case_client',
+                    'label' => __('Client', 'rfplugin'),
+                    'type' => 'tab',
+                    'placement' => 'top',
+                ],
+                [
+                    'key' => 'field_case_client_name',
+                    'label' => __('Client Name', 'rfplugin'),
+                    'name' => 'client_name',
+                    'type' => 'text',
+                    'required' => 1,
+                ],
+                [
+                    'key' => 'field_case_client_logo',
+                    'label' => __('Client Logo', 'rfplugin'),
+                    'name' => 'client_logo',
+                    'type' => 'image',
+                    'return_format' => 'array',
+                    'preview_size' => 'medium',
+                ],
+                [
+                    'key' => 'field_case_project_date',
+                    'label' => __('Project Date', 'rfplugin'),
+                    'name' => 'project_date',
+                    'type' => 'date_picker',
+                    'display_format' => 'F Y',
+                    'return_format' => 'Y-m-d',
+                ],
+                [
+                    'key' => 'tab_case_project',
+                    'label' => __('Project', 'rfplugin'),
+                    'type' => 'tab',
+                ],
+                [
+                    'key' => 'field_case_challenge',
+                    'label' => __('Challenge', 'rfplugin'),
+                    'name' => 'challenge',
+                    'type' => 'wysiwyg',
+                    'toolbar' => 'basic',
+                    'media_upload' => 0,
+                ],
+                [
+                    'key' => 'field_case_solution',
+                    'label' => __('Solution', 'rfplugin'),
+                    'name' => 'solution',
+                    'type' => 'wysiwyg',
+                    'toolbar' => 'basic',
+                    'media_upload' => 0,
+                ],
+                [
+                    'key' => 'field_case_results',
+                    'label' => __('Results & Metrics', 'rfplugin'),
+                    'name' => 'results',
+                    'type' => 'repeater',
+                    'layout' => 'table',
+                    'button_label' => __('Add Metric', 'rfplugin'),
+                    'sub_fields' => [
+                        [
+                            'key' => 'field_result_label',
+                            'label' => __('Metric', 'rfplugin'),
+                            'name' => 'metric_label',
+                            'type' => 'text',
+                            'required' => 1,
+                        ],
+                        [
+                            'key' => 'field_result_value',
+                            'label' => __('Value', 'rfplugin'),
+                            'name' => 'metric_value',
+                            'type' => 'text',
+                            'required' => 1,
+                        ],
+                    ],
+                ],
+                [
+                    'key' => 'field_case_duration',
+                    'label' => __('Project Duration', 'rfplugin'),
+                    'name' => 'project_duration',
+                    'type' => 'text',
+                    'instructions' => __('e.g., "3 months"', 'rfplugin'),
+                ],
+                [
+                    'key' => 'tab_case_media',
+                    'label' => __('Media', 'rfplugin'),
+                    'type' => 'tab',
+                ],
+                [
+                    'key' => 'field_case_gallery',
+                    'label' => __('Before/After Gallery', 'rfplugin'),
+                    'name' => 'project_gallery',
+                    'type' => 'gallery',
+                    'return_format' => 'array',
+                ],
+                [
+                    'key' => 'field_case_video',
+                    'label' => __('Featured Video URL', 'rfplugin'),
+                    'name' => 'video_url',
+                    'type' => 'url',
+                    'instructions' => __('YouTube or Vimeo URL', 'rfplugin'),
+                ],
+                [
+                    'key' => 'tab_case_relationships',
+                    'label' => __('Relationships', 'rfplugin'),
+                    'type' => 'tab',
+                ],
+                [
+                    'key' => 'field_case_related_products',
+                    'label' => __('Related Products', 'rfplugin'),
+                    'name' => 'related_products',
+                    'type' => 'relationship',
+                    'post_type' => ['product'],
+                    'return_format' => 'id',
+                    'filters' => ['search'],
+                ],
+                [
+                    'key' => 'field_case_related_services',
+                    'label' => __('Related Services', 'rfplugin'),
+                    'name' => 'related_services',
+                    'type' => 'relationship',
+                    'post_type' => ['rf_service'],
+                    'return_format' => 'id',
+                    'filters' => ['search'],
+                ],
+            ],
+            'location' => [
+                [
+                    [
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'rf_case_study',
+                    ],
+                ],
+            ],
+        ]);
+    }
 
     /**
      * Register unified resource library fields
@@ -331,7 +594,7 @@ class FieldGroups
 
     /**
      * Register Invoice fields for form submissions
-     * 
+     *
      * @return void
      */
     private static function registerInvoiceFields(): void

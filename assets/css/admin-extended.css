@@ -1,0 +1,267 @@
+
+/* ============================================
+   ACF FIELDS - DARK THEME
+   ============================================ */
+
+.acf-field-group {
+    background: var(--rf-bg-secondary) !important;
+    border-radius: var(--rf-radius-xl) !important;
+    border: 1px solid var(--rf-border-subtle) !important;
+    box-shadow: var(--rf-shadow-md) !important;
+    overflow: hidden !important;
+}
+
+.acf-postbox .postbox-header {
+    background: var(--rf-bg-tertiary) !important;
+    border-bottom: 1px solid var(--rf-border-subtle) !important;
+}
+
+.acf-postbox .postbox-header h2 {
+    font-family: var(--rf-font-sans) !important;
+    font-weight: 700 !important;
+    color: var(--rf-primary) !important;
+}
+
+.acf-fields>.acf-field {
+    border-top: 1px solid var(--rf-border-subtle) !important;
+    padding: var(--rf-space-6) !important;
+}
+
+.acf-field .acf-label {
+    margin-bottom: var(--rf-space-3) !important;
+}
+
+.acf-field label {
+    font-family: var(--rf-font-sans) !important;
+    font-weight: 600 !important;
+    color: var(--rf-text-primary) !important;
+    font-size: var(--rf-text-sm) !important;
+}
+
+.acf-field input[type="text"],
+.acf-field input[type="number"],
+.acf-field input[type="url"],
+.acf-field input[type="email"],
+.acf-field textarea,
+.acf-field select {
+    border-radius: var(--rf-radius-md) !important;
+    padding: var(--rf-space-3) var(--rf-space-4) !important;
+    border: 1px solid var(--rf-border-medium) !important;
+    box-shadow: none !important;
+    transition: all var(--rf-transition-base) !important;
+    background: var(--rf-bg-primary) !important;
+    color: var(--rf-text-primary) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.acf-field input:focus,
+.acf-field textarea:focus,
+.acf-field select:focus {
+    border-color: var(--rf-primary) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+    background: var(--rf-bg-secondary) !important;
+    outline: none !important;
+}
+
+/* Repeater Styling */
+.acf-repeater .acf-table {
+    border: none !important;
+    background: transparent !important;
+}
+
+.acf-repeater .acf-row:not(.-clone) {
+    background: var(--rf-bg-secondary) !important;
+    border: 1px solid var(--rf-border-subtle) !important;
+    border-radius: var(--rf-radius-lg) !important;
+    margin-bottom: var(--rf-space-4) !important;
+    box-shadow: var(--rf-shadow-sm) !important;
+    overflow: hidden !important;
+}
+
+.acf-repeater .acf-row-handle {
+    background: var(--rf-bg-tertiary) !important;
+    border-right: 1px solid var(--rf-border-subtle) !important;
+}
+
+.acf-repeater .acf-actions {
+    padding: var(--rf-space-4) !important;
+    text-align: right !important;
+}
+
+.acf-repeater .acf-button {
+    border-radius: var(--rf-radius-md) !important;
+    font-family: var(--rf-font-sans) !important;
+    font-weight: 600 !important;
+    padding: var(--rf-space-2) var(--rf-space-4) !important;
+    height: auto !important;
+    line-height: normal !important;
+    background: var(--rf-gradient-primary) !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Description */
+.acf-field .description {
+    font-size: var(--rf-text-xs) !important;
+    color: var(--rf-text-muted) !important;
+    font-style: normal !important;
+    margin-top: var(--rf-space-2) !important;
+}
+
+/* ACF Tabs */
+.acf-tab-wrap.-top {
+    border-bottom: 2px solid var(--rf-border-subtle) !important;
+    margin-bottom: var(--rf-space-5) !important;
+    background: var(--rf-bg-tertiary) !important;
+}
+
+.acf-tab-group {
+    border: none !important;
+    padding: 0 var(--rf-space-4) !important;
+}
+
+.acf-tab-group li a {
+    background: transparent !important;
+    border: none !important;
+    color: var(--rf-text-muted) !important;
+    font-family: var(--rf-font-sans) !important;
+    font-weight: 600 !important;
+    padding: var(--rf-space-3) var(--rf-space-5) !important;
+    font-size: var(--rf-text-sm) !important;
+    transition: all var(--rf-transition-base) !important;
+    border-bottom: 3px solid transparent !important;
+}
+
+.acf-tab-group li.active a {
+    color: var(--rf-primary) !important;
+    border-bottom-color: var(--rf-primary) !important;
+}
+
+.acf-tab-group li a:hover {
+    color: var(--rf-primary) !important;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .rf-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .stat-card {
+        min-height: 220px;
+        padding: var(--rf-space-6) !important;
+    }
+}
+
+@media (max-width: 782px) {
+    .rf-dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--rf-space-5);
+    }
+
+    .rf-header-actions {
+        width: 100%;
+    }
+
+    .rf-header-actions .rf-btn {
+        width: 100%;
+    }
+
+    .rf-btn-horizontal-stack {
+        flex-direction: column;
+    }
+
+    .rf-btn-horizontal-stack .rf-btn {
+        width: 100%;
+    }
+
+    .rf-admin-wrap {
+        padding: var(--rf-space-4);
+    }
+
+    .stat-card {
+        min-height: 200px;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.rf-fade-in {
+    animation: fadeIn var(--rf-transition-slow) ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grid utilities */
+.rf-grid {
+    display: grid;
+    gap: var(--rf-space-6);
+}
+
+.rf-grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.rf-grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.rf-grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.rf-grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.rf-grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+.md\:rf-grid-cols-2 {
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.lg\:rf-grid-cols-3 {
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.lg\:rf-grid-cols-4 {
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.lg\:rf-grid-cols-5 {
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Flex utilities */
+.rf-flex { display: flex; }
+.rf-items-center { align-items: center; }
+.rf-justify-between { justify-content: space-between; }
+.rf-gap-3 { gap: var(--rf-space-3); }
+.rf-gap-4 { gap: var(--rf-space-4); }
+.rf-gap-6 { gap: var(--rf-space-6); }
+
+/* Spacing utilities */
+.rf-mb-8 { margin-bottom: var(--rf-space-8); }
+.rf-mt-10 { margin-top: var(--rf-space-10); }
+.rf-p-6 { padding: var(--rf-space-6); }
+
+/* Typography utilities */
+.rf-text-xs { font-size: var(--rf-text-xs); }
+.rf-text-sm { font-size: var(--rf-text-sm); }
+.rf-text-lg { font-size: var(--rf-text-lg); }
+.rf-font-medium { font-weight: 500; }
+.rf-font-bold { font-weight: 700; }
+.rf-uppercase { text-transform: uppercase; }
+.rf-tracking-wider { letter-spacing: 0.05em; }

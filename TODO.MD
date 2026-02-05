@@ -43,8 +43,9 @@ Case Study CPT:
 
  [x] Register Case Study Post Type
  [x] Register Case Study Taxonomy
-
- [] Client information (name, industry, logo)
+ [] Frontend templates for Case Study CPT
+`` [] Frontend templates for Case Study CPT
+`` [] Client information (name, industry, logo)
  [] Project details (challenge, solution, results)
  [] Related products/services (relationship)
  [] Media showcase (before/after, gallery)

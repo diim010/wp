@@ -413,13 +413,16 @@ class Menu
 
         $stats = [
             "products" => wp_count_posts("product")->publish ?? 0,
-            // Services and Cases stats removed
+            "services" => wp_count_posts("rf_service")->publish ?? 0,
+            "cases" => wp_count_posts("rf_case_study")->publish ?? 0,
             "invoices" => wp_count_posts("rf_invoice")->publish ?? 0,
             "resources" => wp_count_posts("rf_resource")->publish ?? 0,
             "recent_activity" => get_posts([
-                'post_type' => ['product', 'rf_invoice', 'rf_resource'],
-                'posts_per_page' => 5,
+                'post_type' => ['product', 'rf_service', 'rf_case_study', 'rf_invoice', 'rf_resource'],
+                'posts_per_page' => 10,
                 'status' => 'publish',
+                'orderby' => 'date',
+                'order' => 'DESC',
             ]),
         ];
 
@@ -497,7 +500,7 @@ class Menu
      *
      * @return void
      */
-    private function handleDataImport(): void
+    private function handleDataImport(string $type = ''): void
     {
         check_admin_referer("rfplugin_settings");
 
