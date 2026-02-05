@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Core Plugin Class
- * 
+ *
  * Main plugin orchestrator using singleton pattern.
  * Initializes all components, registers hooks, and manages plugin lifecycle.
- * 
+ *
  * @package RFPlugin\Core
  * @since 1.0.0
  */
@@ -15,11 +16,15 @@ namespace RFPlugin\Core;
 use RFPlugin\Security\Database;
 use RFPlugin\PostTypes\InvoicePostType;
 use RFPlugin\PostTypes\ResourcePostType;
+use RFPlugin\PostTypes\ServicePostType;
+use RFPlugin\PostTypes\CaseStudyPostType;
 use RFPlugin\ACF\Blocks\BlockLoader;
 use RFPlugin\Taxonomies\ProductTypeTaxonomy;
 use RFPlugin\Taxonomies\MaterialTaxonomy;
 use RFPlugin\Taxonomies\ResourceTypeTaxonomy;
 use RFPlugin\Taxonomies\ResourceCategoryTaxonomy;
+use RFPlugin\Taxonomies\ServiceCategoryTaxonomy;
+use RFPlugin\Taxonomies\CaseIndustryTaxonomy;
 use RFPlugin\Admin\Menu;
 use RFPlugin\Admin\Branding;
 use RFPlugin\Admin\CommentsRemover;
@@ -35,49 +40,49 @@ if (!defined('ABSPATH')) {
 
 /**
  * Main Plugin Class
- * 
+ *
  * @since 1.0.0
  */
 class Plugin
 {
     /**
      * Single instance of the plugin
-     * 
+     *
      * @var Plugin|null
      */
     private static ?Plugin $instance = null;
 
     /**
      * Post type instances
-     * 
+     *
      * @var array<string, object>
      */
     private array $postTypes = [];
 
     /**
      * Taxonomy instances
-     * 
+     *
      * @var array<string, object>
      */
     private array $taxonomies = [];
 
     /**
      * Admin menu instance
-     * 
+     *
      * @var Menu|null
      */
     private ?Menu $menu = null;
 
     /**
      * REST router instance
-     * 
+     *
      * @var Router|null
      */
     private ?Router $restRouter = null;
 
     /**
      * Get singleton instance
-     * 
+     *
      * @return Plugin
      */
     public static function getInstance(): Plugin
@@ -98,7 +103,7 @@ class Plugin
 
     /**
      * Initialize WordPress hooks
-     * 
+     *
      * @return void
      */
     private function initHooks(): void
@@ -130,7 +135,7 @@ class Plugin
 
     /**
      * Load plugin text domain for translations
-     * 
+     *
      * @return void
      */
     public function loadTextDomain(): void
@@ -144,15 +149,16 @@ class Plugin
 
     /**
      * Register all custom post types
-     * 
+     *
      * @return void
      */
     public function registerPostTypes(): void
     {
         // ProductPostType removed in favor of WooCommerce
-        // Service and Case post types removed
         $this->postTypes['invoice'] = new InvoicePostType();
         $this->postTypes['resource'] = new ResourcePostType();
+        $this->postTypes['service'] = new ServicePostType();
+        $this->postTypes['case_study'] = new CaseStudyPostType();
 
         foreach ($this->postTypes as $postType) {
             $postType->register();
@@ -161,16 +167,17 @@ class Plugin
 
     /**
      * Register all custom taxonomies
-     * 
+     *
      * @return void
      */
     public function registerTaxonomies(): void
     {
         $this->taxonomies['product_type'] = new ProductTypeTaxonomy();
         $this->taxonomies['material'] = new MaterialTaxonomy();
-        // Case Industry and Service Category taxonomies removed
         $this->taxonomies['resource_type'] = new ResourceTypeTaxonomy();
         $this->taxonomies['resource_category'] = new ResourceCategoryTaxonomy();
+        $this->taxonomies['service_category'] = new ServiceCategoryTaxonomy();
+        $this->taxonomies['case_industry'] = new CaseIndustryTaxonomy();
 
         foreach ($this->taxonomies as $taxonomy) {
             $taxonomy->register();
@@ -179,7 +186,7 @@ class Plugin
 
     /**
      * Register admin menu
-     * 
+     *
      * @return void
      */
     public function registerAdminMenu(): void
@@ -190,7 +197,7 @@ class Plugin
 
     /**
      * Register REST API routes
-     * 
+     *
      * @return void
      */
     public function registerRestRoutes(): void
@@ -201,7 +208,7 @@ class Plugin
 
     /**
      * Register ACF field groups
-     * 
+     *
      * @return void
      */
     public function registerACFFields(): void
@@ -213,7 +220,7 @@ class Plugin
 
     /**
      * Enqueue admin assets
-     * 
+     *
      * @param string $hook Current admin page hook
      * @return void
      */
@@ -250,7 +257,7 @@ class Plugin
 
     /**
      * Enqueue frontend assets
-     * 
+     *
      * @return void
      */
     public function enqueueFrontendAssets(): void
@@ -330,7 +337,7 @@ class Plugin
 
     /**
      * Load custom templates for plugin post types
-     * 
+     *
      * @param string $template
      * @return string
      */
@@ -367,7 +374,35 @@ class Plugin
             }
         }
 
-        // Service and Case templates removed
+        // Service Templates
+        if (is_singular('rf_service')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_service.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        if (is_post_type_archive('rf_service')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_service.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        // Case Study Templates
+        if (is_singular('rf_case_study')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/single-rf_case_study.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
+
+        if (is_post_type_archive('rf_case_study')) {
+            $plugin_template = RFPLUGIN_PATH . 'templates/frontend/archive-rf_case_study.php';
+            if (file_exists($plugin_template)) {
+                return $plugin_template;
+            }
+        }
 
         // Technical Center Template
         if (is_page_template('technical-center.php')) {
@@ -383,7 +418,7 @@ class Plugin
 
     /**
      * Handle plugin activation
-     * 
+     *
      * @return void
      */
     public function activate(): void
@@ -395,14 +430,14 @@ class Plugin
 
     /**
      * Handle Tech Doc or Product save to move files to secure storage.
-     * 
+     *
      * @param int|string $post_id
      * @return void
      */
     public function handlePostSave($post_id): void
     {
         $post_type = get_post_type($post_id);
-        
+
         if (!in_array($post_type, ['rf_resource', 'product']) || wp_is_post_revision($post_id)) {
             return;
         }
@@ -435,16 +470,14 @@ class Plugin
 
     /**
      * Prevent cloning
-     * 
+     *
      * @return void
      */
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
      * Prevent unserialization
-     * 
+     *
      * @return void
      */
     public function __wakeup()

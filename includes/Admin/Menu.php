@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin Menu Manager
  *
@@ -231,7 +232,7 @@ class Menu
 
     /**
      * Render Tech Center dashboard
-     * 
+     *
      * @return void
      */
     public function renderTechCenterDashboard(): void
@@ -327,16 +328,16 @@ class Menu
     {
         $page = $_GET['page'] ?? '';
         $doc = $_GET['doc'] ?? 'index';
-        
+
         // Security check for doc path
         $doc = basename($doc);
-        
+
         include RFPLUGIN_PATH . "templates/admin/documentation.php";
     }
 
     /**
      * Render security stats page
-     * 
+     *
      * @return void
      */
     public function renderSecurityStats(): void
@@ -405,7 +406,7 @@ class Menu
     private function getStatistics(): array
     {
         $cached_stats = get_transient('rfplugin_dashboard_stats');
-        
+
         if ($cached_stats !== false) {
             return $cached_stats;
         }
@@ -423,7 +424,7 @@ class Menu
         ];
 
         set_transient('rfplugin_dashboard_stats', $stats, HOUR_IN_SECONDS);
-        
+
         return $stats;
     }
 
@@ -464,7 +465,7 @@ class Menu
      *
      * @return void
      */
-    private function saveSettings(): void
+    private function handleSettingsSave(): void
     {
         check_admin_referer("rfplugin_settings");
 
@@ -493,7 +494,7 @@ class Menu
 
     /**
      * Handle multi-type data import
-     * 
+     *
      * @return void
      */
     private function handleDataImport(): void
@@ -532,7 +533,7 @@ class Menu
 
     /**
      * Legacy wrapper for FAQ import (kept for safety if called elsewhere)
-     * 
+     *
      * @return void
      */
     private function importTestData(): void

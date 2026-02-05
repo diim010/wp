@@ -30,6 +30,9 @@ Product CPT:
 
 Service CPT:
 
+ [x] Register Service Post Type
+ [x] Register Service Taxonomy
+
  [] Service details (duration, pricing model)
  [] Relationship to products
  [] Service categories/tags
@@ -37,6 +40,9 @@ Service CPT:
  [] Contact/booking integration fields
 
 Case Study CPT:
+
+ [x] Register Case Study Post Type
+ [x] Register Case Study Taxonomy
 
  [] Client information (name, industry, logo)
  [] Project details (challenge, solution, results)

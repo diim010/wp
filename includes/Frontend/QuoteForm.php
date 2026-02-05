@@ -26,7 +26,6 @@ class QuoteForm
      */
     public function __construct()
     {
-        add_action('woocommerce_single_product_summary', [$this, 'addQuoteButton'], 35);
         add_action('wp_footer', [$this, 'renderModalForm']);
     }
 
@@ -50,9 +49,7 @@ class QuoteForm
      */
     public function renderModalForm(): void
     {
-        if (!is_product()) {
-            return;
-        }
+        
 
         ?>
         <div id="rf-quote-modal" class="rf-modal" style="display: none;">
