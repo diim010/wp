@@ -24,7 +24,6 @@ use RFPlugin\Admin\Menu;
 use RFPlugin\Admin\Branding;
 use RFPlugin\Admin\CommentsRemover;
 use RFPlugin\Frontend\QuoteForm;
-use RFPlugin\Core\WoocommerceHooks;
 use RFPlugin\REST\Router;
 use RFPlugin\ACF\FieldGroups;
 use RFPlugin\Security\Permissions;
@@ -121,7 +120,6 @@ class Plugin
 
         new Branding();
         CommentsRemover::init();
-        WoocommerceHooks::init();
         Permissions::init();
         new QuoteForm();
         (new BlockLoader())->init();
