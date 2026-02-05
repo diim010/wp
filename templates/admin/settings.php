@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Modern RoyalFoam Settings Template
  */
@@ -32,7 +33,7 @@
         <div id="general" class="rf-tab-content active">
             <div class="rf-glass-card" style="margin-bottom: 30px;">
                 <h2 class="rf-h2" style="margin-bottom: 24px;"><?php esc_html_e('General Configurations', 'rfplugin'); ?></h2>
-                
+
                 <div class="rf-form-layout">
                     <div class="rf-form-row">
                         <div class="rf-form-label">
@@ -69,7 +70,7 @@
             <div class="rf-glass-card" style="margin-bottom: 30px;">
                 <h2 class="rf-h2" style="margin-bottom: 24px;"><?php esc_html_e('Service & Maintenance Utilities', 'rfplugin'); ?></h2>
                 <p class="rf-p" style="margin-bottom: 24px;"><?php esc_html_e('Perform system maintenance and data management tasks.', 'rfplugin'); ?></p>
-                
+
                 <div class="rf-form-layout">
                     <div class="rf-form-row">
                         <div class="rf-form-label">
@@ -81,7 +82,7 @@
                                 <span class="dashicons dashicons-database-import" style="margin-right: 8px;"></span>
                                 <?php esc_html_e('Import All Test Data', 'rfplugin'); ?>
                             </button>
-                            
+
                             <button type="submit" name="rfplugin_import_products" class="rf-btn rf-btn-outline" style="font-size: 13px;">
                                 <span class="dashicons dashicons-cart" style="margin-right: 6px;"></span>
                                 <?php esc_html_e('Import Products', 'rfplugin'); ?>
@@ -89,6 +90,14 @@
                             <button type="submit" name="rfplugin_import_resources" class="rf-btn rf-btn-outline" style="font-size: 13px;">
                                 <span class="dashicons dashicons-category" style="margin-right: 6px;"></span>
                                 <?php esc_html_e('Import Resources', 'rfplugin'); ?>
+                            </button>
+                            <button type="submit" name="rfplugin_import_services" class="rf-btn rf-btn-outline" style="font-size: 13px;">
+                                <span class="dashicons dashicons-hammer" style="margin-right: 6px;"></span>
+                                <?php esc_html_e('Import Services', 'rfplugin'); ?>
+                            </button>
+                            <button type="submit" name="rfplugin_import_cases" class="rf-btn rf-btn-outline" style="font-size: 13px;">
+                                <span class="dashicons dashicons-portfolio" style="margin-right: 6px;"></span>
+                                <?php esc_html_e('Import Cases', 'rfplugin'); ?>
                             </button>
                         </div>
                     </div>
@@ -114,7 +123,7 @@
             <div class="rf-glass-card" style="margin-bottom: 30px;">
                 <h2 class="rf-h2" style="margin-bottom: 24px;"><?php esc_html_e('Zoho CRM Integration', 'rfplugin'); ?></h2>
                 <p class="rf-p" style="margin-bottom: 24px;"><?php esc_html_e('Configure your Zoho CRM API credentials to enable lead synchronization.', 'rfplugin'); ?></p>
-                
+
                 <div class="rf-form-layout">
                     <div class="rf-form-row">
                         <div class="rf-form-label">
@@ -149,11 +158,11 @@
 
                 <div class="rf-info-alert" style="margin-top: 24px; padding: 16px; background: #eff6ff; border-radius: 12px; border: 1px solid #dbeafe; color: #1e40af;">
                     <span class="dashicons dashicons-info-outline" style="margin-right: 8px; vertical-align: middle;"></span>
-                    <?php 
+                    <?php
                     printf(
                         esc_html__('Need help setting up? Check our %s.', 'rfplugin'),
                         '<a href="' . esc_url(admin_url('admin.php?page=royalfoam-docs&doc=zoho-crm')) . '" style="text-decoration: underline; font-weight: 600;">' . esc_html__('Zoho CRM Tutorial', 'rfplugin') . '</a>'
-                    ); 
+                    );
                     ?>
                 </div>
             </div>
@@ -184,71 +193,150 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.rf-tab-link');
-    const contents = document.querySelectorAll('.rf-tab-content');
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.rf-tab-link');
+        const contents = document.querySelectorAll('.rf-tab-content');
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.getAttribute('data-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-tab');
 
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
 
-            this.classList.add('active');
-            document.getElementById(target).classList.add('active');
-            
-            // Update URL hash without jumping
-            history.pushState(null, null, '#' + target);
+                this.classList.add('active');
+                document.getElementById(target).classList.add('active');
+
+                // Update URL hash without jumping
+                history.pushState(null, null, '#' + target);
+            });
         });
-    });
 
-    // Handle hash on load
-    const hash = window.location.hash.substring(1);
-    if (hash && document.getElementById(hash)) {
-        const targetTab = document.querySelector(`[data-tab="${hash}"]`);
-        if (targetTab) targetTab.click();
-    }
-});
+        // Handle hash on load
+        const hash = window.location.hash.substring(1);
+        if (hash && document.getElementById(hash)) {
+            const targetTab = document.querySelector(`[data-tab="${hash}"]`);
+            if (targetTab) targetTab.click();
+        }
+    });
 </script>
 
 <style>
-    .rf-settings-tabs { display: flex; gap: 24px; margin-bottom: 32px; border-bottom: 1px solid var(--rf-neutral-200); }
-    .rf-tab-link { 
-        padding: 12px 0; 
-        color: var(--rf-neutral-500); 
-        text-decoration: none; 
-        font-weight: 600; 
+    .rf-settings-tabs {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid var(--rf-neutral-200);
+    }
+
+    .rf-tab-link {
+        padding: 12px 0;
+        color: var(--rf-neutral-500);
+        text-decoration: none;
+        font-weight: 600;
         font-size: 15px;
         border-bottom: 3px solid transparent;
         transition: all 0.2s ease;
     }
-    .rf-tab-link:hover { color: var(--rf-primary); }
-    .rf-tab-link.active { color: var(--rf-primary); border-bottom-color: var(--rf-primary); }
 
-    .rf-tab-content { display: none; }
-    .rf-tab-content.active { display: block; animation: rfFadeIn 0.3s ease-out; }
-
-    @keyframes rfFadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .rf-tab-link:hover {
+        color: var(--rf-primary);
     }
 
-    .rf-form-layout { display: flex; flex-direction: column; gap: 32px; }
-    .rf-form-row { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
-    .rf-form-label label { display: block; font-weight: 700; color: var(--rf-neutral-800); margin-bottom: 4px; }
-    
-    .rf-toggle-group { display: flex; flex-direction: column; gap: 12px; }
-    .rf-toggle-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-    .rf-toggle-item input { margin: 0; }
-    
-    .rf-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .info-item { display: flex; flex-direction: column; gap: 4px; padding: 16px; background: var(--rf-neutral-50); border-radius: 12px; }
-    .info-item .label { font-size: 11px; text-transform: uppercase; color: var(--rf-neutral-500); font-weight: 700; }
-    .info-item .value { font-weight: 600; color: var(--rf-neutral-800); }
+    .rf-tab-link.active {
+        color: var(--rf-primary);
+        border-bottom-color: var(--rf-primary);
+    }
+
+    .rf-tab-content {
+        display: none;
+    }
+
+    .rf-tab-content.active {
+        display: block;
+        animation: rfFadeIn 0.3s ease-out;
+    }
+
+    @keyframes rfFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .rf-form-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .rf-form-row {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+    }
+
+    .rf-form-label label {
+        display: block;
+        font-weight: 700;
+        color: var(--rf-neutral-800);
+        margin-bottom: 4px;
+    }
+
+    .rf-toggle-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .rf-toggle-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .rf-toggle-item input {
+        margin: 0;
+    }
+
+    .rf-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 16px;
+        background: var(--rf-neutral-50);
+        border-radius: 12px;
+    }
+
+    .info-item .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--rf-neutral-500);
+        font-weight: 700;
+    }
+
+    .info-item .value {
+        font-weight: 600;
+        color: var(--rf-neutral-800);
+    }
 
     @media (max-width: 782px) {
-        .rf-form-row { grid-template-columns: 1fr; gap: 12px; }
+        .rf-form-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
     }
 </style>

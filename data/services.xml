@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <items>
     <item>
-        <title>CNC Foam Cutting</title>
-        <content><![CDATA[High-precision computer-controlled cutting for complex shapes and internal cavities. Ideal for high-volume production with consistent quality.]]></content>
-        <category>Industrial</category>
+        <title>Precision CNC Foam Profiling</title>
+        <content><![CDATA[Utilizing state-of-the-art computer numerical control (CNC) technology, we deliver high-precision foam shaping for complex industrial components. Our systems handle everything from simple geometric blocks to intricate internal cavities with tolerances up to +/- 0.5mm. Perfect for automotive interiors, aerospace insulation, and high-performance packaging.]]></content>
+        <category>Manufacturing</category>
         <fields>
-            <service_price>150</service_price>
+            <service_price>185</service_price>
+            <field_service_duration>24-48 Hours</field_service_duration>
         </fields>
     </item>
     <item>
-        <title>Water-jet Fabrication</title>
-        <content><![CDATA[Cold cutting technology that ensures no heat-affected zones. Perfect for sensitive materials and thick foam blocks up to 200mm.]]></content>
-        <category>Industrial</category>
+        <title>High-Speed Water-Jet Cutting</title>
+        <content><![CDATA[Our advanced water-jet fabrication service offers cold-cutting precision for heat-sensitive foam materials. By eliminating heat-affected zones, we preserve the structural integrity and cell density of the foam. Ideal for large-scale architectural panels, thick industrial blocks, and multi-layered composite materials up to 300mm thickness.]]></content>
+        <category>Manufacturing</category>
         <fields>
-            <service_price>200</service_price>
+            <service_price>250</service_price>
+            <field_service_duration>12-24 Hours</field_service_duration>
         </fields>
     </item>
     <item>
-        <title>Foam Prototyping</title>
-        <content><![CDATA[Rapid prototyping service for design validation. Get a physical sample of your foam insert within 48 hours for testing.]]></content>
-        <category>Design</category>
+        <title>Rapid Material Prototyping</title>
+        <content><![CDATA[Accelerate your product development cycle with our rapid prototyping service. We transform CAD designs into physical foam samples within 48 hours, allowing for immediate fit-testing and material validation. Includes expert consultation on density selection and structural performance for specific environmental conditions.]]></content>
+        <category>Design & Engineering</category>
         <fields>
-            <service_price>75</service_price>
+            <service_price>95</service_price>
+            <field_service_duration>48 Hours</field_service_duration>
         </fields>
     </item>
+    <item>
+        <title>Custom Tooling & Insert Design</title>
+        <content><![CDATA[Bespoke engineering solutions for tool organization and sensitive equipment transit. We design and manufacture custom foam inserts tailored to your specific hardware, ensuring maximum protection and professional organizational standards. Used extensively in medical, military, and professional cinematography sectors.]]></content>
+        <category>Design & Engineering</category>
+        <fields>
+            <service_price>145</service_price>
+            <field_service_duration>3-5 Days</field_service_duration>
+        </fields>
+    </item>
+
 </items>

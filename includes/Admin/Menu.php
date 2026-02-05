@@ -513,15 +513,22 @@ class Menu
 
         if (isset($_POST["rfplugin_import_all"])) {
             $results[] = $importer->importFromXML('product');
-            $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
+            $results[] = $importer->importFromXML('rf_service');
+            $results[] = $importer->importFromXML('rf_case_study');
+            $results[] = $importer->importFromXML('rf_resource');
         } else {
             if (isset($_POST["rfplugin_import_products"])) {
                 $results[] = $importer->importFromXML('product');
             }
-            if (isset($_POST["rfplugin_import_test_data"]) || isset($_POST["rfplugin_import_resources"])) {
-                $results[] = $importer->importFromXML('rf_resource', 'rf_resource_category');
+            if (isset($_POST["rfplugin_import_services"])) {
+                $results[] = $importer->importFromXML('rf_service');
             }
-            // Services and Cases import handlers removed
+            if (isset($_POST["rfplugin_import_cases"])) {
+                $results[] = $importer->importFromXML('rf_case_study');
+            }
+            if (isset($_POST["rfplugin_import_resources"]) || isset($_POST["rfplugin_import_test_data"])) {
+                $results[] = $importer->importFromXML('rf_resource');
+            }
         }
 
         foreach ($results as $res) {
