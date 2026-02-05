@@ -3,172 +3,151 @@
 /**
  * Single Case Study Template
  *
- * Template for displaying a single case study.
+ * Optimized template using corporate design system.
  *
  * @package RFPlugin
- * @since 1.0.0
+ * @since 2.0.0
  */
 
 defined('ABSPATH') || exit;
 
 get_header();
 
-$case_id = get_the_ID();
-$industries = get_the_terms($case_id, 'rf_case_industry');
+$post_id = get_the_ID();
+$industries = get_the_terms($post_id, 'rf_case_industry');
 $primary_industry = ($industries && !is_wp_error($industries)) ? $industries[0] : null;
 
+// ACF fields (if available)
+$client = function_exists('get_field') ? get_field('client_name') : '';
+$results = function_exists('get_field') ? get_field('key_results') : '';
+
+// Breadcrumb
+$breadcrumb_items = [
+    ['label' => __('Home', 'rfplugin'), 'url' => home_url('/')],
+    ['label' => __('Case Studies', 'rfplugin'), 'url' => get_post_type_archive_link('rf_case_study')],
+];
+if ($primary_industry) {
+    $breadcrumb_items[] = ['label' => $primary_industry->name, 'url' => get_term_link($primary_industry)];
+}
+$breadcrumb_items[] = ['label' => get_the_title(), 'url' => null];
 ?>
 
-<main id="main-content" class="rf-case-single rf-premium-ui" role="main">
+<main id="main-content" class="th-mode-corp" role="main">
     <!-- Atmospheric Background -->
     <div class="rf-bg-blob rf-bg-blob-1" aria-hidden="true"></div>
     <div class="rf-bg-blob rf-bg-blob-2" aria-hidden="true"></div>
 
-    <article class="rf-container"
-        style="padding: 100px 0;"
+    <article class="th-container th-py-8"
         itemscope
-        itemtype="https://schema.org/CreativeWork">
+        itemtype="https://schema.org/Article">
 
-        <!-- Breadcrumb Navigation -->
-        <nav class="rf-breadcrumb"
-            aria-label="<?php esc_attr_e('Breadcrumb', 'rfplugin'); ?>"
-            style="margin-bottom: 40px;">
-            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display: flex; gap: 8px; align-items: center; list-style: none; margin: 0; padding: 0; font-size: 0.9rem;">
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>" style="color: #64748b; text-decoration: none;">
-                        <span itemprop="name"><?php esc_html_e('Home', 'rfplugin'); ?></span>
-                    </a>
-                    <meta itemprop="position" content="1" />
-                </li>
-                <span aria-hidden="true" style="color: #475569;">/</span>
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="<?php echo esc_url(get_post_type_archive_link('rf_case_study')); ?>" style="color: #64748b; text-decoration: none;">
-                        <span itemprop="name"><?php esc_html_e('Case Studies', 'rfplugin'); ?></span>
-                    </a>
-                    <meta itemprop="position" content="2" />
-                </li>
-                <?php if ($primary_industry) : ?>
-                    <span aria-hidden="true" style="color: #475569;">/</span>
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" href="<?php echo esc_url(get_term_link($primary_industry)); ?>" style="color: #64748b; text-decoration: none;">
-                            <span itemprop="name"><?php echo esc_html($primary_industry->name); ?></span>
-                        </a>
-                        <meta itemprop="position" content="3" />
-                    </li>
-                <?php endif; ?>
-                <span aria-hidden="true" style="color: #475569;">/</span>
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
-                    <span itemprop="name" style="color: white; font-weight: 600;"><?php the_title(); ?></span>
-                    <meta itemprop="position" content="<?php echo $primary_industry ? '4' : '3'; ?>" />
-                </li>
-            </ol>
-        </nav>
+        <?php
+        $args = ['items' => $breadcrumb_items];
+        include RFPLUGIN_PATH . 'templates/frontend/partials/breadcrumb.php';
+        ?>
 
-        <!-- Header Section -->
-        <header class="rf-case-intro" style="margin-bottom: 60px; text-align: center;">
-            <span class="rf-badge"
-                style="background: rgba(var(--rf-primary-rgb), 0.1); color: var(--rf-primary); padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 8px;">
-                <span class="dashicons dashicons-portfolio" style="font-size: 14px; width: 14px; height: 14px;" aria-hidden="true"></span>
-                <?php esc_html_e('Case Study', 'rfplugin'); ?>
-            </span>
+        <!-- Header -->
+        <header class="th-text-center th-mb-8 th-animate-up">
+            <?php if ($primary_industry) : ?>
+                <span class="th-badge th-badge--primary th-mb-4">
+                    <?php echo esc_html($primary_industry->name); ?>
+                </span>
+            <?php endif; ?>
 
-            <h1 class="rf-title"
-                itemprop="headline"
-                style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0; line-height: 1.2; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <h1 class="th-h1 th-mb-4" itemprop="headline">
                 <?php the_title(); ?>
             </h1>
 
             <?php if (has_excerpt()) : ?>
-                <p class="rf-subtitle"
-                    itemprop="description"
-                    style="max-width: 700px; margin: 0 auto; color: #94a3b8; font-size: 1.25rem; line-height: 1.6;">
+                <p class="th-lead th-text-muted th-mx-auto" itemprop="description" style="max-width: 800px;">
                     <?php echo wp_kses_post(get_the_excerpt()); ?>
                 </p>
             <?php endif; ?>
+
+            <!-- Meta -->
+            <div class="th-flex th-justify-center th-gap-6 th-text-sm th-text-muted th-mt-6">
+                <?php if ($client) : ?>
+                    <span class="th-flex th-items-center th-gap-2">
+                        <span class="dashicons dashicons-building" aria-hidden="true"></span>
+                        <?php echo esc_html($client); ?>
+                    </span>
+                <?php endif; ?>
+                <span class="th-flex th-items-center th-gap-2">
+                    <span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span>
+                    <time datetime="<?php echo esc_attr(get_the_date('c')); ?>" itemprop="datePublished">
+                        <?php echo esc_html(get_the_date()); ?>
+                    </time>
+                </span>
+            </div>
         </header>
 
-        <!-- Main Content Area -->
-        <div class="rf-case-content rf-glass-card"
-            style="padding: clamp(30px, 5vw, 60px); position: relative; overflow: hidden; border-radius: 24px;">
-            <div class="rf-content-body">
+        <!-- Featured Image -->
+        <?php if (has_post_thumbnail()) : ?>
+            <figure class="th-mb-8 th-rounded th-overflow-hidden th-shadow-lg th-animate-up">
+                <?php the_post_thumbnail('full', [
+                    'class' => 'th-w-full th-h-auto th-block',
+                    'itemprop' => 'image',
+                    'loading' => 'eager'
+                ]); ?>
+            </figure>
+        <?php endif; ?>
+
+        <!-- Key Results (if available) -->
+        <?php if ($results && is_array($results)) : ?>
+            <section class="th-grid th-grid-cols-1 md:th-grid-cols-3 th-gap-6 th-mb-8 th-animate-up" aria-label="<?php esc_attr_e('Key Results', 'rfplugin'); ?>">
+                <?php foreach ($results as $result) : ?>
+                    <div class="th-card th-p-6 th-text-center">
+                        <span class="th-block th-text-3xl th-font-bold th-text-primary th-mb-2">
+                            <?php echo esc_html($result['value'] ?? ''); ?>
+                        </span>
+                        <span class="th-text-sm th-text-muted th-uppercase th-tracking-wide">
+                            <?php echo esc_html($result['label'] ?? ''); ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+            </section>
+        <?php endif; ?>
+
+        <!-- Content -->
+        <div class="th-card th-p-8 th-mb-8 th-animate-up">
+            <div class="th-prose th-max-w-none" itemprop="articleBody">
                 <?php the_content(); ?>
             </div>
         </div>
 
-        <!-- Meta Info Sidebar/Footer -->
-        <footer class="rf-case-footer" style="margin-top: 60px;">
-            <?php if ($industries) : ?>
-                <div class="rf-glass-card" style="padding: 24px; display: inline-block; border-radius: 12px; margin-bottom: 40px;">
-                    <h3 style="font-size: 1rem; color: #64748b; margin-top: 0; margin-bottom: 12px;"><?php esc_html_e('Industry', 'rfplugin'); ?></h3>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <?php foreach ($industries as $industry) : ?>
-                            <a href="<?php echo esc_url(get_term_link($industry)); ?>"
-                                style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: white; border-radius: 99px; text-decoration: none; font-size: 0.9rem; transition: background 0.3s ease;">
-                                <?php echo esc_html($industry->name); ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
+        <!-- Related Case Studies -->
+        <?php
+        $related = new WP_Query([
+            'post_type' => 'rf_case_study',
+            'posts_per_page' => 3,
+            'post__not_in' => [$post_id],
+            'tax_query' => $primary_industry ? [
+                ['taxonomy' => 'rf_case_industry', 'terms' => $primary_industry->term_id]
+            ] : [],
+        ]);
+
+        if ($related->have_posts()) : ?>
+            <section class="th-mt-8 th-pt-8 th-border-t th-border-color th-animate-up" aria-labelledby="related-cases-title">
+                <h2 id="related-cases-title" class="th-h3 th-mb-6">
+                    <?php esc_html_e('More Case Studies', 'rfplugin'); ?>
+                </h2>
+                <div class="th-grid th-grid-cols-1 md:th-grid-cols-3 th-gap-6">
+                    <?php while ($related->have_posts()) : $related->the_post(); ?>
+                        <?php include RFPLUGIN_PATH . 'templates/frontend/partials/card-case-study.php'; ?>
+                    <?php endwhile;
+                    wp_reset_postdata(); ?>
                 </div>
-            <?php endif; ?>
-        </footer>
+            </section>
+        <?php endif; ?>
 
         <!-- Navigation -->
-        <nav class="rf-post-navigation"
-            aria-label="<?php esc_attr_e('Case Study navigation', 'rfplugin'); ?>"
-            style="margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                <?php
-                $prev_post = get_previous_post();
-                $next_post = get_next_post();
-                ?>
-                <div>
-                    <?php if ($prev_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>"
-                            class="rf-glass-card rf-nav-link"
-                            style="display: block; padding: 24px; text-decoration: none; border-radius: 12px; transition: all 0.3s ease;">
-                            <span style="color: #64748b; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                                <span class="dashicons dashicons-arrow-left-alt2" style="font-size: 14px;" aria-hidden="true"></span>
-                                <?php esc_html_e('Previous', 'rfplugin'); ?>
-                            </span>
-                            <span style="color: white; font-weight: 600; line-height: 1.4;"><?php echo esc_html($prev_post->post_title); ?></span>
-                        </a>
-                    <?php endif; ?>
-                </div>
-                <div style="text-align: right;">
-                    <?php if ($next_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($next_post->ID)); ?>"
-                            class="rf-glass-card rf-nav-link"
-                            style="display: block; padding: 24px; text-decoration: none; border-radius: 12px; transition: all 0.3s ease;">
-                            <span style="color: #64748b; font-size: 0.85rem; display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 8px;">
-                                <?php esc_html_e('Next', 'rfplugin'); ?>
-                                <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 14px;" aria-hidden="true"></span>
-                            </span>
-                            <span style="color: white; font-weight: 600; line-height: 1.4;"><?php echo esc_html($next_post->post_title); ?></span>
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </nav>
+        <?php
+        $args = ['post_type_label' => __('Case Study', 'rfplugin')];
+        include RFPLUGIN_PATH . 'templates/frontend/partials/post-navigation.php';
+        ?>
+
+        <meta itemprop="author" itemscope itemtype="https://schema.org/Organization" content="">
     </article>
 </main>
-
-<style>
-    /* Navigation Link Hover */
-    .rf-nav-link:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .rf-post-navigation>div {
-            grid-template-columns: 1fr !important;
-        }
-
-        .rf-breadcrumb ol {
-            flex-wrap: wrap;
-        }
-    }
-</style>
 
 <?php get_footer(); ?>

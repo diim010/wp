@@ -28,11 +28,13 @@ use RFPlugin\Taxonomies\CaseIndustryTaxonomy;
 use RFPlugin\Admin\Menu;
 use RFPlugin\Admin\Branding;
 use RFPlugin\Admin\CommentsRemover;
+use RFPlugin\Admin\SuperAdminTheme;
 use RFPlugin\Frontend\QuoteForm;
 use RFPlugin\REST\Router;
 use RFPlugin\ACF\FieldGroups;
 use RFPlugin\Security\Permissions;
 use RFPlugin\Services\SchemaGenerator;
+use RFPlugin\Services\NetworkStats;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -126,6 +128,8 @@ class Plugin
         new Branding();
         CommentsRemover::init();
         Permissions::init();
+        SuperAdminTheme::init();
+        \RFPlugin\Admin\ControlCenter::init();
         new QuoteForm();
         (new BlockLoader())->init();
         Database::init();
@@ -226,21 +230,16 @@ class Plugin
      */
     public function enqueueAdminAssets(string $hook): void
     {
-        wp_enqueue_style(
+        \wp_enqueue_style(
             'rfplugin-design',
             RFPLUGIN_URL . 'assets/css/main.css',
             [],
             RFPLUGIN_VERSION
         );
 
-        wp_enqueue_style(
-            'rfplugin-admin',
-            RFPLUGIN_URL . 'assets/css/admin.css',
-            [],
-            RFPLUGIN_VERSION
-        );
 
-        wp_enqueue_script(
+
+        \wp_enqueue_script(
             'rfplugin-admin',
             RFPLUGIN_URL . 'assets/js/admin.js',
             ['jquery'],
@@ -248,10 +247,10 @@ class Plugin
             true
         );
 
-        wp_localize_script('rfplugin-admin', 'rfpluginAdmin', [
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'restUrl' => rest_url('rfplugin/v1'),
-            'nonce' => wp_create_nonce('rfplugin_admin'),
+        \wp_localize_script('rfplugin-admin', 'rfpluginAdmin', [
+            'ajaxUrl' => \admin_url('admin-ajax.php'),
+            'restUrl' => \rest_url('rfplugin/v1'),
+            'nonce' => \wp_create_nonce('rfplugin_admin'),
         ]);
     }
 
@@ -262,44 +261,44 @@ class Plugin
      */
     public function enqueueFrontendAssets(): void
     {
-        wp_enqueue_style(
+
+
+        \wp_enqueue_style(
             'rfplugin-design',
             RFPLUGIN_URL . 'assets/css/main.css',
             [],
             RFPLUGIN_VERSION
         );
 
-        // Enqueue GSAP
-        wp_enqueue_script(
+        // Enqueue GSAP (latest version for mobile optimizations)
+        \wp_enqueue_script(
             'gsap',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js',
             [],
-            '3.12.5',
+            '3.14.2',
             true
         );
 
         wp_enqueue_script(
             'gsap-scroll-trigger',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/ScrollTrigger.min.js',
             ['gsap'],
-            '3.12.5',
+            '3.14.2',
             true
         );
 
+
+
+        // Mobile-optimized GSAP animation system
         wp_enqueue_script(
             'rfplugin-animations',
-            RFPLUGIN_URL . 'assets/js/animations.js',
+            RFPLUGIN_URL . 'assets/js/rf-animations.js',
             ['gsap', 'gsap-scroll-trigger'],
             RFPLUGIN_VERSION,
             true
         );
 
-        wp_enqueue_style(
-            'rfplugin-frontend',
-            RFPLUGIN_URL . 'assets/css/frontend.css',
-            [],
-            RFPLUGIN_VERSION
-        );
+
 
         wp_enqueue_script(
             'rfplugin-react',

@@ -1,10 +1,10 @@
 <?php
 /**
  * Invoice Post Type
- * 
+ *
  * Defines the Invoice custom post type for managing
  * customer invoices with JSON data storage.
- * 
+ *
  * @package RFPlugin\PostTypes
  * @since 1.0.0
  */
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * Invoice Post Type class
- * 
+ *
  * @since 1.0.0
  */
 class InvoicePostType extends BasePostType
@@ -35,6 +35,7 @@ class InvoicePostType extends BasePostType
         $this->args = [
             'description' => __('Customer invoices and quotes', 'rfplugin'),
             'menu_icon' => 'dashicons-media-spreadsheet',
+            'show_in_menu' => 'rf-control-center',
             'public' => false,
             'publicly_queryable' => false,
             'show_ui' => true,
@@ -46,7 +47,7 @@ class InvoicePostType extends BasePostType
 
     /**
      * Define custom admin columns
-     * 
+     *
      * @param array $columns
      * @return array
      */
@@ -60,13 +61,13 @@ class InvoicePostType extends BasePostType
         $new_columns['selected_product'] = __('Product', 'rfplugin');
         $new_columns['sync_status'] = __('Zoho Sync', 'rfplugin');
         $new_columns['date'] = $columns['date'];
-        
+
         return $new_columns;
     }
 
     /**
      * Render custom admin columns
-     * 
+     *
      * @param string $column
      * @param int $post_id
      * @return void

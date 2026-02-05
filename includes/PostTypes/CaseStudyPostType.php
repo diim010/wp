@@ -35,6 +35,7 @@ class CaseStudyPostType extends BasePostType
         $this->args = [
             'description' => __('Portfolio case studies', 'rfplugin'),
             'menu_icon' => 'dashicons-portfolio',
+            'show_in_menu' => 'rf-control-center',
             'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
             'rewrite' => ['slug' => 'cases', 'with_front' => false],
             'show_in_rest' => true,

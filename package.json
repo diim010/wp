@@ -7,11 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npm run build:css && cd assets/react && npm run build",
+    "build": "npm run build:css",
     "build:css": "tailwindcss -i ./assets/css/design-system.css -o ./assets/css/main.css --minify",
-    "dev": "npm run dev:css & cd assets/react && npm run dev",
-    "dev:css": "tailwindcss -i ./assets/css/design-system.css -o ./assets/css/main.css --watch",
-    "install-deps": "npm install && cd assets/react && npm install"
+    "build:prod": "NODE_ENV=production npm run build:css",
+    "dev": "npm run watch:css",
+    "watch:css": "tailwindcss -i ./assets/css/design-system.css -o ./assets/css/main.css --watch",
+    "lint:css": "stylelint 'assets/css/**/*.css' --fix"
   },
   "repository": {
     "type": "git",

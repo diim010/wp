@@ -1,176 +1,111 @@
-<?php
+§§<?php
 
 /**
- * Archive Template for Case Studies
+ * Archive Case Studies Template
+ *
+ * Featured grid layout with industry filtering.
  *
  * @package RFPlugin
- * @since 1.0.0
+ * @since 2.0.0
  */
 
 defined('ABSPATH') || exit;
 
 get_header();
+
+$industries = get_terms([
+    'taxonomy' => 'rf_case_industry',
+    'hide_empty' => true,
+]);
+$current_industry = get_queried_object();
+$is_industry = is_tax('rf_case_industry');
 ?>
 
-<main id="main-content" class="rf-archive-case rf-premium-ui" role="main">
-    <!-- Atmospheric Background -->
+
+<main id="main-content" class="th-mode-corp" role="main">
     <div class="rf-bg-blob rf-bg-blob-1" aria-hidden="true"></div>
     <div class="rf-bg-blob rf-bg-blob-2" aria-hidden="true"></div>
 
-    <div class="rf-container" style="padding: 80px 0;">
-        <!-- Header Section -->
-        <header class="rf-archive-header" style="text-align: center; margin-bottom: 60px;">
-            <span class="rf-badge" aria-hidden="true"><?php esc_html_e('Our Portfolio', 'rfplugin'); ?></span>
-            <h1 class="rf-title" style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 20px 0;">
-                <?php post_type_archive_title(); ?>
+    <div class="th-container th-py-8">
+
+        <!-- Header -->
+        <header class="th-text-center th-mb-8 th-animate-up">
+            <span class="th-badge th-badge--accent th-mb-4">
+                <span class="dashicons dashicons-portfolio" aria-hidden="true"></span>
+                <?php esc_html_e('Portfolio', 'rfplugin'); ?>
+            </span>
+
+            <h1 class="th-h1 th-mb-4">
+                <?php
+                if ($is_industry) {
+                    echo esc_html($current_industry->name);
+                } else {
+                    esc_html_e('Case Studies', 'rfplugin');
+                }
+                ?>
             </h1>
 
-            <p class="rf-subtitle" style="max-width: 600px; margin: 0 auto 40px;">
-                <?php esc_html_e('Explore our successful projects and architectural solutions.', 'rfplugin'); ?>
+            <p class="th-lead th-text-muted th-mx-auto" style="max-width: 600px;">
+                <?php
+                if ($is_industry && $current_industry->description) {
+                    echo esc_html($current_industry->description);
+                } else {
+                    esc_html_e('Real-world success stories showcasing our expertise.', 'rfplugin');
+                }
+                ?>
             </p>
         </header>
 
-        <!-- Case Grid -->
-        <section class="rf-case-grid"
-            aria-label="<?php esc_attr_e('Case Studies', 'rfplugin'); ?>"
-            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
+        <!-- Industry Filter -->
+        <?php if (!empty($industries) && !is_wp_error($industries)) : ?>
+            <nav class="th-flex th-justify-center th-flex-wrap th-gap-3 th-mb-8 th-animate-up" aria-label="<?php esc_attr_e('Filter by industry', 'rfplugin'); ?>">
+                <a href="<?php echo esc_url(get_post_type_archive_link('rf_case_study')); ?>"
+                    class="th-btn th-btn--pill <?php echo !$is_industry ? 'th-btn--primary' : 'th-btn--ghost'; ?>">
+                    <?php esc_html_e('All Industries', 'rfplugin'); ?>
+                </a>
+                <?php foreach ($industries as $industry) : ?>
+                    <a href="<?php echo esc_url(get_term_link($industry)); ?>"
+                        class="th-btn th-btn--pill <?php echo ($is_industry && $current_industry->term_id === $industry->term_id) ? 'th-btn--primary' : 'th-btn--ghost'; ?>">
+                        <?php echo esc_html($industry->name); ?>
+                        <span class="th-text-xs th-opacity-70 th-ml-2"><?php echo esc_html($industry->count); ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+        <?php endif; ?>
 
-            <?php if (have_posts()) : ?>
-                <?php while (have_posts()) : the_post();
-                    $case_id = get_the_ID();
-                    $industries = get_the_terms($case_id, 'rf_case_industry');
-                    $industry_names = $industries && !is_wp_error($industries)
-                        ? implode(', ', wp_list_pluck($industries, 'name'))
-                        : '';
-                ?>
-                    <article class="rf-case-card rf-glass-card rf-fade-in"
-                        itemscope
-                        itemtype="https://schema.org/CreativeWork"
-                        style="padding: 30px; display: flex; flex-direction: column; align-items: flex-start; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-
-                        <!-- Icon -->
-                        <div class="rf-card-icon"
-                            style="width: 48px; height: 48px; background: rgba(var(--rf-primary-rgb), 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;"
-                            aria-hidden="true">
-                            <span class="dashicons dashicons-portfolio"
-                                style="font-size: 24px; color: var(--rf-primary);"></span>
-                        </div>
-
-                        <!-- Title -->
-                        <h2 class="rf-h4" itemprop="headline" style="font-size: 1.25rem; margin: 0 0 12px; color: white; line-height: 1.4;">
-                            <a href="<?php the_permalink(); ?>"
-                                itemprop="url"
-                                style="text-decoration: none; color: inherit; transition: color 0.2s ease;"
-                                onmouseover="this.style.color='var(--rf-primary)'"
-                                onmouseout="this.style.color='white'">
-                                <?php the_title(); ?>
-                            </a>
-                        </h2>
-
-                        <!-- Excerpt -->
-                        <div class="rf-excerpt"
-                            itemprop="description"
-                            style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6; margin-bottom: 24px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1;">
-                            <?php echo wp_kses_post(get_the_excerpt()); ?>
-                        </div>
-
-                        <!-- Meta -->
-                        <?php if ($industry_names) : ?>
-                            <div class="rf-card-meta" style="font-size: 0.8rem; color: #64748b; margin-bottom: 20px;">
-                                <span itemprop="genre"><?php echo esc_html($industry_names); ?></span>
-                            </div>
-                        <?php endif; ?>
-
-                        <!-- Action Button -->
-                        <a href="<?php the_permalink(); ?>"
-                            class="rf-btn-link"
-                            aria-label="<?php echo esc_attr(sprintf(__('View Project: %s', 'rfplugin'), get_the_title())); ?>"
-                            style="margin-top: auto; color: var(--rf-primary); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s ease;">
-                            <?php esc_html_e('View Project', 'rfplugin'); ?>
-                            <span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
-                        </a>
-                    </article>
-                <?php endwhile; ?>
-            <?php else : ?>
-                <div class="rf-empty" style="grid-column: 1/-1; text-align: center; padding: 80px 40px;">
-                    <div class="rf-glass-card" style="max-width: 500px; margin: 0 auto; padding: 60px;">
-                        <h2 style="color: white; margin-bottom: 16px;"><?php esc_html_e('No Projects Found', 'rfplugin'); ?></h2>
-                        <p style="color: #94a3b8;"><?php esc_html_e('Our portfolio is being updated.', 'rfplugin'); ?></p>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </section>
-
-        <!-- Pagination -->
+        <!-- Case Studies Grid -->
         <?php if (have_posts()) : ?>
-            <nav class="rf-pagination"
-                aria-label="<?php esc_attr_e('Case Study pagination', 'rfplugin'); ?>"
-                style="margin-top: 60px; display: flex; justify-content: center; gap: 8px;">
+            <div class="th-grid th-grid-cols-1 md:th-grid-cols-2 th-gap-8">
+                <?php
+                $index = 0;
+                while (have_posts()) : the_post();
+                    $args = ['post' => get_post()];
+                    include RFPLUGIN_PATH . 'templates/frontend/partials/card-case-study.php';
+                    $index++;
+                endwhile;
+                ?>
+            </div>
+
+            <!-- Pagination -->
+            <!-- Pagination -->
+            <nav class="th-pagination th-mt-8 th-flex th-justify-center th-animate-up" aria-label="<?php esc_attr_e('Pagination', 'rfplugin'); ?>">
                 <?php
                 echo paginate_links([
-                    'prev_text' => '<span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span><span class="screen-reader-text">' . esc_html__('Previous page', 'rfplugin') . '</span>',
-                    'next_text' => '<span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span><span class="screen-reader-text">' . esc_html__('Next page', 'rfplugin') . '</span>',
-                    'mid_size' => 2,
-                    'type' => 'list',
+                    'prev_text' => '<span class="dashicons dashicons-arrow-left-alt2"></span> ' . __('Previous', 'rfplugin'),
+                    'next_text' => __('Next', 'rfplugin') . ' <span class="dashicons dashicons-arrow-right-alt2"></span>',
                 ]);
                 ?>
             </nav>
+
+        <?php else : ?>
+            <div class="th-text-center th-py-12 th-animate-up">
+                <span class="dashicons dashicons-portfolio th-text-muted" style="font-size: 48px; width: 48px; height: 48px;" aria-hidden="true"></span>
+                <h2 class="th-h3 th-mt-4 th-mb-2"><?php esc_html_e('No case studies found', 'rfplugin'); ?></h2>
+                <p class="th-text-muted"><?php esc_html_e('We are working on documenting our success stories.', 'rfplugin'); ?></p>
+            </div>
         <?php endif; ?>
+
     </div>
 </main>
-
-<style>
-    /* Reuse existing styles */
-    .rf-pagination ul {
-        display: flex;
-        gap: 8px;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .rf-pagination .page-numbers {
-        display: flex;
-        width: 44px;
-        height: 44px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        color: white;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        font-weight: 500;
-    }
-
-    .rf-pagination .page-numbers:hover,
-    .rf-pagination .page-numbers.current {
-        background: var(--rf-primary);
-        border-color: var(--rf-primary);
-        transform: translateY(-2px);
-    }
-
-    .rf-case-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .rf-btn-link:hover {
-        gap: 12px !important;
-    }
-
-    .screen-reader-text {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-    }
-</style>
 
 <?php get_footer(); ?>

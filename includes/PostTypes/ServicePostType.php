@@ -35,6 +35,7 @@ class ServicePostType extends BasePostType
         $this->args = [
             'description' => __('Add-on services offered', 'rfplugin'),
             'menu_icon' => 'dashicons-hammer',
+            'show_in_menu' => 'rf-control-center',
             'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
             'rewrite' => ['slug' => 'services', 'with_front' => false],
             'show_in_rest' => true,

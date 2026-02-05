@@ -1,10 +1,10 @@
 <?php
 /**
  * Abstract Base Post Type
- * 
+ *
  * Provides common functionality for all custom post types.
  * Child classes extend this to define specific post types.
- * 
+ *
  * @package RFPlugin\PostTypes
  * @since 1.0.0
  */
@@ -17,35 +17,35 @@ if (!defined('ABSPATH')) {
 
 /**
  * Base Post Type class
- * 
+ *
  * @since 1.0.0
  */
 abstract class BasePostType
 {
     /**
      * Post type key (max 20 chars)
-     * 
+     *
      * @var string
      */
     protected string $postType;
 
     /**
      * Post type labels
-     * 
+     *
      * @var array<string, string>
      */
     protected array $labels = [];
 
     /**
      * Post type arguments
-     * 
+     *
      * @var array<string, mixed>
      */
     protected array $args = [];
 
     /**
      * Register the post type
-     * 
+     *
      * @return void
      */
     public function register(): void
@@ -58,7 +58,7 @@ abstract class BasePostType
         // Register Admin Columns
         add_filter("manage_{$this->postType}_posts_columns", [$this, 'defineColumns']);
         add_action("manage_{$this->postType}_posts_custom_column", [$this, 'renderColumns'], 10, 2);
-        
+
         // Register Filters
         add_action('restrict_manage_posts', [$this, 'setupFilters']);
         add_action('pre_get_posts', [$this, 'applyFilters']);
@@ -66,7 +66,7 @@ abstract class BasePostType
 
     /**
      * Define custom admin columns (to be overridden)
-     * 
+     *
      * @param array $columns
      * @return array
      */
@@ -77,7 +77,7 @@ abstract class BasePostType
 
     /**
      * Render custom admin columns (to be overridden)
-     * 
+     *
      * @param string $column
      * @param int $post_id
      * @return void
@@ -89,7 +89,7 @@ abstract class BasePostType
 
     /**
      * Setup custom admin filters (to be overridden)
-     * 
+     *
      * @return void
      */
     public function setupFilters(): void
@@ -102,7 +102,7 @@ abstract class BasePostType
 
     /**
      * Apply custom admin filters (to be overridden)
-     * 
+     *
      * @param \WP_Query $query
      * @return void
      */
@@ -115,7 +115,7 @@ abstract class BasePostType
 
     /**
      * Get default post type arguments
-     * 
+     *
      * @return array<string, mixed>
      */
     protected function getDefaultArgs(): array
@@ -125,7 +125,7 @@ abstract class BasePostType
             'public' => true,
             'publicly_queryable' => true,
             'show_ui' => true,
-            'show_in_menu' => false,
+            'show_in_menu' => true,
             'show_in_rest' => true,
             'rest_base' => $this->postType,
             'query_var' => true,
@@ -139,7 +139,7 @@ abstract class BasePostType
 
     /**
      * Generate labels for post type
-     * 
+     *
      * @param string $singular Singular name
      * @param string $plural Plural name
      * @return array<string, string>

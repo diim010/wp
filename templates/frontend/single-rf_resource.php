@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Single Resource Template (Production Ready)
- * 
+ *
  * Hybrid template for all resource types with accessibility,
  * SEO schema markup, security, and modern UX.
- * 
+ *
  * @package RFPlugin
  * @since 1.0.0
  */
@@ -58,90 +59,82 @@ $schema_types = [
 $schema_type = $schema_types[$mode] ?? 'Article';
 ?>
 
-<main id="main-content" class="rf-resource-single rf-premium-ui rf-mode-<?php echo esc_attr($mode); ?>" role="main">
+
+<main id="main-content" class="rf-resource-single th-mode-<?php echo esc_attr($mode); ?>" role="main">
     <!-- Atmospheric Background -->
     <div class="rf-bg-blob rf-bg-blob-1" aria-hidden="true"></div>
     <div class="rf-bg-blob rf-bg-blob-2" aria-hidden="true"></div>
 
-    <article class="rf-container" 
-             style="padding: 100px 0;"
-             itemscope 
-             itemtype="https://schema.org/<?php echo esc_attr($schema_type); ?>">
-        
+    <article class="th-container th-py-6"
+        itemscope
+        itemtype="https://schema.org/<?php echo esc_attr($schema_type); ?>">
+
         <!-- Breadcrumb Navigation -->
-        <nav class="rf-breadcrumb" 
-             aria-label="<?php esc_attr_e('Breadcrumb', 'rfplugin'); ?>"
-             style="margin-bottom: 40px;">
-            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display: flex; gap: 8px; align-items: center; list-style: none; margin: 0; padding: 0; font-size: 0.9rem;">
+        <nav class="th-breadcrumb th-mb-5" aria-label="<?php esc_attr_e('Breadcrumb', 'rfplugin'); ?>">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>" style="color: #64748b; text-decoration: none;">
+                    <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
                         <span itemprop="name"><?php esc_html_e('Home', 'rfplugin'); ?></span>
                     </a>
                     <meta itemprop="position" content="1" />
                 </li>
-                <span aria-hidden="true" style="color: #475569;">/</span>
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="<?php echo esc_url(get_post_type_archive_link('rf_resource')); ?>" style="color: #64748b; text-decoration: none;">
+                    <a itemprop="item" href="<?php echo esc_url(get_post_type_archive_link('rf_resource')); ?>">
                         <span itemprop="name"><?php esc_html_e('Library', 'rfplugin'); ?></span>
                     </a>
                     <meta itemprop="position" content="2" />
                 </li>
                 <?php if ($primary_category) : ?>
-                    <span aria-hidden="true" style="color: #475569;">/</span>
                     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" href="<?php echo esc_url(get_term_link($primary_category)); ?>" style="color: #64748b; text-decoration: none;">
+                        <a itemprop="item" href="<?php echo esc_url(get_term_link($primary_category)); ?>">
                             <span itemprop="name"><?php echo esc_html($primary_category->name); ?></span>
                         </a>
                         <meta itemprop="position" content="3" />
                     </li>
                 <?php endif; ?>
-                <span aria-hidden="true" style="color: #475569;">/</span>
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
-                    <span itemprop="name" style="color: white; font-weight: 600;"><?php echo esc_html($config['label']); ?></span>
+                    <span itemprop="name" class="current"><?php echo esc_html($config['label']); ?></span>
                     <meta itemprop="position" content="<?php echo $primary_category ? '4' : '3'; ?>" />
                 </li>
             </ol>
         </nav>
 
         <!-- Header Section -->
-        <header class="rf-resource-intro" style="margin-bottom: 60px; text-align: center;">
-            <span class="rf-badge" 
-                  style="background: <?php echo esc_attr($config['color']); ?>20; color: <?php echo esc_attr($config['color']); ?>; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 8px;">
-                <span class="dashicons dashicons-<?php echo esc_attr($config['icon']); ?>" style="font-size: 14px; width: 14px; height: 14px;" aria-hidden="true"></span>
+        <header class="rf-resource-intro th-text-center th-mb-7">
+            <span class="th-badge th-badge--<?php echo esc_attr($mode); ?> th-mb-3">
+                <span class="dashicons dashicons-<?php echo esc_attr($config['icon']); ?>" aria-hidden="true"></span>
                 <?php echo esc_html($config['label']); ?>
             </span>
-            
-            <h1 class="rf-title" 
-                itemprop="headline"
-                style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0; line-height: 1.2; max-width: 900px; margin-left: auto; margin-right: auto;">
+
+            <h1 class="th-h1 th-mb-4" itemprop="headline">
                 <?php the_title(); ?>
             </h1>
-            
+
             <?php if (has_excerpt()) : ?>
-                <p class="rf-subtitle" 
-                   itemprop="description"
-                   style="max-width: 700px; margin: 0 auto; color: #94a3b8; font-size: 1.25rem; line-height: 1.6;">
+                <p class="th-lead th-text-muted th-mx-auto"
+                    itemprop="description"
+                    style="max-width: 700px;">
                     <?php echo wp_kses_post(get_the_excerpt()); ?>
                 </p>
             <?php endif; ?>
 
             <!-- Meta Info -->
-            <div class="rf-resource-meta" style="margin-top: 32px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; color: #64748b; font-size: 0.9rem;">
-                <span style="display: flex; align-items: center; gap: 6px;">
-                    <span class="dashicons dashicons-calendar-alt" style="font-size: 16px; width: 16px; height: 16px;" aria-hidden="true"></span>
+            <div class="th-flex th-justify-center th-gap-4 th-text-sm th-text-muted th-mt-5 th-flex-wrap">
+                <span class="th-flex th-items-center th-gap-1">
+                    <span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span>
                     <time datetime="<?php echo esc_attr(get_the_date('c')); ?>" itemprop="datePublished">
                         <?php echo esc_html(get_the_date()); ?>
                     </time>
                 </span>
-                <span style="display: flex; align-items: center; gap: 6px;">
-                    <span class="dashicons dashicons-update" style="font-size: 16px; width: 16px; height: 16px;" aria-hidden="true"></span>
+                <span class="th-flex th-items-center th-gap-1">
+                    <span class="dashicons dashicons-update" aria-hidden="true"></span>
                     <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>" itemprop="dateModified">
                         <?php printf(esc_html__('Updated %s', 'rfplugin'), esc_html(get_the_modified_date())); ?>
                     </time>
                 </span>
                 <?php if ($visibility !== 'guest') : ?>
-                    <span style="display: flex; align-items: center; gap: 6px; color: #f59e0b;">
-                        <span class="dashicons dashicons-lock" style="font-size: 16px; width: 16px; height: 16px;" aria-hidden="true"></span>
+                    <span class="th-flex th-items-center th-gap-1 th-text-warning">
+                        <span class="dashicons dashicons-lock" aria-hidden="true"></span>
                         <?php esc_html_e('Protected Resource', 'rfplugin'); ?>
                     </span>
                 <?php endif; ?>
@@ -149,9 +142,8 @@ $schema_type = $schema_types[$mode] ?? 'Article';
         </header>
 
         <!-- Main Content Area -->
-        <div class="rf-resource-content rf-glass-card" 
-             style="padding: clamp(30px, 5vw, 60px); position: relative; overflow: hidden; border-radius: 24px;">
-            <?php 
+        <div class="rf-resource-content th-card th-p-6 th-relative th-overflow-hidden">
+            <?php
             // Map modes to template files
             $template_map = [
                 'sheet' => 'document',
@@ -172,7 +164,7 @@ $schema_type = $schema_types[$mode] ?? 'Article';
                     include $plugin_template;
                 } else {
                     // Fallback to content
-                    echo '<div class="rf-content-body">';
+                    echo '<div class="th-prose">';
                     the_content();
                     echo '</div>';
                 }
@@ -181,53 +173,52 @@ $schema_type = $schema_types[$mode] ?? 'Article';
         </div>
 
         <!-- Footer: Related Items & Metadata -->
-        <footer class="rf-resource-footer" style="margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+        <footer class="rf-resource-footer th-grid th-grid-cols-1 md:th-grid-cols-3 th-gap-6 th-mt-7">
             <!-- Related Items -->
-            <section class="rf-related-items" aria-labelledby="related-heading">
-                <h2 id="related-heading" class="rf-h3" style="margin-bottom: 24px;"><?php esc_html_e('Related Solutions', 'rfplugin'); ?></h2>
-                <?php 
+            <section class="rf-related-items th-col-span-2" aria-labelledby="related-heading">
+                <h2 id="related-heading" class="th-h3 th-mb-4"><?php esc_html_e('Related Solutions', 'rfplugin'); ?></h2>
+                <?php
                 $related = get_field('related_items', $resource_id);
                 if ($related && is_array($related)) : ?>
-                    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                        <?php foreach ($related as $item_id) : 
+                    <div class="th-flex th-gap-3 th-flex-wrap">
+                        <?php foreach ($related as $item_id) :
                             if (!$item_id) continue;
                             $item_title = get_the_title($item_id);
                             $item_link = get_permalink($item_id);
                             if (!$item_title || !$item_link) continue;
                         ?>
-                            <a href="<?php echo esc_url($item_link); ?>" 
-                               class="rf-glass-card rf-related-link"
-                               style="padding: 12px 24px; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease; border-radius: 12px;">
-                                <span class="dashicons dashicons-share-alt2" style="font-size: 16px; color: var(--rf-primary);" aria-hidden="true"></span>
-                                <span style="font-weight: 600; color: white;"><?php echo esc_html($item_title); ?></span>
+                            <a href="<?php echo esc_url($item_link); ?>"
+                                class="th-btn th-btn--ghost th-btn--sm">
+                                <span class="dashicons dashicons-share-alt2" aria-hidden="true"></span>
+                                <?php echo esc_html($item_title); ?>
                             </a>
                         <?php endforeach; ?>
                     </div>
                 <?php else : ?>
-                    <p style="color: #64748b;"><?php esc_html_e('This is a general resource applicable to all systems.', 'rfplugin'); ?></p>
+                    <p class="th-text-muted"><?php esc_html_e('This is a general resource applicable to all systems.', 'rfplugin'); ?></p>
                 <?php endif; ?>
             </section>
 
             <!-- Metadata Sidebar -->
             <aside class="rf-meta-sidebar" aria-labelledby="info-heading">
-                <div class="rf-glass-card" style="padding: 32px; border-radius: 16px;">
-                    <h3 id="info-heading" style="margin-top: 0; margin-bottom: 24px; font-size: 1.1rem;"><?php esc_html_e('Resource Information', 'rfplugin'); ?></h3>
-                    <dl style="margin: 0;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <dt style="color: #64748b;"><?php esc_html_e('Type', 'rfplugin'); ?></dt>
-                            <dd style="color: white; margin: 0; font-weight: 500;"><?php echo esc_html($config['label']); ?></dd>
+                <div class="th-card th-p-5">
+                    <h3 id="info-heading" class="th-h4 th-mb-4"><?php esc_html_e('Resource Information', 'rfplugin'); ?></h3>
+                    <dl class="th-dl">
+                        <div class="th-flex th-justify-between th-py-2 th-border-b th-border-color">
+                            <dt class="th-text-muted"><?php esc_html_e('Type', 'rfplugin'); ?></dt>
+                            <dd class="th-font-medium"><?php echo esc_html($config['label']); ?></dd>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <dt style="color: #64748b;"><?php esc_html_e('Published', 'rfplugin'); ?></dt>
-                            <dd style="color: white; margin: 0;"><?php echo esc_html(get_the_date()); ?></dd>
+                        <div class="th-flex th-justify-between th-py-2 th-border-b th-border-color">
+                            <dt class="th-text-muted"><?php esc_html_e('Published', 'rfplugin'); ?></dt>
+                            <dd><?php echo esc_html(get_the_date()); ?></dd>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <dt style="color: #64748b;"><?php esc_html_e('Last Updated', 'rfplugin'); ?></dt>
-                            <dd style="color: white; margin: 0;"><?php echo esc_html(get_the_modified_date()); ?></dd>
+                        <div class="th-flex th-justify-between th-py-2 th-border-b th-border-color">
+                            <dt class="th-text-muted"><?php esc_html_e('Last Updated', 'rfplugin'); ?></dt>
+                            <dd><?php echo esc_html(get_the_modified_date()); ?></dd>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                            <dt style="color: #64748b;"><?php esc_html_e('Reference ID', 'rfplugin'); ?></dt>
-                            <dd style="color: white; margin: 0; font-family: monospace;">#<?php echo esc_html($resource_id); ?></dd>
+                        <div class="th-flex th-justify-between th-py-2">
+                            <dt class="th-text-muted"><?php esc_html_e('Reference ID', 'rfplugin'); ?></dt>
+                            <dd class="th-font-mono">#<?php echo esc_html($resource_id); ?></dd>
                         </div>
                     </dl>
                 </div>
@@ -235,37 +226,34 @@ $schema_type = $schema_types[$mode] ?? 'Article';
         </footer>
 
         <!-- Navigation -->
-        <nav class="rf-post-navigation" 
-             aria-label="<?php esc_attr_e('Resource navigation', 'rfplugin'); ?>"
-             style="margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                <?php 
+        <nav class="rf-post-navigation th-mt-7 th-pt-6 th-border-t th-border-color"
+            aria-label="<?php esc_attr_e('Resource navigation', 'rfplugin'); ?>">
+            <div class="th-grid th-grid-cols-2 th-gap-6">
+                <?php
                 $prev_post = get_previous_post();
                 $next_post = get_next_post();
                 ?>
                 <div>
                     <?php if ($prev_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>" 
-                           class="rf-glass-card rf-nav-link"
-                           style="display: block; padding: 24px; text-decoration: none; border-radius: 12px; transition: all 0.3s ease;">
-                            <span style="color: #64748b; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                                <span class="dashicons dashicons-arrow-left-alt2" style="font-size: 14px;" aria-hidden="true"></span>
+                        <a href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>"
+                            class="th-card th-card--hoverable th-p-4 th-block th-no-underline">
+                            <span class="th-text-sm th-text-muted th-flex th-items-center th-gap-1 th-mb-1">
+                                <span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
                                 <?php esc_html_e('Previous', 'rfplugin'); ?>
                             </span>
-                            <span style="color: white; font-weight: 600; line-height: 1.4;"><?php echo esc_html($prev_post->post_title); ?></span>
+                            <span class="th-block th-font-semibold"><?php echo esc_html($prev_post->post_title); ?></span>
                         </a>
                     <?php endif; ?>
                 </div>
-                <div style="text-align: right;">
+                <div class="th-text-right">
                     <?php if ($next_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($next_post->ID)); ?>" 
-                           class="rf-glass-card rf-nav-link"
-                           style="display: block; padding: 24px; text-decoration: none; border-radius: 12px; transition: all 0.3s ease;">
-                            <span style="color: #64748b; font-size: 0.85rem; display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 8px;">
+                        <a href="<?php echo esc_url(get_permalink($next_post->ID)); ?>"
+                            class="th-card th-card--hoverable th-p-4 th-block th-no-underline">
+                            <span class="th-text-sm th-text-muted th-flex th-items-center th-justify-end th-gap-1 th-mb-1">
                                 <?php esc_html_e('Next', 'rfplugin'); ?>
-                                <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 14px;" aria-hidden="true"></span>
+                                <span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
                             </span>
-                            <span style="color: white; font-weight: 600; line-height: 1.4;"><?php echo esc_html($next_post->post_title); ?></span>
+                            <span class="th-block th-font-semibold"><?php echo esc_html($next_post->post_title); ?></span>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -277,38 +265,5 @@ $schema_type = $schema_types[$mode] ?? 'Article';
         <meta itemprop="publisher" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
     </article>
 </main>
-
-<style>
-/* Related Link Hover */
-.rf-related-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-/* Navigation Link Hover */
-.rf-nav-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-/* Focus Styles */
-.rf-resource-single a:focus {
-    outline: 2px solid var(--rf-primary);
-    outline-offset: 2px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .rf-resource-footer {
-        grid-template-columns: 1fr !important;
-    }
-    .rf-post-navigation > div {
-        grid-template-columns: 1fr !important;
-    }
-    .rf-breadcrumb ol {
-        flex-wrap: wrap;
-    }
-}
-</style>
 
 <?php get_footer(); ?>

@@ -46,23 +46,6 @@ class Menu
             add_action("network_admin_menu", [$this, "registerNetworkMenu"]);
         }
 
-        // Redirect default dashboard to RoyalFoam dashboard
-        add_action("admin_init", [$this, "redirectDefaultDashboard"]);
-    }
-
-    /**
-     * Redirect default dashboard to RoyalFoam dashboard
-     *
-     * @return void
-     */
-    public function redirectDefaultDashboard(): void
-    {
-        global $pagenow;
-
-        if ($pagenow === "index.php" && !isset($_GET["page"])) {
-            wp_safe_redirect(admin_url("admin.php?page=" . $this->menuSlug));
-            exit();
-        }
     }
 
     /**
@@ -72,15 +55,19 @@ class Menu
      */
     private function registerSiteMenu(): void
     {
+        // RoyalFoam menu removed - all functionality moved to Ground Control
+        // Ground Control is registered in ControlCenter::init()
+        /*
         add_menu_page(
             __("RoyalFoam", "rfplugin"),
             __("RoyalFoam", "rfplugin"),
             "manage_options",
             $this->menuSlug,
-            [$this, "renderDashboard"],
+            [$this, "renderSettings"],
             "dashicons-admin-home",
-            3,
+            59,
         );
+        */
 
         $this->registerSiteSubmenus();
     }
@@ -92,55 +79,18 @@ class Menu
      */
     private function registerSiteSubmenus(): void
     {
-        add_submenu_page(
-            $this->menuSlug,
-            __("Dashboard", "rfplugin"),
-            __("Dashboard", "rfplugin"),
-            "manage_options",
-            $this->menuSlug,
-            [$this, "renderDashboard"],
-        );
-
+        // All submenus moved to Ground Control
         // Products subpage removed in favor of WooCommerce main menu
-        // Services and Cases subpages removed
+        // Services and Cases are now submenus (configured in PostType classes)
+        // Design System submenu removed
+        // Documentation and Security moved to Ground Control
 
+
+        // Tech Center dashboard removed
+
+        // Ensure taxonomies are accessible if not automatically added
         add_submenu_page(
-            $this->menuSlug,
-            __("Invoices", "rfplugin"),
-            __("Invoices", "rfplugin"),
-            "edit_rf_invoices",
-            "edit.php?post_type=rf_invoice",
-        );
-
-        add_menu_page(
-            __("Tech Center", "rfplugin"),
-            __("Tech Center", "rfplugin"),
-            "edit_posts",
-            "rf-tech-center",
-            [$this, "renderTechCenterDashboard"],
-            "dashicons-category",
-            4,
-        );
-
-        add_submenu_page(
-            "rf-tech-center",
-            __("Tech Center Dashboard", "rfplugin"),
-            __("Dashboard", "rfplugin"),
-            "edit_posts",
-            "rf-tech-center",
-            [$this, "renderTechCenterDashboard"],
-        );
-
-        add_submenu_page(
-            "rf-tech-center",
-            __("All Resources", "rfplugin"),
-            __("Library", "rfplugin"),
-            "edit_posts",
             "edit.php?post_type=rf_resource",
-        );
-
-        add_submenu_page(
-            "rf-tech-center",
             __("Resource Types", "rfplugin"),
             __("Types", "rfplugin"),
             "manage_categories",
@@ -148,22 +98,15 @@ class Menu
         );
 
         add_submenu_page(
-            "rf-tech-center",
+            "edit.php?post_type=rf_resource",
             __("Resource Categories", "rfplugin"),
             __("Categories", "rfplugin"),
             "manage_categories",
             "edit-tags.php?taxonomy=rf_resource_category&post_type=rf_resource",
         );
 
-        add_submenu_page(
-            $this->menuSlug,
-            __("Settings", "rfplugin"),
-            __("Settings", "rfplugin"),
-            "manage_options",
-            $this->menuSlug . "-settings",
-            [$this, "renderSettings"],
-        );
 
+        /*
         add_submenu_page(
             $this->menuSlug,
             __("Documentation", "rfplugin"),
@@ -181,6 +124,7 @@ class Menu
             $this->menuSlug . "-security",
             [$this, "renderSecurityStats"],
         );
+        */
     }
 
     /**
@@ -195,19 +139,12 @@ class Menu
             __("RoyalFoam", "rfplugin"),
             "manage_network_options",
             $this->menuSlug . "-network",
-            [$this, "renderNetworkDashboard"],
+            [$this, "renderNetworkSettings"],
             "dashicons-networking",
             3,
         );
 
-        add_submenu_page(
-            $this->menuSlug . "-network",
-            __("Network Dashboard", "rfplugin"),
-            __("Dashboard", "rfplugin"),
-            "manage_network_options",
-            $this->menuSlug . "-network",
-            [$this, "renderNetworkDashboard"],
-        );
+
 
         add_submenu_page(
             $this->menuSlug . "-network",
@@ -220,37 +157,20 @@ class Menu
     }
 
     /**
-     * Render the dashboard page
+     * Render Town High Design System Library
      *
      * @return void
      */
-    public function renderDashboard(): void
+    public function renderTownHighLibrary(): void
     {
-        $stats = $this->getStatistics();
-        include RFPLUGIN_PATH . "templates/admin/dashboard.php";
+        include RFPLUGIN_PATH . "templates/admin/town-high-library.php";
     }
 
-    /**
-     * Render Tech Center dashboard
-     *
-     * @return void
-     */
-    public function renderTechCenterDashboard(): void
-    {
-        $stats = $this->getStatistics();
-        include RFPLUGIN_PATH . "templates/admin/tech-center-dashboard.php";
-    }
 
-    /**
-     * Render network dashboard
-     *
-     * @return void
-     */
-    public function renderNetworkDashboard(): void
-    {
-        $networkStats = $this->getNetworkStatistics();
-        include RFPLUGIN_PATH . "templates/admin/network-dashboard.php";
-    }
+
+
+
+
 
     /**
      * Render network settings

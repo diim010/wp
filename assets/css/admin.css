@@ -1,300 +1,1043 @@
 /**
- * RFPlugin Premium Admin Styles
+ * RFPlugin Unified Admin CSS
  *
- * Enhances the WordPress dashboard and ACF fields with a modern,
- * high-end aesthetic.
+ * Modern dark mode admin dashboard with corporate design tokens.
+ * Auto-detects system preference, with manual toggle support.
+ *
+ * @package RFPlugin
+ * @version 2.0.0
  */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
 
 /* ============================================
-   DASHBOARD CONTAINER
+   CSS CUSTOM PROPERTIES (LIGHT DEFAULT)
    ============================================ */
 
-/* Root Container Scoping - Prevent WP Admin Collisions */
-.rf-admin-wrap {
-    font-family: var(--rf-font-sans);
-    padding: var(--rf-space-8);
-    background: var(--rf-bg-primary);
-    min-height: calc(100vh - 32px);
-    margin: -10px -20px -10px -20px !important;
-    max-width: 100%;
-    color: var(--rf-text-primary);
+.rf-superadmin-theme,
+[data-rf-theme="light"].rf-superadmin-theme {
+  /* Background Layers */
+  --rf-admin-bg: #f8fafc;
+  --rf-admin-bg-elevated: #ffffff;
+  --rf-admin-bg-card: #ffffff;
+  --rf-admin-bg-card-hover: #f1f5f9;
+
+  /* Text Colors */
+  --rf-admin-text: #0f172a;
+  --rf-admin-text-secondary: #475569;
+  --rf-admin-text-muted: #94a3b8;
+
+  /* Borders */
+  --rf-admin-border: rgba(0, 0, 0, 0.08);
+  --rf-admin-border-hover: rgba(0, 0, 0, 0.15);
+
+  /* Primary (Navy -> Lighter for dark mode) */
+  --rf-admin-primary: #1e40af;
+  --rf-admin-primary-hover: #1d4ed8;
+  --rf-admin-primary-bg: rgba(30, 64, 175, 0.1);
+
+  /* Accent (Gold) */
+  --rf-admin-accent: #f59e0b;
+  --rf-admin-accent-hover: #fbbf24;
+  --rf-admin-accent-bg: rgba(245, 158, 11, 0.15);
+
+  /* Semantic Colors */
+  --rf-admin-success: #10b981;
+  --rf-admin-success-bg: rgba(16, 185, 129, 0.15);
+  --rf-admin-warning: #f59e0b;
+  --rf-admin-warning-bg: rgba(245, 158, 11, 0.15);
+  --rf-admin-danger: #ef4444;
+  --rf-admin-danger-bg: rgba(239, 68, 68, 0.15);
+  --rf-admin-info: #06b6d4;
+  --rf-admin-info-bg: rgba(6, 182, 212, 0.15);
+
+  /* Shadows */
+  --rf-admin-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --rf-admin-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --rf-admin-shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --rf-admin-shadow-glow: 0 0 40px rgba(30, 64, 175, 0.1);
+
+  /* Glass Effect */
+  --rf-admin-glass-bg: rgba(255, 255, 255, 0.9);
+  --rf-admin-glass-border: rgba(0, 0, 0, 0.08);
+  --rf-admin-glass-blur: blur(20px);
+
+  /* Spacing */
+  --rf-admin-radius: 12px;
+  --rf-admin-radius-lg: 16px;
+  --rf-admin-radius-xl: 24px;
+
+  /* Transitions */
+  --rf-admin-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --rf-admin-transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Ensure proper container within WP admin */
-#wpbody-content .wrap.rf-admin-wrap {
-    margin: 0 !important;
-    padding: var(--rf-space-8);
-}
 
 /* ============================================
-   DASHBOARD HEADER
+   BASE STYLES
    ============================================ */
-
-.rf-dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--rf-space-12);
-    border-bottom: 2px solid var(--rf-border-subtle);
-    padding-bottom: var(--rf-space-8);
-}
-
-.rf-header-content h1 {
-    font-size: var(--rf-text-4xl);
-    margin-bottom: var(--rf-space-2);
-    color: var(--rf-text-primary);
-    font-weight: 800;
-}
-
-.rf-header-content p {
-    color: var(--rf-text-secondary);
-    font-size: var(--rf-text-lg);
-}
 
 /* ============================================
-   GLASS CARD SYSTEM
+   BASE STYLES (SCOPED)
    ============================================ */
 
-.rf-glass-card {
-    background: var(--rf-glass-bg);
-    backdrop-filter: var(--rf-glass-blur);
-    -webkit-backdrop-filter: var(--rf-glass-blur);
-    border: 1px solid var(--rf-glass-border);
-    border-radius: var(--rf-radius-xl);
-    padding: var(--rf-space-6);
-    box-shadow: var(--rf-glass-shadow);
-    transition: all var(--rf-transition-base);
+.rf-superadmin-theme .rf-admin-wrap {
+    --wp-admin-reset: 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--rf-admin-bg);
+    color: var(--rf-admin-text);
+    min-height: 100vh;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -10px;
+    padding: 24px 32px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
-.rf-glass-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--rf-shadow-xl);
-    border-color: rgba(255, 255, 255, 0.15);
+.rf-superadmin-theme .rf-admin-wrap *,
+.rf-superadmin-theme .rf-admin-wrap *::before,
+.rf-superadmin-theme .rf-admin-wrap *::after {
+    box-sizing: border-box;
 }
 
-/* ============================================
-   STAT CARDS
-   ============================================ */
-
-.stat-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--rf-space-5);
-    min-height: 240px;
-    padding: var(--rf-space-8) !important;
-    justify-content: space-between;
-}
-
-.card-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: var(--rf-radius-lg);
-    background: var(--rf-gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    box-shadow: var(--rf-shadow-glow);
-    transition: transform var(--rf-transition-base);
-}
-
-.stat-card:hover .card-icon {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.card-icon .dashicons {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
-}
-
-.card-info {
-    flex: 1;
-    width: 100%;
-}
-
-.card-info h3 {
-    font-size: var(--rf-text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--rf-text-muted);
-    margin: 0 0 var(--rf-space-2) 0;
+/* Override WordPress admin styles */
+.rf-superadmin-theme .rf-admin-wrap h1,
+.rf-superadmin-theme .rf-admin-wrap h2,
+.rf-superadmin-theme .rf-admin-wrap h3,
+.rf-superadmin-theme .rf-admin-wrap h4 {
+    color: var(--rf-admin-text);
     font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 0.5em;
 }
 
-.stat-number {
-    font-size: var(--rf-text-4xl);
-    font-weight: 800;
-    color: var(--rf-text-primary);
+.rf-superadmin-theme .rf-admin-wrap p {
+    color: var(--rf-admin-text-secondary);
     margin: 0;
-    line-height: 1.2;
+}
+
+.rf-superadmin-theme .rf-admin-wrap a {
+    color: var(--rf-admin-primary);
+    text-decoration: none;
+    transition: color var(--rf-admin-transition);
+}
+
+.rf-superadmin-theme .rf-admin-wrap a:hover {
+    color: var(--rf-admin-primary-hover);
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+.rf-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
+
+.rf-admin-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rf-admin-header .rf-logo {
+  width: 32px;
+  height: 32px;
+  background: var(--rf-admin-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rf-admin-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.rf-admin-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.rf-admin-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.rf-admin-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.rf-admin-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.rf-admin-grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .rf-admin-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .rf-admin-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .rf-admin-grid-5,
+  .rf-admin-grid-4,
+  .rf-admin-grid-3,
+  .rf-admin-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .rf-admin-wrap {
+    padding: 16px;
+  }
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.rf-admin-card {
+  background: var(--rf-admin-bg-card);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: var(--rf-admin-radius-lg);
+  padding: 24px;
+  transition: all var(--rf-admin-transition);
+}
+
+.rf-admin-card:hover {
+  border-color: var(--rf-admin-border-hover);
+  box-shadow: var(--rf-admin-shadow-md);
+}
+
+.rf-admin-card--glass {
+  background: var(--rf-admin-glass-bg);
+  backdrop-filter: var(--rf-admin-glass-blur);
+  -webkit-backdrop-filter: var(--rf-admin-glass-blur);
+  border-color: var(--rf-admin-glass-border);
+}
+
+.rf-admin-card--stat {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rf-admin-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rf-admin-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+}
+
+.rf-admin-card__icon--primary {
+  background: linear-gradient(135deg, var(--rf-admin-primary), #2563eb);
+}
+
+.rf-admin-card__icon--accent {
+  background: linear-gradient(135deg, var(--rf-admin-accent), #d97706);
+}
+
+.rf-admin-card__icon--success {
+  background: linear-gradient(135deg, var(--rf-admin-success), #059669);
+}
+
+.rf-admin-card__icon--info {
+  background: linear-gradient(135deg, var(--rf-admin-info), #0891b2);
+}
+
+.rf-admin-card__title {
+  font-size: 0.875rem;
+  color: var(--rf-admin-text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rf-admin-card__value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--rf-admin-text);
+  line-height: 1;
+}
+
+.rf-admin-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
 }
 
 /* ============================================
    BUTTONS
    ============================================ */
 
-.rf-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--rf-space-2);
-    padding: var(--rf-space-3) var(--rf-space-6);
-    border-radius: var(--rf-radius-md);
-    font-family: var(--rf-font-sans);
-    font-weight: 600;
-    font-size: var(--rf-text-sm);
-    text-decoration: none;
-    transition: all var(--rf-transition-base);
-    cursor: pointer;
-    border: none;
+.rf-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--rf-admin-radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--rf-admin-transition);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.rf-btn-primary {
-    background: var(--rf-gradient-primary);
-    color: white;
-    box-shadow: var(--rf-shadow-md);
+.rf-admin-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--rf-admin-primary-bg);
 }
 
-.rf-btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--rf-shadow-lg), var(--rf-shadow-glow);
-    color: white;
+.rf-admin-btn--primary {
+  background: var(--rf-admin-primary);
+  color: white;
 }
 
-.rf-btn-outline {
-    background: transparent;
-    border: 1px solid var(--rf-border-medium);
-    color: var(--rf-text-secondary);
-    width: 100%;
-    justify-content: center;
+.rf-admin-btn--primary:hover {
+  background: var(--rf-admin-primary-hover);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--rf-admin-shadow-md);
 }
 
-.rf-btn-outline:hover {
-    background: var(--rf-bg-tertiary);
-    border-color: var(--rf-border-strong);
-    color: var(--rf-text-primary);
+.rf-admin-btn--secondary {
+  background: var(--rf-admin-bg-card);
+  border-color: var(--rf-admin-border);
+  color: var(--rf-admin-text);
 }
 
-/* ============================================
-   BADGES & STATUS INDICATORS
-   ============================================ */
-
-.badge,
-.rf-badge-online,
-.rf-badge-offline {
-    padding: var(--rf-space-1) var(--rf-space-3);
-    border-radius: var(--rf-radius-full);
-    font-size: var(--rf-text-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.rf-admin-btn--secondary:hover {
+  background: var(--rf-admin-bg-card-hover);
+  border-color: var(--rf-admin-border-hover);
+  color: var(--rf-admin-text);
 }
 
-.badge.online,
-.rf-badge-online {
-    background: rgba(16, 185, 129, 0.2);
-    color: var(--rf-success);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+.rf-admin-btn--ghost {
+  background: transparent;
+  color: var(--rf-admin-text-secondary);
 }
 
-.badge.offline,
-.rf-badge-offline {
-    background: rgba(239, 68, 68, 0.2);
-    color: var(--rf-danger);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+.rf-admin-btn--ghost:hover {
+  background: var(--rf-admin-bg-card);
+  color: var(--rf-admin-text);
+}
+
+.rf-admin-btn--sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+.rf-admin-btn--icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
 }
 
 /* ============================================
-   DASHBOARD SECTIONS
+   THEME TOGGLE
    ============================================ */
 
-.rf-dashboard-top {
-    margin-bottom: var(--rf-space-8);
+.rf-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  background: var(--rf-admin-bg-card);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: 99px;
 }
 
-.rf-dashboard-grid {
-    margin-bottom: var(--rf-space-10);
+.rf-theme-toggle__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--rf-admin-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--rf-admin-transition);
 }
 
-.rf-dashboard-footer {
-    margin-top: var(--rf-space-10);
+.rf-theme-toggle__btn:hover {
+  color: var(--rf-admin-text);
 }
 
-/* Recent Activity Styling */
-.activity-item {
-    padding: var(--rf-space-4);
-    border-bottom: 1px solid var(--rf-border-subtle);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background var(--rf-transition-fast);
+.rf-theme-toggle__btn.is-active {
+  background: var(--rf-admin-primary);
+  color: white;
 }
 
-.activity-item:last-child {
-    border-bottom: none !important;
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+
+.rf-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.activity-item:hover {
-    background: rgba(59, 130, 246, 0.05) !important;
+/* ============================================
+   BADGES
+   ============================================ */
+
+.rf-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.activity-item strong {
-    color: var(--rf-primary);
+.rf-admin-badge--success {
+  background: var(--rf-admin-success-bg);
+  color: var(--rf-admin-success);
 }
 
-.activity-item span {
-    color: var(--rf-text-secondary);
+.rf-admin-badge--warning {
+  background: var(--rf-admin-warning-bg);
+  color: var(--rf-admin-warning);
 }
 
-/* API Monitor */
-.endpoint-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--rf-space-4);
-    background: var(--rf-bg-secondary);
-    border: 1px solid var(--rf-border-subtle);
-    border-radius: var(--rf-radius-md);
-    margin-bottom: var(--rf-space-3);
-    font-family: var(--rf-font-mono);
+.rf-admin-badge--danger {
+  background: var(--rf-admin-danger-bg);
+  color: var(--rf-admin-danger);
 }
 
-.endpoint-item code {
-    color: var(--rf-primary);
-    font-size: var(--rf-text-sm);
+.rf-admin-badge--info {
+  background: var(--rf-admin-info-bg);
+  color: var(--rf-admin-info);
 }
 
-/* Responsive Fixes */
-@media (max-width: 1024px) {
-    .rf-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
+/* ============================================
+   ACTIVITY LIST
+   ============================================ */
+
+.rf-activity-list {
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width: 782px) {
-    .rf-dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
+.rf-activity-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
 
-    .rf-header-actions {
-        width: 100%;
-    }
+.rf-activity-item:last-child {
+  border-bottom: none;
+}
 
-    .rf-header-actions .rf-btn {
-        width: 100%;
-    }
+.rf-activity-item__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    .rf-btn-horizontal-stack {
-        flex-direction: column;
-    }
+.rf-activity-item__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rf-admin-primary-bg);
+  color: var(--rf-admin-primary);
+  font-size: 14px;
+}
 
-    .rf-btn-horizontal-stack .rf-btn {
-        width: 100%;
-    }
+.rf-activity-item__title {
+  font-weight: 500;
+  color: var(--rf-admin-text);
+}
+
+.rf-activity-item__meta {
+  font-size: 0.8125rem;
+  color: var(--rf-admin-text-muted);
+}
+
+/* ============================================
+   API ENDPOINTS
+   ============================================ */
+
+.rf-api-endpoints {
+  display: grid;
+  gap: 12px;
+}
+
+.rf-api-endpoint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--rf-admin-bg);
+  border-radius: var(--rf-admin-radius);
+}
+
+.rf-api-endpoint code {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.8125rem;
+  color: var(--rf-admin-primary);
+  background: transparent;
+}
+
+/* ============================================
+   PROMO CARD
+   ============================================ */
+
+.rf-promo-card {
+  background: linear-gradient(135deg, var(--rf-admin-primary) 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.rf-promo-card h2 {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.rf-promo-card p {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 500px;
+}
+
+.rf-promo-card .rf-admin-btn {
+  background: white;
+  color: var(--rf-admin-primary);
+}
+
+.rf-promo-card .rf-admin-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes rf-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rf-admin-animate-in {
+  animation: rf-fade-in 0.4s ease-out both;
+}
+
+.rf-admin-animate-in:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.rf-admin-animate-in:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.rf-admin-animate-in:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.rf-admin-animate-in:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.rf-admin-animate-in:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.rf-admin-animate-in:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+/* Counter animation */
+.rf-counter {
+  transition: all 0.3s ease-out;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.rf-admin-mt-4 {
+  margin-top: 16px;
+}
+.rf-admin-mt-6 {
+  margin-top: 24px;
+}
+.rf-admin-mt-8 {
+  margin-top: 32px;
+}
+.rf-admin-mb-4 {
+  margin-bottom: 16px;
+}
+.rf-admin-mb-6 {
+  margin-bottom: 24px;
+}
+.rf-admin-gap-4 {
+  gap: 16px;
+}
+.rf-admin-flex {
+  display: flex;
+}
+.rf-admin-flex-wrap {
+  flex-wrap: wrap;
+}
+.rf-admin-items-center {
+  align-items: center;
+}
+.rf-admin-justify-between {
+  justify-content: space-between;
+}
+
+/* Dashicons color override */
+.rf-admin-wrap .dashicons {
+  font-size: inherit;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* ============================================
+   NETWORK CONTROL CENTER
+   ============================================ */
+
+/* Header */
+.rf-admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
+
+.rf-admin-header__content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+}
+
+.rf-admin-header__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rf-admin-header__subtitle {
+  font-size: 0.9375rem;
+  color: var(--rf-admin-text-secondary);
+  margin: 4px 0 0;
+}
+
+.rf-admin-header__right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Sections */
+.rf-admin-section {
+  margin-bottom: 32px;
+}
+
+.rf-admin-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.rf-admin-section__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+/* Stats Grid */
+.rf-admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.rf-admin-stat-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  background: var(--rf-admin-bg-card);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: var(--rf-admin-radius-lg);
+  transition: all var(--rf-admin-transition);
+}
+
+.rf-admin-stat-card:hover {
+  border-color: var(--rf-admin-border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--rf-admin-shadow-md);
+}
+
+.rf-admin-stat-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rf-admin-stat-card__icon .dashicons {
+  font-size: 22px;
+  color: white;
+}
+
+.rf-admin-stat-card__icon--primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+.rf-admin-stat-card__icon--success {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+.rf-admin-stat-card__icon--accent {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+.rf-admin-stat-card__icon--warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+.rf-admin-stat-card__icon--info {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+.rf-admin-stat-card__icon--neutral {
+  background: linear-gradient(135deg, #64748b, #475569);
+}
+
+.rf-admin-stat-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rf-admin-stat-card__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--rf-admin-text);
+  line-height: 1;
+}
+
+.rf-admin-stat-card__label {
+  font-size: 0.8125rem;
+  color: var(--rf-admin-text-muted);
+}
+
+/* Site Cards Grid */
+.rf-admin-site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.rf-admin-site-card {
+  background: var(--rf-admin-bg-card);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: var(--rf-admin-radius-lg);
+  overflow: hidden;
+  transition: all var(--rf-admin-transition);
+}
+
+.rf-admin-site-card:hover {
+  border-color: var(--rf-admin-primary);
+  box-shadow:
+    var(--rf-admin-shadow-lg),
+    0 0 20px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.rf-admin-site-card--inactive {
+  opacity: 0.7;
+}
+
+.rf-admin-site-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
+
+.rf-admin-site-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--rf-admin-text);
+}
+
+.rf-admin-site-card__url {
+  padding: 12px 20px;
+  font-size: 0.8125rem;
+  color: var(--rf-admin-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--rf-admin-bg);
+}
+
+.rf-admin-site-card__url a {
+  color: var(--rf-admin-text-secondary);
+  text-decoration: none;
+}
+
+.rf-admin-site-card__url a:hover {
+  color: var(--rf-admin-primary);
+}
+
+.rf-admin-site-card__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rf-admin-border);
+}
+
+.rf-admin-site-card__stat {
+  background: var(--rf-admin-bg-card);
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.rf-admin-site-card__stat-value {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--rf-admin-text);
+}
+
+.rf-admin-site-card__stat-label {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--rf-admin-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.rf-admin-site-card__actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px;
+  background: var(--rf-admin-bg);
+  border-top: 1px solid var(--rf-admin-border);
+}
+
+/* Activity List */
+.rf-admin-activity-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.rf-admin-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
+
+.rf-admin-activity-item:last-child {
+  border-bottom: none;
+}
+
+.rf-admin-activity-item__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rf-admin-primary-bg);
+  color: var(--rf-admin-primary);
+  flex-shrink: 0;
+}
+
+.rf-admin-activity-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.rf-admin-activity-item__title {
+  display: block;
+  font-weight: 500;
+  color: var(--rf-admin-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rf-admin-activity-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--rf-admin-text-muted);
+  margin-top: 4px;
+}
+
+.rf-admin-badge--neutral {
+  background: var(--rf-admin-bg);
+  color: var(--rf-admin-text-secondary);
+}
+
+/* Empty State */
+.rf-admin-empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--rf-admin-text-muted);
+}
+
+/* ============================================
+   SETTINGS & DOCUMENTATION PAGES
+   ============================================ */
+
+.rf-admin-form-section {
+  margin-bottom: 32px;
+}
+
+.rf-admin-form-section__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rf-admin-border);
+}
+
+.rf-admin-form-group {
+  margin-bottom: 20px;
+}
+
+.rf-admin-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rf-admin-text);
+  margin-bottom: 8px;
+}
+
+.rf-admin-input,
+.rf-admin-select,
+.rf-admin-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: var(--rf-admin-text);
+  background: var(--rf-admin-bg);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: var(--rf-admin-radius);
+  transition: all var(--rf-admin-transition);
+}
+
+.rf-admin-input:focus,
+.rf-admin-select:focus,
+.rf-admin-textarea:focus {
+  outline: none;
+  border-color: var(--rf-admin-primary);
+  box-shadow: 0 0 0 3px var(--rf-admin-primary-bg);
+}
+
+.rf-admin-help-text {
+  font-size: 0.8125rem;
+  color: var(--rf-admin-text-muted);
+  margin-top: 6px;
+}
+
+/* Documentation */
+.rf-admin-docs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.rf-admin-docs-nav__item {
+  padding: 8px 16px;
+  border-radius: var(--rf-admin-radius);
+  background: var(--rf-admin-bg-card);
+  color: var(--rf-admin-text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--rf-admin-transition);
+}
+
+.rf-admin-docs-nav__item:hover,
+.rf-admin-docs-nav__item.is-active {
+  background: var(--rf-admin-primary);
+  color: white;
+}
+
+.rf-admin-docs-content {
+  background: var(--rf-admin-bg-card);
+  border: 1px solid var(--rf-admin-border);
+  border-radius: var(--rf-admin-radius-lg);
+  padding: 32px;
+}
+
+.rf-admin-docs-content h2 {
+  font-size: 1.375rem;
+  margin-top: 32px;
+}
+
+.rf-admin-docs-content h2:first-child {
+  margin-top: 0;
+}
+
+.rf-admin-docs-content code {
+  background: var(--rf-admin-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.875em;
 }

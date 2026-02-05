@@ -1,0 +1,234 @@
+/**
+ * Animation Helper CSS Classes
+ *
+ * Use these classes with the rf-animations.js system.
+ * Add to elements that should animate on scroll/visibility.
+ */
+
+/* ============================================
+   INITIAL STATES (Prevents FOUC)
+   ============================================ */
+
+/* Generic animate-up class */
+.rf-animate-up,
+.rf-corp-animate-slide-up {
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.rf-animate-fade,
+.rf-corp-animate-fade-in {
+    opacity: 0;
+    will-change: opacity;
+}
+
+.rf-animate-scale,
+.rf-corp-animate-scale-in {
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* Data attribute animations (lazy-loaded) */
+[data-rf-animate] {
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+[data-rf-animate="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-rf-animate="slide-left"] {
+    transform: translateX(50px);
+}
+
+[data-rf-animate="slide-right"] {
+    transform: translateX(-50px);
+}
+
+[data-rf-animate="scale"] {
+    transform: scale(0.9);
+}
+
+/* ============================================
+   MICRO-INTERACTIONS
+   ============================================ */
+
+/* Button active state enhancement */
+.rf-btn,
+.rf-corp-btn,
+.rf-btn-premium {
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+/* Card hover preparation */
+.rf-card,
+.rf-glass-card,
+.rf-corp-card {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* ============================================
+   PARALLAX ELEMENTS
+   ============================================ */
+
+.rf-parallax {
+    will-change: transform;
+}
+
+/* ============================================
+   STICKY HEADER ANIMATION SUPPORT
+   ============================================ */
+
+.rf-sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU */
+}
+
+/* ============================================
+   BOTTOM SHEET (Mobile Modal)
+   ============================================ */
+
+.rf-bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--rf-corp-glass-bg, rgba(255, 255, 255, 0.98));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px 24px 0 0;
+    box-shadow: var(--rf-corp-shadow-xl, 0 -10px 40px rgba(0, 0, 0, 0.1));
+    transform: translateY(100%);
+    will-change: transform;
+    touch-action: none;
+    padding: 0 16px 34px; /* Safe area for mobile home indicator */
+}
+
+.rf-bottom-sheet.is-open {
+    transform: translateY(0);
+}
+
+.rf-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--rf-corp-neutral-300, #cbd5e1);
+    border-radius: 2px;
+    margin: 12px auto 20px;
+    cursor: grab;
+}
+
+.rf-sheet-handle:active {
+    cursor: grabbing;
+}
+
+.rf-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.rf-sheet-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ============================================
+   TAB INDICATOR
+   ============================================ */
+
+.rf-tabs {
+    position: relative;
+}
+
+.rf-tab-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    border-radius: 1px;
+    will-change: transform, width;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.rf-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--rf-corp-neutral-100, #f1f5f9) 0%,
+        var(--rf-corp-neutral-50, #f8fafc) 50%,
+        var(--rf-corp-neutral-100, #f1f5f9) 100%
+    );
+    background-size: 200% 100%;
+    animation: rf-skeleton-pulse 1.5s ease-in-out infinite;
+    border-radius: var(--rf-corp-radius-md, 8px);
+}
+
+@keyframes rf-skeleton-pulse {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .rf-animate-up,
+    .rf-animate-fade,
+    .rf-animate-scale,
+    .rf-corp-animate-slide-up,
+    .rf-corp-animate-fade-in,
+    .rf-corp-animate-scale-in,
+    [data-rf-animate] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .rf-skeleton {
+        animation: none;
+        background: var(--rf-corp-neutral-100, #f1f5f9);
+    }
+
+    .rf-parallax {
+        transform: none !important;
+    }
+}
+
+/* ============================================
+   PERFORMANCE HINTS
+   ============================================ */
+
+/* Promote compositing for smooth animations */
+.rf-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Optimize for scroll performance */
+.rf-scroll-optimize {
+    contain: layout style paint;
+}

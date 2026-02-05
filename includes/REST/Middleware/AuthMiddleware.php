@@ -154,7 +154,7 @@ class AuthMiddleware
      * @param string $postType Post type
      * @return bool
      */
-    public function hasCapability(string $action, string $post Type = ''): bool
+    public function hasCapability( $action, tring $post = ''):
     {
         $capabilityMap = [
             'read' => 'read',

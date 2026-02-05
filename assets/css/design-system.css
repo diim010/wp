@@ -4,9 +4,20 @@
 
 /**
  * RFPlugin Unified Design System
- * 
- * Powered by Tailwind CSS with HSL design tokens.
+ *
+ * Powered by Tailwind CSS with Corporate Design Tokens.
+ * @see rf-design-tokens.css for complete token reference
+ * @see rf-components.css for encapsulated components
  */
+
+/* Import Corporate Design Tokens */
+/* Import Corporate Design Tokens */
+@import './rf-design-tokens.css';
+@import './town-high.css';
+@import './rf-components.css';
+@import './admin.css';
+@import './frontend.css';
+@import './rf-animations.css';
 
 @layer base {
 
@@ -29,109 +40,151 @@
     /* Grid layout reliability fix */
     .rf-grid>* {
         min-width: 0;
-        /* Prevents long unbreakable strings from breaking grid layout */
     }
 }
 
 :root {
-    /* Primary Color: Deeper Royal Blue / Navy */
-    --rf-primary-h: 222;
-    --rf-primary-s: 84%;
+    /* Legacy color tokens - mapped to corporate tokens */
+    --rf-primary-h: var(--rf-corp-primary-h, 222);
+    --rf-primary-s: var(--rf-corp-primary-s, 47%);
+    --rf-accent-h: var(--rf-corp-accent-h, 40);
+    --rf-accent-s: var(--rf-corp-accent-s, 60%);
 
-    /* Accent Color: Darker Indigo / Purple */
-    --rf-accent-h: 245;
-    --rf-accent-s: 80%;
-
-    /* Dark Neutral for depth */
-    --rf-dark-h: 222;
-    --rf-dark-s: 47%;
-    --rf-dark-l: 11%;
-
-    /* Success Color: Enterprise Green */
-    --rf-success-h: 156;
-    --rf-success-s: 72%;
-
-    /* Design Constants */
-    --rf-glass-bg: rgba(255, 255, 255, 0.9);
-    --rf-glass-border: rgba(255, 255, 255, 0.6);
-    --rf-glass-shadow: 0 12px 40px 0 rgba(15, 23, 42, 0.08);
-    /* Darker shadow for depth */
+    --rf-success-h: var(--rf-corp-success-h, 150);
+    --rf-success-s: var(--rf-corp-success-s, 45%);
+    --rf-glass-bg: var(--rf-corp-glass-bg, rgba(255, 255, 255, 0.9));
+    --rf-glass-border: var(--rf-corp-glass-border, rgba(255, 255, 255, 0.6));
+    --rf-glass-shadow: var(--rf-corp-glass-shadow, 0 12px 40px 0 rgba(15, 23, 42, 0.08));
 }
 
-/* Layering custom components over Tailwind */
-@layer components {
-    .rf-glass-card {
-        @apply rf-bg-white/90 rf-backdrop-blur-xl rf-border rf-border-white/60 rf-rounded-2xl;
-        box-shadow: var(--rf-glass-shadow);
-        @apply rf-transition-all rf-duration-300 rf-ease-in-out;
-    }
+/* Custom Components using CSS Variables (no @apply needed) */
+.rf-glass-card {
+    background: var(--rf-glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--rf-glass-border);
+    border-radius: 1rem;
+    box-shadow: var(--rf-glass-shadow);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .rf-glass-card:hover {
-        @apply -rf-translate-y-1 rf-shadow-premium;
-    }
+.rf-glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--rf-corp-shadow-premium, 0 25px 50px -12px rgba(0, 0, 0, 0.08));
+}
 
-    /* Base Button */
-    .rf-btn {
-        @apply rf-inline-flex rf-items-center rf-justify-center rf-px-5 rf-py-2.5 rf-rounded-xl rf-font-semibold rf-transition-all rf-duration-200 rf-cursor-pointer rf-no-underline rf-border rf-border-transparent;
-        @apply rf-text-sm rf-gap-2;
-    }
+/* Base Button */
+.rf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .rf-btn:hover {
-        @apply -rf-translate-y-0.5 rf-shadow-lg;
-    }
+.rf-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--rf-corp-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.08));
+}
 
-    .rf-btn-primary {
-        @apply rf-bg-primary-600 rf-text-white rf-shadow-md;
-    }
+.rf-btn-primary {
+    background-color: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    color: #ffffff;
+    box-shadow: var(--rf-corp-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.08));
+}
 
-    .rf-btn-primary:hover {
-        @apply rf-bg-primary-500;
-        box-shadow: 0 10px 25px -5px rgba(var(--rf-primary-h), var(--rf-primary-s), 50%, 0.4);
-    }
+.rf-btn-primary:hover {
+    background-color: var(--rf-corp-primary-600, hsl(222, 47%, 25%));
+    box-shadow: var(--rf-corp-shadow-primary, 0 10px 25px -5px hsla(222, 47%, 35%, 0.4));
+}
 
-    .rf-btn-secondary {
-        @apply rf-bg-accent-600 rf-text-white rf-shadow-md;
-    }
+.rf-btn-secondary {
+    background-color: var(--rf-corp-accent, hsl(40, 60%, 45%));
+    color: var(--rf-corp-primary-800, hsl(222, 47%, 15%));
+    box-shadow: var(--rf-corp-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.08));
+}
 
-    .rf-btn-secondary:hover {
-        @apply rf-bg-accent-500;
-    }
+.rf-btn-secondary:hover {
+    background-color: var(--rf-corp-accent-400, hsl(40, 60%, 55%));
+}
 
-    .rf-btn-outline {
-        @apply rf-border-gray-200 rf-bg-white/50 rf-text-gray-700;
-    }
+.rf-btn-outline {
+    border-color: var(--rf-corp-border, hsl(215, 15%, 88%));
+    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--rf-corp-text-secondary, hsl(215, 15%, 45%));
+}
 
-    .rf-btn-outline:hover {
-        @apply rf-border-primary-500 rf-text-primary-600 rf-bg-primary-50/50;
-    }
+.rf-btn-outline:hover {
+    border-color: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    color: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    background-color: var(--rf-corp-primary-50, hsl(222, 47%, 97%));
+}
 
-    .rf-btn-premium {
-        @apply rf-px-8 rf-py-3.5 rf-rounded-2xl rf-text-base rf-font-bold;
-        @apply rf-bg-primary-600 rf-text-white rf-shadow-premium;
-    }
+.rf-btn-premium {
+    padding: 0.875rem 2rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    color: #ffffff;
+    box-shadow: var(--rf-corp-shadow-premium, 0 25px 50px -12px rgba(0, 0, 0, 0.08));
+}
 
-    .rf-btn-premium:hover {
-        @apply rf-bg-primary-500 -rf-translate-y-1;
-    }
+.rf-btn-premium:hover {
+    background-color: var(--rf-corp-primary-600, hsl(222, 47%, 25%));
+    transform: translateY(-4px);
+}
 
-    .rf-input-premium {
-        @apply rf-w-full rf-px-4 rf-py-3 rf-rounded-xl rf-border rf-border-gray-200 rf-bg-gray-50/50 rf-transition-all rf-duration-200 rf-outline-none;
-    }
+/* Form Inputs */
+.rf-input-premium {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--rf-corp-border, hsl(215, 15%, 88%));
+    background-color: var(--rf-corp-neutral-50, hsl(210, 20%, 98%));
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
 
-    .rf-input-premium:focus {
-        @apply rf-border-primary-500 rf-bg-white rf-ring-4 rf-ring-primary-500/10;
-    }
+.rf-input-premium:focus {
+    border-color: var(--rf-corp-primary, hsl(222, 47%, 20%));
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px hsla(222, 47%, 35%, 0.1);
+}
 
-    .rf-badge-online {
-        @apply rf-inline-flex rf-items-center rf-px-2 rf-py-1 rf-rounded-full rf-text-[10px] rf-font-bold rf-uppercase rf-tracking-wider;
-        background-color: hsl(var(--rf-success-h), var(--rf-success-s), 95%);
-        color: hsl(var(--rf-success-h), var(--rf-success-s), 30%);
-    }
+/* Badges */
+.rf-badge-online {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: var(--rf-corp-success-light, hsl(150, 45%, 95%));
+    color: var(--rf-corp-success-dark, hsl(150, 45%, 25%));
+}
 
-    .rf-badge-offline {
-        @apply rf-inline-flex rf-items-center rf-px-2 rf-py-1 rf-rounded-full rf-text-[10px] rf-font-bold rf-uppercase rf-tracking-wider;
-        @apply rf-bg-red-50 rf-text-red-700;
-    }
+.rf-badge-offline {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: var(--rf-corp-danger-light, hsl(0, 55%, 95%));
+    color: var(--rf-corp-danger-dark, hsl(0, 55%, 30%));
 }
 
 /* GSAP Animation Initial States (Prevents FOUC & CLS) */
@@ -142,19 +195,26 @@
 
 /* Typography Base */
 .rf-typography {
-    font-family: var(--rf-font-sans);
+    font-family: var(--rf-corp-font-sans, 'Outfit', 'Inter', system-ui, sans-serif);
 }
 
 .rf-typography h1 {
-    @apply rf-text-4xl rf-font-extrabold rf-tracking-tight rf-mb-6;
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
 }
 
 .rf-typography h2 {
-    @apply rf-text-2xl rf-font-bold rf-mb-4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
 .rf-typography p {
-    @apply rf-text-gray-600 rf-leading-relaxed rf-mb-4;
+    color: var(--rf-corp-text-secondary, hsl(215, 15%, 45%));
+    line-height: 1.625;
+    margin-bottom: 1rem;
 }
 
 /* Performance Optimization: Font Loading */

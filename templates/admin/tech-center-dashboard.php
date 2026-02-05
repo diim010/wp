@@ -1,119 +1,197 @@
 <?php
+
 /**
  * Unified Tech Center Admin Dashboard
+ *
+ * Aggregates technical resources across the entire multisite network.
+ *
+ * @package RFPlugin
+ * @since 2.0.0
  */
+
+defined('ABSPATH') || exit;
+
+use RFPlugin\Admin\SuperAdminTheme;
+use RFPlugin\Services\NetworkStats;
+
+$is_super = SuperAdminTheme::isSuperAdmin();
+$saved_theme = 'dark'; // Default for super admin
+
+// Fetch network aggregated data
+$stats = NetworkStats::getAggregatedStats();
+$resources = NetworkStats::getNetworkResources();
 ?>
-<div class="wrap rf-admin-wrap">
-    <header class="rf-dashboard-header rf-fade-in">
-        <div class="rf-header-content">
-            <h1 class="rf-h1"><?php esc_html_e('Resource Library Hub', 'rfplugin'); ?></h1>
-            <p class="rf-p"><?php esc_html_e('Unified management for technical documentation, FAQs, and interactive media.', 'rfplugin'); ?></p>
-        </div>
-        <div class="rf-header-actions">
-            <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_resource')); ?>" class="rf-btn rf-btn-primary">
-                <span class="dashicons dashicons-plus"></span> <?php esc_html_e('Add New Resource', 'rfplugin'); ?>
-            </a>
-            <a href="<?php echo esc_url(get_post_type_archive_link('rf_resource')); ?>" target="_blank" class="rf-btn rf-btn-outline">
-                <span class="dashicons dashicons-external"></span> <?php esc_html_e('View Public Library', 'rfplugin'); ?>
-            </a>
+
+<div class="rf-admin-wrap" data-rf-theme="<?php echo esc_attr($saved_theme); ?>">
+
+    <!-- Header -->
+    <header class="rf-admin-header">
+        <div class="rf-admin-header__content">
+            <div class="rf-admin-header__left">
+                <h1 class="rf-admin-header__title">
+                    <span class="dashicons dashicons-category" aria-hidden="true"></span>
+                    <?php esc_html_e('Network Tech Center', 'rfplugin'); ?>
+                </h1>
+                <p class="rf-admin-header__subtitle">
+                    <?php esc_html_e('Unified library for technical documentation, FAQs, and interactive media across all sites.', 'rfplugin'); ?>
+                </p>
+            </div>
+            <div class="rf-admin-header__right">
+                <button id="rf-theme-toggle" class="rf-admin-btn rf-admin-btn--icon" aria-label="<?php esc_attr_e('Toggle theme', 'rfplugin'); ?>">
+                    <span class="dashicons dashicons-admin-appearance"></span>
+                </button>
+                <a href="<?php echo esc_url(admin_url('post-new.php?post_type=rf_resource')); ?>" class="rf-admin-btn rf-admin-btn--primary">
+                    <span class="dashicons dashicons-plus"></span>
+                    <?php esc_html_e('Add Resource', 'rfplugin'); ?>
+                </a>
+            </div>
         </div>
     </header>
 
-    <div class="rf-dashboard-grid rf-grid rf-grid-cols-1 md:rf-grid-cols-2 lg:rf-grid-cols-3 rf-gap-6 rf-fade-in rf-mt-8">
-        <!-- Total Assets -->
-        <div class="rf-glass-card stat-card asset-card rf-p-6">
-            <div class="card-icon rf-bg-primary-50 rf-text-primary-600 rf-w-12 rf-h-12 rf-flex rf-items-center rf-justify-center rf-rounded-lg rf-mb-4">
+    <div class="rf-admin-grid rf-admin-grid-3">
+        <!-- Asset Stats -->
+        <div class="rf-admin-stat-card">
+            <div class="rf-admin-stat-card__icon rf-admin-stat-card__icon--primary">
                 <span class="dashicons dashicons-category"></span>
             </div>
-            <div class="card-info">
-                <h3 class="rf-text-xs rf-font-bold rf-uppercase rf-tracking-wider rf-text-slate-500 rf-mb-1"><?php esc_html_e('Total Library Assets', 'rfplugin'); ?></h3>
-                <p class="rf-text-4xl rf-font-black rf-text-slate-900"><?php echo esc_html($stats['resources']); ?></p>
+            <div class="rf-admin-stat-card__content">
+                <span class="rf-admin-stat-card__value" data-counter="<?php echo esc_attr($stats['total_resources'] ?? $stats['resources']); ?>">0</span>
+                <span class="rf-admin-stat-card__label"><?php esc_html_e('Total Assets', 'rfplugin'); ?></span>
             </div>
-            <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource')); ?>" class="rf-btn rf-btn-outline rf-mt-6 rf-w-full">
-                <?php esc_html_e('Manage Library', 'rfplugin'); ?>
-            </a>
         </div>
 
-        <!-- Mode Breakdown -->
-        <div class="rf-glass-card rf-p-6">
-            <h3 class="rf-text-sm rf-font-bold rf-text-slate-900 rf-mb-5"><?php esc_html_e('Asset Distribution', 'rfplugin'); ?></h3>
-            <ul class="rf-space-y-3">
-                <?php 
-                $modes = [
+        <!-- Distribution -->
+        <div class="rf-admin-card">
+            <h3 class="rf-admin-card__title rf-admin-mb-4"><?php esc_html_e('Asset Categories', 'rfplugin'); ?></h3>
+            <div class="rf-admin-resource-distribution">
+                <?php
+                $types = [
                     'faq' => ['label' => __('FAQs', 'rfplugin'), 'icon' => 'editor-help'],
-                    'document' => ['label' => __('Documents', 'rfplugin'), 'icon' => 'media-document'],
+                    'tech_doc' => ['label' => __('Docs', 'rfplugin'), 'icon' => 'media-document'],
                     'video' => ['label' => __('Videos', 'rfplugin'), 'icon' => 'video-alt3'],
-                    'sheet' => ['label' => __('Data Sheets', 'rfplugin'), 'icon' => 'media-spreadsheet'],
-                    '3d' => ['label' => __('3D Models', 'rfplugin'), 'icon' => 'visibility'],
+                    '3d_model' => ['label' => __('3D Models', 'rfplugin'), 'icon' => 'visibility'],
                 ];
-                foreach ($modes as $mode_slug => $mode_data) : 
-                    $count = wp_count_posts('rf_resource')->publish ?? 0; // Simplified, or use meta query if needed
-                    // For a real dashboard we should query these counts properly
-                ?>
-                <li class="rf-flex rf-justify-between rf-items-center">
-                    <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource&resource_mode=' . $mode_slug)); ?>" class="rf-flex rf-items-center rf-gap-3 rf-text-sm rf-text-slate-600 hover:rf-text-primary-600 rf-no-underline rf-transition-colors">
-                        <span class="dashicons dashicons-<?php echo $mode_data['icon']; ?> rf-text-slate-400"></span> <?php echo $mode_data['label']; ?>
-                    </a>
-                </li>
+                foreach ($types as $slug => $data) : ?>
+                    <div class="rf-admin-flex rf-admin-justify-between rf-admin-items-center rf-admin-mb-2">
+                        <span class="rf-admin-flex rf-admin-items-center rf-admin-gap-2">
+                            <span class="dashicons dashicons-<?php echo $data['icon']; ?> rf-admin-text-muted"></span>
+                            <?php echo $data['label']; ?>
+                        </span>
+                        <a href="<?php echo esc_url(admin_url('edit.php?post_type=rf_resource&rf_resource_type=' . $slug)); ?>" class="dashicons dashicons-arrow-right-alt2 rf-admin-text-muted"></a>
+                    </div>
                 <?php endforeach; ?>
-            </ul>
+            </div>
         </div>
 
-        <!-- Taxonomies & Tools -->
-        <div class="rf-glass-card" style="grid-column: span 1;">
-            <h3 class="rf-h3" style="margin-bottom: 20px;"><?php esc_html_e('Organization & Tools', 'rfplugin'); ?></h3>
-            <ul class="rf-admin-list" style="list-style: none; padding: 0;">
-                <li style="margin-bottom: 12px;">
-                    <a href="<?php echo esc_url(admin_url('edit-tags.php?taxonomy=rf_resource_category&post_type=rf_resource')); ?>" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <span class="dashicons dashicons-tag"></span> <?php esc_html_e('Global Categories', 'rfplugin'); ?>
+        <!-- Management Shortcuts -->
+        <div class="rf-admin-card">
+            <h3 class="rf-admin-card__title rf-admin-mb-4"><?php esc_html_e('Quick Links', 'rfplugin'); ?></h3>
+            <ul class="rf-admin-activity-list">
+                <li class="rf-admin-activity-item rf-admin-p-0 rf-admin-border-0 rf-admin-mb-2">
+                    <a href="<?php echo esc_url(admin_url('edit-tags.php?taxonomy=rf_resource_category&post_type=rf_resource')); ?>" class="rf-admin-btn rf-admin-btn--sm rf-admin-btn--ghost rf-admin-w-full">
+                        <span class="dashicons dashicons-tag"></span> <?php esc_html_e('Manage Categories', 'rfplugin'); ?>
                     </a>
                 </li>
-                <li style="margin-bottom: 12px;">
-                    <a href="<?php echo esc_url(admin_url('edit-tags.php?taxonomy=rf_resource_type&post_type=rf_resource')); ?>" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <span class="dashicons dashicons-filter"></span> <?php esc_html_e('Resource Types', 'rfplugin'); ?>
-                    </a>
-                </li>
-                <li style="margin-bottom: 12px;">
-                    <a href="<?php echo esc_url(admin_url('admin.php?page=royalfoam-security')); ?>" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <span class="dashicons dashicons-shield"></span> <?php esc_html_e('Download Security Stats', 'rfplugin'); ?>
+                <li class="rf-admin-activity-item rf-admin-p-0 rf-admin-border-0">
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=royalfoam-security')); ?>" class="rf-admin-btn rf-admin-btn--sm rf-admin-btn--ghost rf-admin-w-full">
+                        <span class="dashicons dashicons-shield"></span> <?php esc_html_e('Security Dashboard', 'rfplugin'); ?>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="rf-dashboard-footer rf-grid rf-grid-cols-1 rf-gap-6 rf-fade-in rf-mt-10">
-        <div class="rf-glass-card rf-p-8">
-            <h2 class="rf-h2"><?php esc_html_e('Recent Library Activity', 'rfplugin'); ?></h2>
-            <div class="activity-list" style="margin-top: 20px;">
-                <?php 
-                $recent_resources = get_posts([
-                    'post_type' => 'rf_resource',
-                    'posts_per_page' => 10,
-                    'status' => 'publish',
-                ]);
-                if (!empty($recent_resources)) : ?>
-                    <?php foreach ($recent_resources as $post) : 
-                        $mode = get_field('field_resource_mode', $post->ID);
-                        $mode_label = ucfirst($mode);
-                    ?>
-                        <div class="activity-item" style="padding: 12px; border-bottom: 1px solid var(--rf-neutral-100); display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <span class="rf-badge-outline" style="font-size: 9px; margin-right: 12px; text-transform: uppercase;"><?php echo esc_html($mode_label); ?></span>
-                                <span style="font-weight: 500;"><?php echo esc_html($post->post_title); ?></span>
+    <!-- Recent Activity -->
+    <section class="rf-admin-section rf-admin-mt-8">
+        <h2 class="rf-admin-section__title rf-admin-mb-4">
+            <span class="dashicons dashicons-calendar" aria-hidden="true"></span>
+            <?php esc_html_e('Latest Network Resources', 'rfplugin'); ?>
+        </h2>
+
+        <div class="rf-admin-card rf-admin-p-0">
+            <div class="rf-admin-activity-list">
+                <?php if (empty($resources)) : ?>
+                    <div class="rf-admin-p-8 rf-admin-text-center rf-admin-text-muted">
+                        <?php esc_html_e('No resources found in the network library.', 'rfplugin'); ?>
+                    </div>
+                <?php else : ?>
+                    <?php foreach (array_slice($resources, 0, 15) as $res) : ?>
+                        <div class="rf-admin-activity-item rf-admin-px-6">
+                            <div class="rf-admin-activity-item__content">
+                                <span class="rf-admin-activity-item__icon">
+                                    <span class="dashicons dashicons-media-document"></span>
+                                </span>
+                                <div>
+                                    <h4 class="rf-admin-activity-item__title rf-admin-m-0"><?php echo esc_html($res['title']); ?></h4>
+                                    <div class="rf-admin-activity-item__meta">
+                                        <span class="rf-admin-badge rf-admin-badge--neutral"><?php echo esc_html($res['type']); ?></span>
+                                        <?php if (isset($res['site_name'])) : ?>
+                                            <span><?php echo esc_html($res['site_name']); ?></span>
+                                        <?php endif; ?>
+                                        <time><?php echo esc_html(human_time_diff(strtotime($res['modified']), current_time('timestamp'))); ?> <?php esc_html_e('ago', 'rfplugin'); ?></time>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 16px;">
-                                <span style="font-size: 11px; color: var(--rf-neutral-400);"><?php echo esc_html(human_time_diff(get_the_time('U', $post), current_time('timestamp'))); ?> <?php esc_html_e('ago', 'rfplugin'); ?></span>
-                                <a href="<?php echo get_edit_post_link($post->ID); ?>" class="rf-btn rf-btn-sm rf-btn-outline" style="padding: 4px 8px; font-size: 11px;">
-                                    <?php esc_html_e('Edit Asset', 'rfplugin'); ?>
+                            <div class="rf-admin-flex rf-admin-gap-2">
+                                <a href="<?php echo esc_url($res['url']); ?>" target="_blank" class="rf-admin-btn rf-admin-btn--sm rf-admin-btn--ghost">
+                                    <span class="dashicons dashicons-external"></span>
+                                </a>
+                                <a href="<?php echo esc_url($res['edit_url']); ?>" class="rf-admin-btn rf-admin-btn--sm rf-admin-btn--primary">
+                                    <?php esc_html_e('Edit', 'rfplugin'); ?>
                                 </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
-                <?php else : ?>
-                    <p class="rf-p"><?php esc_html_e('No technical resources found.', 'rfplugin'); ?></p>
                 <?php endif; ?>
             </div>
         </div>
-    </div>
+    </section>
+
 </div>
+
+<script>
+    (function() {
+        // Theme toggle
+        const toggle = document.getElementById('rf-theme-toggle');
+        const wrap = document.querySelector('.rf-admin-wrap');
+
+        if (toggle && wrap) {
+            toggle.addEventListener('click', function() {
+                const current = wrap.dataset.rfTheme || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                wrap.dataset.rfTheme = next;
+                document.documentElement.dataset.rfTheme = next;
+                localStorage.setItem('rf-admin-theme', next);
+            });
+
+            // Apply saved theme
+            const saved = localStorage.getItem('rf-admin-theme') || 'dark';
+            wrap.dataset.rfTheme = saved;
+            document.documentElement.dataset.rfTheme = saved;
+        }
+
+        // Animated counters
+        const counters = document.querySelectorAll('[data-counter]');
+        counters.forEach(counter => {
+            const target = parseInt(counter.dataset.counter, 10);
+            if (target === 0) return;
+
+            const duration = 800;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+
+            const update = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = Math.ceil(current);
+                    requestAnimationFrame(update);
+                } else {
+                    counter.textContent = target;
+                }
+            };
+
+            requestAnimationFrame(update);
+        });
+    })();
+</script>

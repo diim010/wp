@@ -1,9 +1,20 @@
 /**
  * RFPlugin Frontend Styles
- * 
+ *
  * @package RFPlugin
  * @since 1.0.0
  */
+
+/* Remove all link underlines globally */
+a {
+    text-decoration: none !important;
+}
+
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none !important;
+}
 
 .rfplugin-container {
     max-width: 1200px;

@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
+  // Use the corporate preset
+  presets: [require('./tailwind.preset.js')],
+
   content: [
     "./rfplugin.php",
     "./includes/**/*.php",
@@ -7,32 +11,35 @@ module.exports = {
     "./assets/js/**/*.js",
     "./assets/react/**/*.{js,jsx,ts,tsx}",
   ],
+
   theme: {
     extend: {
+      // Legacy colors kept for backward compatibility
+      // New code should use corp-* prefixed colors from preset
       colors: {
         primary: {
-          50: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 98%)',
-          100: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 95%)',
-          200: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 90%)',
-          300: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 80%)',
-          400: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 70%)',
-          500: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 60%)',
-          600: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 50%)',
-          700: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 40%)',
-          800: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 30%)',
-          900: 'hsl(var(--rf-primary-h), var(--rf-primary-s), 20%)',
+          50: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 98%)',
+          100: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 95%)',
+          200: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 90%)',
+          300: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 80%)',
+          400: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 70%)',
+          500: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 60%)',
+          600: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 50%)',
+          700: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 40%)',
+          800: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 30%)',
+          900: 'hsl(var(--rf-primary-h, 222), var(--rf-primary-s, 47%), 20%)',
         },
         accent: {
-          50: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 98%)',
-          100: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 95%)',
-          200: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 90%)',
-          300: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 80%)',
-          400: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 70%)',
-          500: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 60%)',
-          600: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 50%)',
-          700: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 40%)',
-          800: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 30%)',
-          900: 'hsl(var(--rf-accent-h), var(--rf-accent-s), 20%)',
+          50: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 98%)',
+          100: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 95%)',
+          200: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 90%)',
+          300: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 80%)',
+          400: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 70%)',
+          500: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 60%)',
+          600: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 50%)',
+          700: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 40%)',
+          800: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 30%)',
+          900: 'hsl(var(--rf-accent-h, 40), var(--rf-accent-s, 60%), 20%)',
         },
       },
       fontFamily: {
@@ -52,9 +59,12 @@ module.exports = {
       },
     },
   },
+
   plugins: [],
-  // Use a prefix to avoid conflicts with theme styles or other plugins
-  prefix: 'rf-',
+
+  // No prefix to support standard Tailwind classes
+  // prefix: 'rf-',
+
   corePlugins: {
     preflight: false, // Disable preflight to avoid breaking WP admin
   }
